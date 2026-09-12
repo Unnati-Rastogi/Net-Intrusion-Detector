@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Tool / agent state
+.freebuff/
+
+# Runtime temp files
+*.log
+*.pid
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dataset files are not committed (public NSL-KDD-style data, ~5 MB total).
+# See README "Data" section: place Train_data.csv / Test_data.csv in data/.
+data/*.csv
+
+# Generated outputs (regenerate with scripts; not part of the MVP)
+predictions.csv

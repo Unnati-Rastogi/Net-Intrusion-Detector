@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NIDS - ML Network Intrusion Detection</title>
+  <link rel="stylesheet" href="/static/app.css" />
+</head>
+<body>
+  <header>
+    <h1>ML Network Intrusion Detection System</h1>
+    <p class="subtitle">
+      A Random Forest model (trained on NSL-KDD-style data) classifies
+      network-flow records as <strong>normal</strong> or
+      <strong>anomaly</strong>.
+    </p>
+    <div id="health" class="health health-loading">checking API health…</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="card-head">
+        <h2>Flow record</h2>
+        <div class="btn-row">
+          <button id="btn-sample" type="button">Load Sample</button>
+          <button id="btn-predict" type="button" class="primary">Predict</button>
+        </div>
+      </div>
+      <p class="hint">
+        All 41 features are shown; realistic defaults are pre-filled, so you
+        only tweak what you want (e.g. service, flag, src_bytes, rates).
+        "Load Sample" restores the canonical example record.
+      </p>
+      <div id="form-error" class="form-error hidden"></div>
+      <form id="flow-form" autocomplete="off"></form>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Batch demonstration</h2>
+        <button id="btn-batch" type="button">Run Test-Data Demo (10 rows)</button>
+      </div>
+      <p class="hint">
+        Pulls 10 real rows from the unlabelled test dataset, sends them to
+        POST /predict/batch, and summarizes the verdicts.
+      </p>
+      <div id="batch-summary" class="batch-summary"></div>
+    </section>
+
+    <section class="card">
+      <h2>Recent predictions</h2>
+      <table id="recent-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Verdict</th>
+            <th>Confidence</th>
+            <th>P(normal)</th>
+            <th>P(anomaly)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="hint">Most recent first, capped at 20 rows.</p>
+    </section>
+  </main>
+
+  <footer>
+    College minor project - ML core: scikit-learn RandomForest (200 trees);
+    API: FastAPI. The test dataset is unlabelled, so the demo shows model
+    verdicts rather than accuracy.
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
