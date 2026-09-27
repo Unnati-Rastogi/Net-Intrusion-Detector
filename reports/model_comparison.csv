@@ -1,0 +1,4 @@
+model,accuracy_mean,accuracy_std,precision_anomaly_mean,precision_anomaly_std,recall_anomaly_mean,recall_anomaly_std,f1_anomaly_mean,f1_anomaly_std,precision_normal_mean,precision_normal_std,recall_normal_mean,recall_normal_std,f1_macro_mean,f1_macro_std,confusion_matrix
+lr_baseline,0.974317,0.002542,0.976877,0.000749,0.967812,0.005297,0.972316,0.002805,0.97214,0.004472,0.979998,0.000639,0.974182,0.002564,"[[13180, 269], [378, 11365]]"
+rf_production,0.99746,0.001319,0.998804,0.00042,0.995742,0.002497,0.997269,0.001421,0.996296,0.002164,0.998959,0.000365,0.997447,0.001326,"[[13435, 14], [50, 11693]]"
+xgb_candidate,0.997896,0.000993,0.998636,0.000563,0.996849,0.002356,0.99774,0.00107,0.997258,0.002047,0.99881,0.000493,0.997886,0.000999,"[[13433, 16], [37, 11706]]"

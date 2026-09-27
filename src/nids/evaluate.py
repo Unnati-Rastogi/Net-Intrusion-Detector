@@ -37,7 +37,7 @@ import platform
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import joblib
 import matplotlib
@@ -206,19 +206,21 @@ def model_provenance() -> dict[str, Any]:
 
 
 # --- Cross-validation -------------------------------------------------------
-def evaluate_cv(
+def run_cv_folds(
+    model_factory: Callable[[], Any],
     X: pd.DataFrame,
     y: pd.Series,
     n_splits: int = 5,
     random_state: int = config.RANDOM_STATE,
 ) -> tuple[dict[str, list[float]], np.ndarray]:
-    """Run stratified k-fold CV; return (per-fold metrics, out-of-fold CM).
+    """Run stratified k-fold CV for any model factory; reusable across models.
 
-    This is the exact methodology used to approve the current model: a
-    shuffled, stratified k-fold split (random_state=42) with a fresh clone of
-    the full pipeline (preprocessing included) fitted on each fold's training
-    rows only. Rows are positional indices from the splitter, applied with
-    .iloc to keep the fold assignment reproducible and leak-free.
+    The methodology is the one used to approve the current model: a shuffled,
+    stratified k-fold split (random_state=42) with a fresh model (preprocessing
+    included) fitted on each fold's training rows only. Rows are positional
+    indices from the splitter, applied with .iloc to keep the fold assignment
+    reproducible and leak-free. Every candidate in the model comparison uses
+    this same function, so all models are scored on identical folds.
     """
     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
     folds: dict[str, list[float]] = {name: [] for name in METRIC_KEYS}
@@ -228,7 +230,7 @@ def evaluate_cv(
         X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
         y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
 
-        model = clone(build_pipeline())
+        model = model_factory()
         model.fit(X_train, y_train)
         pred = model.predict(X_test)
 
@@ -257,6 +259,22 @@ def evaluate_cv(
         cm_total += confusion_matrix(y_test, pred, labels=[0, 1])
 
     return folds, cm_total
+
+
+def evaluate_cv(
+    X: pd.DataFrame,
+    y: pd.Series,
+    n_splits: int = 5,
+    random_state: int = config.RANDOM_STATE,
+) -> tuple[dict[str, list[float]], np.ndarray]:
+    """CV evaluation of the production pipeline (thin, stable wrapper).
+
+    Delegates to run_cv_folds with the production build_pipeline factory;
+    signature and behavior are unchanged from the original implementation.
+    """
+    return run_cv_folds(
+        build_pipeline, X, y, n_splits=n_splits, random_state=random_state
+    )
 
 
 def summarize_folds(folds: dict[str, list[float]]) -> dict[str, dict[str, Any]]:

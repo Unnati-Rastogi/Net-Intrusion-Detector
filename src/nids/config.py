@@ -44,9 +44,26 @@ RANDOM_STATE = 42
 
 # Approved after 5-fold stratified CV on Train_data.csv only:
 # accuracy 0.9975 +/- 0.0013, F1(anomaly) 0.9973 +/- 0.0014.
+# Do not change: this is the production classifier configuration.
 RF_PARAMS = {
     "n_estimators": 200,
     "class_weight": "balanced",
     "random_state": RANDOM_STATE,
     "n_jobs": -1,
+}
+
+# XGBoost comparison candidate (src/nids/compare.py). NOT the production model.
+# scale_pos_weight mirrors RF's class_weight='balanced' (n_negative/n_positive).
+# n_jobs is set at build time in compare.py (n_training_rows / n_estimators per
+# thread would vary), so the serializable config records the seed strategy only.
+XGB_PARAMS = {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "max_depth": 6,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 1.0,
+    "tree_method": "hist",
+    "eval_metric": "logloss",
+    "random_state": RANDOM_STATE,
 }

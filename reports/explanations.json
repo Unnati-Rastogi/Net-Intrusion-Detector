@@ -1,0 +1,1117 @@
+{
+  "report": "nids_shap_explanations",
+  "schema_version": "1.0",
+  "timestamp_utc": "2026-09-27T20:00:24+00:00",
+  "evaluation_population": "1000 deterministically sampled labelled training rows (seed 42) from data/Train_data.csv (25,192 rows); SHAP importance describes the MODEL on the training distribution, not real-world or causal feature effects",
+  "model": {
+    "path": "models/rf_ids_pipeline.joblib",
+    "sha256": "7c6097c8cdd3d8946818ae88b61a062fc9cb9e67950efc3699538308ee8a3c13",
+    "classifier": "RandomForestClassifier",
+    "n_estimators": 200,
+    "class_weight": "balanced",
+    "random_state": 42,
+    "retrained": false,
+    "model_source": "saved artifact (not retrained)"
+  },
+  "dataset": {
+    "path": "data/Train_data.csv",
+    "sha256": "1e40eb667611ab507870fc5b5ef0a844201ec094915d78d79f4665937e43b07a",
+    "shape": {
+      "rows": 25192,
+      "columns_including_target": 42
+    },
+    "target_column": "class",
+    "class_counts": {
+      "normal": 13449,
+      "anomaly": 11743
+    }
+  },
+  "excluded_unlabelled_dataset": {
+    "path": "data/Test_data.csv",
+    "sha256": "a58db8c605e58411f6432dd9ab2fe10e1d768f058f5453e9e279788c7219caf8",
+    "shape": {
+      "rows": 22544,
+      "columns": 41
+    },
+    "has_class_column": false,
+    "reason_excluded": "unlabelled (no ground-truth 'class' column); never evaluated, merged, or used to tune anything in this report"
+  },
+  "shap": {
+    "version": "0.52.0",
+    "explainer": "shap.TreeExplainer",
+    "feature_perturbation": "interventional",
+    "explained_output": "P(anomaly) for class index 1 (model.classes_ = [0, 1])",
+    "class_selection": "binary RF with classes [0=normal, 1=anomaly]; the anomaly axis (index 1) is verified at explanation time by the additivity check against predict_proba[:, 1]",
+    "base_value": 0.51715,
+    "baseline_definition": "model's mean P(anomaly) over the 100-row background sample (interventional expected value for class 1)",
+    "background": {
+      "size": 100,
+      "seed": 42,
+      "selection": "deterministic random sample (numpy default_rng(seed), no replacement, sorted) of labelled training rows; fixed so every run of this report is reproducible",
+      "rows_are_training_only": true
+    },
+    "values_meaning": "per-feature attributions of THIS model's P(anomaly) output for each record, relative to the baseline; not causal explanations",
+    "additivity_max_error": 1.2935101101341218e-08,
+    "additivity_tie_samples": 4,
+    "additivity_note_definition": "A handful of records can carry a feature value exactly equal to a trained split threshold; SHAP's tree traversal and sklearn resolve that tie on opposite sides, so the SHAP reconstruction differs from predict_proba by exactly one tree vote (1/n_estimators). Only this exact signature is tolerated, and each affected sample is flagged with additivity_note 'one_vote_split_threshold_tie'. Any larger mismatch is a hard error.",
+    "deterministic": true
+  },
+  "feature_mapping": {
+    "transformed_feature_count": 116,
+    "original_feature_count": 41,
+    "explained_feature_count": 39,
+    "dropped_constant_features": [
+      "is_host_login",
+      "num_outbound_cmds"
+    ],
+    "dropped_note": "dropped inside the pipeline as constant-in-training (zero information); their SHAP contribution is exactly 0",
+    "groups": {
+      "duration": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "duration"
+        ]
+      },
+      "protocol_type": {
+        "transformed_count": 3,
+        "transformed_features": [
+          "protocol_type_icmp",
+          "protocol_type_tcp",
+          "protocol_type_udp"
+        ]
+      },
+      "service": {
+        "transformed_count": 66,
+        "transformed_features": [
+          "service_IRC",
+          "service_X11",
+          "service_Z39_50",
+          "service_auth",
+          "service_bgp",
+          "service_courier",
+          "service_csnet_ns",
+          "service_ctf",
+          "service_daytime",
+          "service_discard",
+          "service_domain",
+          "service_domain_u",
+          "service_echo",
+          "service_eco_i",
+          "service_ecr_i",
+          "service_efs",
+          "service_exec",
+          "service_finger",
+          "service_ftp",
+          "service_ftp_data",
+          "service_gopher",
+          "service_hostnames",
+          "service_http",
+          "service_http_443",
+          "service_http_8001",
+          "service_imap4",
+          "service_iso_tsap",
+          "service_klogin",
+          "service_kshell",
+          "service_ldap",
+          "service_link",
+          "service_login",
+          "service_mtp",
+          "service_name",
+          "service_netbios_dgm",
+          "service_netbios_ns",
+          "service_netbios_ssn",
+          "service_netstat",
+          "service_nnsp",
+          "service_nntp",
+          "service_ntp_u",
+          "service_other",
+          "service_pm_dump",
+          "service_pop_2",
+          "service_pop_3",
+          "service_printer",
+          "service_private",
+          "service_red_i",
+          "service_remote_job",
+          "service_rje",
+          "service_shell",
+          "service_smtp",
+          "service_sql_net",
+          "service_ssh",
+          "service_sunrpc",
+          "service_supdup",
+          "service_systat",
+          "service_telnet",
+          "service_tim_i",
+          "service_time",
+          "service_urh_i",
+          "service_urp_i",
+          "service_uucp",
+          "service_uucp_path",
+          "service_vmnet",
+          "service_whois"
+        ]
+      },
+      "flag": {
+        "transformed_count": 11,
+        "transformed_features": [
+          "flag_OTH",
+          "flag_REJ",
+          "flag_RSTO",
+          "flag_RSTOS0",
+          "flag_RSTR",
+          "flag_S0",
+          "flag_S1",
+          "flag_S2",
+          "flag_S3",
+          "flag_SF",
+          "flag_SH"
+        ]
+      },
+      "src_bytes": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "src_bytes"
+        ]
+      },
+      "dst_bytes": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_bytes"
+        ]
+      },
+      "land": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "land"
+        ]
+      },
+      "wrong_fragment": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "wrong_fragment"
+        ]
+      },
+      "urgent": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "urgent"
+        ]
+      },
+      "hot": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "hot"
+        ]
+      },
+      "num_failed_logins": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_failed_logins"
+        ]
+      },
+      "logged_in": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "logged_in"
+        ]
+      },
+      "num_compromised": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_compromised"
+        ]
+      },
+      "root_shell": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "root_shell"
+        ]
+      },
+      "su_attempted": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "su_attempted"
+        ]
+      },
+      "num_root": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_root"
+        ]
+      },
+      "num_file_creations": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_file_creations"
+        ]
+      },
+      "num_shells": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_shells"
+        ]
+      },
+      "num_access_files": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "num_access_files"
+        ]
+      },
+      "num_outbound_cmds": {
+        "transformed_count": 0,
+        "transformed_features": []
+      },
+      "is_host_login": {
+        "transformed_count": 0,
+        "transformed_features": []
+      },
+      "is_guest_login": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "is_guest_login"
+        ]
+      },
+      "count": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "count"
+        ]
+      },
+      "srv_count": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "srv_count"
+        ]
+      },
+      "serror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "serror_rate"
+        ]
+      },
+      "srv_serror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "srv_serror_rate"
+        ]
+      },
+      "rerror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "rerror_rate"
+        ]
+      },
+      "srv_rerror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "srv_rerror_rate"
+        ]
+      },
+      "same_srv_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "same_srv_rate"
+        ]
+      },
+      "diff_srv_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "diff_srv_rate"
+        ]
+      },
+      "srv_diff_host_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "srv_diff_host_rate"
+        ]
+      },
+      "dst_host_count": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_count"
+        ]
+      },
+      "dst_host_srv_count": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_srv_count"
+        ]
+      },
+      "dst_host_same_srv_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_same_srv_rate"
+        ]
+      },
+      "dst_host_diff_srv_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_diff_srv_rate"
+        ]
+      },
+      "dst_host_same_src_port_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_same_src_port_rate"
+        ]
+      },
+      "dst_host_srv_diff_host_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_srv_diff_host_rate"
+        ]
+      },
+      "dst_host_serror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_serror_rate"
+        ]
+      },
+      "dst_host_srv_serror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_srv_serror_rate"
+        ]
+      },
+      "dst_host_rerror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_rerror_rate"
+        ]
+      },
+      "dst_host_srv_rerror_rate": {
+        "transformed_count": 1,
+        "transformed_features": [
+          "dst_host_srv_rerror_rate"
+        ]
+      }
+    }
+  },
+  "global_importance": [
+    {
+      "feature": "src_bytes",
+      "mean_abs_shap": 0.09534889507250281,
+      "share_of_total": 0.1728780494706445
+    },
+    {
+      "feature": "dst_bytes",
+      "mean_abs_shap": 0.05459266580360207,
+      "share_of_total": 0.09898251649746932
+    },
+    {
+      "feature": "flag",
+      "mean_abs_shap": 0.048760925779996495,
+      "share_of_total": 0.08840892946707733
+    },
+    {
+      "feature": "service",
+      "mean_abs_shap": 0.03678862967757587,
+      "share_of_total": 0.06670183788203429
+    },
+    {
+      "feature": "logged_in",
+      "mean_abs_shap": 0.03391433949001238,
+      "share_of_total": 0.061490433168212
+    },
+    {
+      "feature": "dst_host_srv_serror_rate",
+      "mean_abs_shap": 0.02669488063955416,
+      "share_of_total": 0.04840075904716676
+    },
+    {
+      "feature": "dst_host_srv_count",
+      "mean_abs_shap": 0.024453452576136382,
+      "share_of_total": 0.04433680307433895
+    },
+    {
+      "feature": "dst_host_serror_rate",
+      "mean_abs_shap": 0.023315548462522286,
+      "share_of_total": 0.042273657575939164
+    },
+    {
+      "feature": "serror_rate",
+      "mean_abs_shap": 0.020297425335486542,
+      "share_of_total": 0.03680146789962008
+    },
+    {
+      "feature": "count",
+      "mean_abs_shap": 0.019549670087045938,
+      "share_of_total": 0.0354457052687731
+    },
+    {
+      "feature": "protocol_type",
+      "mean_abs_shap": 0.01883400198319063,
+      "share_of_total": 0.03414812016546612
+    },
+    {
+      "feature": "dst_host_same_srv_rate",
+      "mean_abs_shap": 0.01878985862851203,
+      "share_of_total": 0.03406808340103246
+    },
+    {
+      "feature": "dst_host_diff_srv_rate",
+      "mean_abs_shap": 0.01732736190743371,
+      "share_of_total": 0.031416415751344656
+    },
+    {
+      "feature": "srv_serror_rate",
+      "mean_abs_shap": 0.017182282335951468,
+      "share_of_total": 0.03115337050769694
+    },
+    {
+      "feature": "diff_srv_rate",
+      "mean_abs_shap": 0.015757187279655426,
+      "share_of_total": 0.028569516196061955
+    },
+    {
+      "feature": "same_srv_rate",
+      "mean_abs_shap": 0.01437807885487888,
+      "share_of_total": 0.026069040712810566
+    },
+    {
+      "feature": "dst_host_rerror_rate",
+      "mean_abs_shap": 0.01263529904259401,
+      "share_of_total": 0.022909188945513987
+    },
+    {
+      "feature": "dst_host_same_src_port_rate",
+      "mean_abs_shap": 0.01022180881032611,
+      "share_of_total": 0.018533265307870778
+    },
+    {
+      "feature": "rerror_rate",
+      "mean_abs_shap": 0.00849325332508706,
+      "share_of_total": 0.015399203812321382
+    },
+    {
+      "feature": "srv_count",
+      "mean_abs_shap": 0.0056510807339247805,
+      "share_of_total": 0.010246031838535603
+    },
+    {
+      "feature": "dst_host_srv_diff_host_rate",
+      "mean_abs_shap": 0.005099887428565062,
+      "share_of_total": 0.00924665766184055
+    },
+    {
+      "feature": "dst_host_count",
+      "mean_abs_shap": 0.004943777233289848,
+      "share_of_total": 0.008963612682230258
+    },
+    {
+      "feature": "hot",
+      "mean_abs_shap": 0.004138106346025227,
+      "share_of_total": 0.007502842618773505
+    },
+    {
+      "feature": "dst_host_srv_rerror_rate",
+      "mean_abs_shap": 0.003797956259679933,
+      "share_of_total": 0.006886113044613981
+    },
+    {
+      "feature": "srv_rerror_rate",
+      "mean_abs_shap": 0.003133020713961362,
+      "share_of_total": 0.005680511657412634
+    },
+    {
+      "feature": "srv_diff_host_rate",
+      "mean_abs_shap": 0.002593940659622957,
+      "share_of_total": 0.004703100139096796
+    },
+    {
+      "feature": "duration",
+      "mean_abs_shap": 0.0021860219170832325,
+      "share_of_total": 0.0039634985265226555
+    },
+    {
+      "feature": "is_guest_login",
+      "mean_abs_shap": 0.001016845962289067,
+      "share_of_total": 0.001843653735462423
+    },
+    {
+      "feature": "num_compromised",
+      "mean_abs_shap": 0.0007824929318622593,
+      "share_of_total": 0.001418745877254794
+    },
+    {
+      "feature": "wrong_fragment",
+      "mean_abs_shap": 0.0006534205853509548,
+      "share_of_total": 0.0011847234956791483
+    },
+    {
+      "feature": "root_shell",
+      "mean_abs_shap": 0.00013323156443264452,
+      "share_of_total": 0.00024156350180591025
+    },
+    {
+      "feature": "num_access_files",
+      "mean_abs_shap": 4.865381393717599e-05,
+      "share_of_total": 8.821472389764798e-05
+    },
+    {
+      "feature": "land",
+      "mean_abs_shap": 1.1764623031922384e-05,
+      "share_of_total": 2.1330557432990033e-05
+    },
+    {
+      "feature": "num_root",
+      "mean_abs_shap": 1.0837351626908004e-05,
+      "share_of_total": 1.9649312236526088e-05
+    },
+    {
+      "feature": "su_attempted",
+      "mean_abs_shap": 1.8677716903607688e-06,
+      "share_of_total": 3.3864758101342367e-06
+    },
+    {
+      "feature": "urgent",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    },
+    {
+      "feature": "num_failed_logins",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    },
+    {
+      "feature": "num_file_creations",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    },
+    {
+      "feature": "num_shells",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    },
+    {
+      "feature": "num_outbound_cmds",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    },
+    {
+      "feature": "is_host_login",
+      "mean_abs_shap": 0.0,
+      "share_of_total": 0.0
+    }
+  ],
+  "per_class_mean_abs_shap": {
+    "anomaly": {
+      "duration": 0.0021860219170832325,
+      "protocol_type": 0.01883400198319063,
+      "service": 0.03678862967757587,
+      "flag": 0.048760925779996495,
+      "src_bytes": 0.09534889507250281,
+      "dst_bytes": 0.05459266580360207,
+      "land": 1.1764623031922384e-05,
+      "wrong_fragment": 0.0006534205853509548,
+      "urgent": 0.0,
+      "hot": 0.004138106346025227,
+      "num_failed_logins": 0.0,
+      "logged_in": 0.03391433949001238,
+      "num_compromised": 0.0007824929318622593,
+      "root_shell": 0.00013323156443264452,
+      "su_attempted": 1.8677716903607688e-06,
+      "num_root": 1.0837351626908004e-05,
+      "num_file_creations": 0.0,
+      "num_shells": 0.0,
+      "num_access_files": 4.865381393717599e-05,
+      "num_outbound_cmds": 0.0,
+      "is_host_login": 0.0,
+      "is_guest_login": 0.001016845962289067,
+      "count": 0.019549670087045938,
+      "srv_count": 0.0056510807339247805,
+      "serror_rate": 0.020297425335486542,
+      "srv_serror_rate": 0.017182282335951468,
+      "rerror_rate": 0.00849325332508706,
+      "srv_rerror_rate": 0.003133020713961362,
+      "same_srv_rate": 0.01437807885487888,
+      "diff_srv_rate": 0.015757187279655426,
+      "srv_diff_host_rate": 0.002593940659622957,
+      "dst_host_count": 0.004943777233289848,
+      "dst_host_srv_count": 0.024453452576136382,
+      "dst_host_same_srv_rate": 0.01878985862851203,
+      "dst_host_diff_srv_rate": 0.01732736190743371,
+      "dst_host_same_src_port_rate": 0.01022180881032611,
+      "dst_host_srv_diff_host_rate": 0.005099887428565062,
+      "dst_host_serror_rate": 0.023315548462522286,
+      "dst_host_srv_serror_rate": 0.02669488063955416,
+      "dst_host_rerror_rate": 0.01263529904259401,
+      "dst_host_srv_rerror_rate": 0.003797956259679933
+    },
+    "normal": {
+      "duration": 0.0021860218844257932,
+      "protocol_type": 0.01883400187888227,
+      "service": 0.03678862942599848,
+      "flag": 0.04876092519041498,
+      "src_bytes": 0.09534889323371443,
+      "dst_bytes": 0.05459266425861693,
+      "land": 1.1764623221752116e-05,
+      "wrong_fragment": 0.0006534205970655808,
+      "urgent": 0.0,
+      "hot": 0.00413810628522228,
+      "num_failed_logins": 0.0,
+      "logged_in": 0.033914338329076,
+      "num_compromised": 0.0007824929320075375,
+      "root_shell": 0.00013323156365502656,
+      "su_attempted": 1.8677715534431627e-06,
+      "num_root": 1.0837351168363512e-05,
+      "num_file_creations": 0.0,
+      "num_shells": 0.0,
+      "num_access_files": 4.865381353254861e-05,
+      "num_outbound_cmds": 0.0,
+      "is_host_login": 0.0,
+      "is_guest_login": 0.0010168459542003643,
+      "count": 0.01954967026542723,
+      "srv_count": 0.0056510807423784375,
+      "serror_rate": 0.02029742509536051,
+      "srv_serror_rate": 0.017182282489392225,
+      "rerror_rate": 0.008493253300298906,
+      "srv_rerror_rate": 0.0031330207588546807,
+      "same_srv_rate": 0.01437807864714139,
+      "diff_srv_rate": 0.015757187250467257,
+      "srv_diff_host_rate": 0.0025939406538499866,
+      "dst_host_count": 0.004943777124968423,
+      "dst_host_srv_count": 0.024453451798567238,
+      "dst_host_same_srv_rate": 0.01878985846178835,
+      "dst_host_diff_srv_rate": 0.01732736180358273,
+      "dst_host_same_src_port_rate": 0.010221808689540613,
+      "dst_host_srv_diff_host_rate": 0.005099887328566797,
+      "dst_host_serror_rate": 0.023315548393037438,
+      "dst_host_srv_serror_rate": 0.02669488081076215,
+      "dst_host_rerror_rate": 0.012635299042114042,
+      "dst_host_srv_rerror_rate": 0.0037979562823251796
+    }
+  },
+  "explanation_methodology": "Global importance uses TreeExplainer SHAP values computed with the interventional feature-perturbation strategy against a fixed, deterministic background of 100 labelled training rows. Per sample and per original feature, the SHAP values of that feature's transformed columns (one-hot groups summed) are aggregated into one net contribution; global importance is the mean of the absolute net contributions over the report sample. SHAP values are feature-attribution values describing the model's output: how much each feature moves this model's P(anomaly) for a given record away from the baseline (the model's mean P(anomaly) over the background). They are NOT causal explanations of network behaviour.",
+  "limitations": [
+    "SHAP attributions explain the MODEL's output, not the underlying network phenomenon: they are not causal explanations.",
+    "Metrics and attributions come from the labelled training distribution only (Train_data.csv); the unlabelled Test_data.csv is never scored or explained.",
+    "The interventional baseline depends on the 100-row background sample; a different background changes individual attributions (the baseline is the model's mean P(anomaly) over that sample).",
+    "TreeExplainer attributions are exact for the tree ensemble given the background, but they describe a surrogate view of feature effects; correlated features split credit between them.",
+    "Global importance is a mean over the report sample; rare attack patterns may be under-represented and their drivers under-weighted.",
+    "Per-sample contributions are about the trained model as-is; they do not measure what would happen if the feature were different in the world (no intervention was performed on the network)."
+  ],
+  "environment": {
+    "python": "3.13.1",
+    "sklearn": "1.8.0",
+    "pandas": "2.3.3",
+    "numpy": "2.2.2",
+    "joblib": "1.5.3",
+    "matplotlib": "3.11.2",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "shap": "0.52.0"
+  },
+  "provenance": {
+    "git_revision": "60f3d97fea5efd8076b88430b5fe92b8fa0fd10a",
+    "git_dirty": true,
+    "command": "python -m src.nids.explain"
+  },
+  "_runtime": {
+    "report_sample_size": 1000,
+    "explainer_class": "TreeExplainer(interventional)",
+    "elapsed_seconds": 115.54,
+    "per_sample_seconds_approx": 0.1155
+  },
+  "sample_explanations": [
+    {
+      "index": 0,
+      "prediction": "normal",
+      "anomaly_score": 0.0,
+      "base_value": 0.51715,
+      "top_features": [
+        {
+          "feature": "src_bytes",
+          "value": 219,
+          "shap_contribution": -0.09146853555929056,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.09146853555929056
+        },
+        {
+          "feature": "dst_bytes",
+          "value": 1212,
+          "shap_contribution": -0.05996126686273783,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.05996126686273783
+        },
+        {
+          "feature": "flag",
+          "value": "SF",
+          "shap_contribution": -0.04830829568307081,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.04830829568307081
+        },
+        {
+          "feature": "logged_in",
+          "value": 1,
+          "shap_contribution": -0.04494442299751426,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.04494442299751426
+        },
+        {
+          "feature": "service",
+          "value": "http",
+          "shap_contribution": -0.033684914351115376,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.033684914351115376
+        },
+        {
+          "feature": "dst_host_srv_count",
+          "value": 255,
+          "shap_contribution": -0.03018515088877848,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.03018515088877848
+        },
+        {
+          "feature": "dst_host_srv_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.025733576793086285,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.025733576793086285
+        },
+        {
+          "feature": "dst_host_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.023491110927468525,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.023491110927468525
+        },
+        {
+          "feature": "dst_host_same_srv_rate",
+          "value": 1.0,
+          "shap_contribution": -0.022320858968300855,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.022320858968300855
+        },
+        {
+          "feature": "dst_host_diff_srv_rate",
+          "value": 0.0,
+          "shap_contribution": -0.020471410463369467,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.020471410463369467
+        }
+      ],
+      "additivity_error": 1.637298852052993e-09,
+      "additivity_note": null
+    },
+    {
+      "index": 1,
+      "prediction": "normal",
+      "anomaly_score": 0.0,
+      "base_value": 0.51715,
+      "top_features": [
+        {
+          "feature": "src_bytes",
+          "value": 325,
+          "shap_contribution": -0.0883676529726074,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.0883676529726074
+        },
+        {
+          "feature": "dst_bytes",
+          "value": 2649,
+          "shap_contribution": -0.059465867374577784,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.059465867374577784
+        },
+        {
+          "feature": "flag",
+          "value": "SF",
+          "shap_contribution": -0.044833210720941,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.044833210720941
+        },
+        {
+          "feature": "logged_in",
+          "value": 1,
+          "shap_contribution": -0.04374543414952314,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.04374543414952314
+        },
+        {
+          "feature": "service",
+          "value": "http",
+          "shap_contribution": -0.03787485631267998,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.03787485631267998
+        },
+        {
+          "feature": "dst_host_srv_count",
+          "value": 255,
+          "shap_contribution": -0.02865352013848792,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.02865352013848792
+        },
+        {
+          "feature": "dst_host_srv_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.026141556483441946,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.026141556483441946
+        },
+        {
+          "feature": "dst_host_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.024329125169365397,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.024329125169365397
+        },
+        {
+          "feature": "dst_host_same_srv_rate",
+          "value": 1.0,
+          "shap_contribution": -0.02105562040054622,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.02105562040054622
+        },
+        {
+          "feature": "serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.019432652050959405,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.019432652050959405
+        }
+      ],
+      "additivity_error": 2.130774223729759e-09,
+      "additivity_note": null
+    },
+    {
+      "index": 2,
+      "prediction": "anomaly",
+      "anomaly_score": 1.0,
+      "base_value": 0.51715,
+      "top_features": [
+        {
+          "feature": "src_bytes",
+          "value": 0,
+          "shap_contribution": 0.09502783320314392,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.09502783320314392
+        },
+        {
+          "feature": "dst_host_rerror_rate",
+          "value": 1.0,
+          "shap_contribution": 0.057428340823641975,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.057428340823641975
+        },
+        {
+          "feature": "rerror_rate",
+          "value": 1.0,
+          "shap_contribution": 0.04835091075859736,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.04835091075859736
+        },
+        {
+          "feature": "dst_host_srv_count",
+          "value": 1,
+          "shap_contribution": 0.03975640630326325,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.03975640630326325
+        },
+        {
+          "feature": "dst_bytes",
+          "value": 0,
+          "shap_contribution": 0.038753350398867493,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.038753350398867493
+        },
+        {
+          "feature": "dst_host_diff_srv_rate",
+          "value": 0.07,
+          "shap_contribution": 0.031622513047639134,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.031622513047639134
+        },
+        {
+          "feature": "dst_host_same_srv_rate",
+          "value": 0.0,
+          "shap_contribution": 0.031441349299004745,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.031441349299004745
+        },
+        {
+          "feature": "diff_srv_rate",
+          "value": 0.06,
+          "shap_contribution": 0.029900501563436137,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.029900501563436137
+        },
+        {
+          "feature": "same_srv_rate",
+          "value": 0.04,
+          "shap_contribution": 0.028212385235090096,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.028212385235090096
+        },
+        {
+          "feature": "count",
+          "value": 135,
+          "shap_contribution": 0.02605462050438405,
+          "direction": "increases_anomaly_score",
+          "abs_contribution": 0.02605462050438405
+        }
+      ],
+      "additivity_error": 1.7791237372222213e-09,
+      "additivity_note": null
+    },
+    {
+      "index": 3,
+      "prediction": "normal",
+      "anomaly_score": 0.005,
+      "base_value": 0.51715,
+      "top_features": [
+        {
+          "feature": "src_bytes",
+          "value": 237,
+          "shap_contribution": -0.10860040551533075,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.10860040551533075
+        },
+        {
+          "feature": "dst_bytes",
+          "value": 138,
+          "shap_contribution": -0.06462362228532811,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.06462362228532811
+        },
+        {
+          "feature": "logged_in",
+          "value": 1,
+          "shap_contribution": -0.049449785538290596,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.049449785538290596
+        },
+        {
+          "feature": "flag",
+          "value": "SF",
+          "shap_contribution": -0.047007852088595425,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.047007852088595425
+        },
+        {
+          "feature": "service",
+          "value": "http",
+          "shap_contribution": -0.0394088171539829,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.0394088171539829
+        },
+        {
+          "feature": "dst_host_srv_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.025930326812360818,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.025930326812360818
+        },
+        {
+          "feature": "dst_host_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.023418245755462978,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.023418245755462978
+        },
+        {
+          "feature": "count",
+          "value": 2,
+          "shap_contribution": -0.022556960980109578,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.022556960980109578
+        },
+        {
+          "feature": "serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.018881291250859248,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.018881291250859248
+        },
+        {
+          "feature": "srv_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.017501617394809727,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.017501617394809727
+        }
+      ],
+      "additivity_error": 1.5280071609044543e-09,
+      "additivity_note": null
+    },
+    {
+      "index": 4,
+      "prediction": "normal",
+      "anomaly_score": 0.0,
+      "base_value": 0.51715,
+      "top_features": [
+        {
+          "feature": "src_bytes",
+          "value": 225,
+          "shap_contribution": -0.09013247144277102,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.09013247144277102
+        },
+        {
+          "feature": "dst_bytes",
+          "value": 1357,
+          "shap_contribution": -0.06187472002081108,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.06187472002081108
+        },
+        {
+          "feature": "logged_in",
+          "value": 1,
+          "shap_contribution": -0.04278510538416242,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.04278510538416242
+        },
+        {
+          "feature": "flag",
+          "value": "SF",
+          "shap_contribution": -0.04140322032013273,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.04140322032013273
+        },
+        {
+          "feature": "service",
+          "value": "http",
+          "shap_contribution": -0.036881448693927725,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.036881448693927725
+        },
+        {
+          "feature": "dst_host_srv_count",
+          "value": 255,
+          "shap_contribution": -0.030461059693137997,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.030461059693137997
+        },
+        {
+          "feature": "dst_host_srv_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.02634270494510247,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.02634270494510247
+        },
+        {
+          "feature": "count",
+          "value": 1,
+          "shap_contribution": -0.023801803068141964,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.023801803068141964
+        },
+        {
+          "feature": "dst_host_same_srv_rate",
+          "value": 1.0,
+          "shap_contribution": -0.021379079270502074,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.021379079270502074
+        },
+        {
+          "feature": "dst_host_serror_rate",
+          "value": 0.0,
+          "shap_contribution": -0.021363546654248465,
+          "direction": "decreases_anomaly_score",
+          "abs_contribution": 0.021363546654248465
+        }
+      ],
+      "additivity_error": 3.492607203448017e-09,
+      "additivity_note": null
+    }
+  ]
+}

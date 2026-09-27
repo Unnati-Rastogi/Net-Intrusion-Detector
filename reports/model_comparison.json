@@ -1,0 +1,594 @@
+{
+  "report": "nids_model_comparison",
+  "schema_version": "1.0",
+  "timestamp_utc": "2026-09-27T18:40:12+00:00",
+  "evaluation": {
+    "kind": "model_comparison_cross_validation_on_training_distribution",
+    "evaluation_population": "5-fold StratifiedKFold on labelled training data",
+    "note": "All metrics are out-of-fold 5-fold stratified cross-validation on the labelled training dataset (data/Train_data.csv) only, i.e. the training distribution. The unlabelled data/Test_data.csv has no ground truth and is NOT evaluated by any candidate. These numbers are not held-out-test or production performance estimates.",
+    "cross_validation": {
+      "splitter": "sklearn.model_selection.StratifiedKFold",
+      "n_splits": 5,
+      "shuffle": true,
+      "random_state": 42,
+      "out_of_fold": true,
+      "preprocessing_refit_per_fold": true,
+      "identical_folds_for_all_candidates": true
+    },
+    "positive_class": {
+      "label": 1,
+      "name": "anomaly"
+    },
+    "negative_class": {
+      "label": 0,
+      "name": "normal"
+    }
+  },
+  "dataset": {
+    "path": "data/Train_data.csv",
+    "sha256": "1e40eb667611ab507870fc5b5ef0a844201ec094915d78d79f4665937e43b07a",
+    "shape": {
+      "rows": 25192,
+      "columns_including_target": 42
+    },
+    "target_column": "class",
+    "class_counts": {
+      "normal": 13449,
+      "anomaly": 11743
+    }
+  },
+  "excluded_unlabelled_dataset": {
+    "path": "data/Test_data.csv",
+    "sha256": "a58db8c605e58411f6432dd9ab2fe10e1d768f058f5453e9e279788c7219caf8",
+    "shape": {
+      "rows": 22544,
+      "columns": 41
+    },
+    "has_class_column": false,
+    "reason_excluded": "unlabelled (no ground-truth 'class' column); never evaluated, merged, or used to tune anything in this report"
+  },
+  "models": {
+    "lr_baseline": {
+      "description": "LogisticRegression (project baseline, CV F1(anomaly) ~= 0.9691)",
+      "configuration": {
+        "preprocessing": {
+          "source": "src/nids/pipeline.py::build_pipeline (shared, single implementation)",
+          "steps": [
+            "preprocessing",
+            "scaling"
+          ],
+          "const_drop": [
+            "num_outbound_cmds",
+            "is_host_login"
+          ],
+          "categorical_encoding": "OneHotEncoder(handle_unknown='ignore')"
+        },
+        "scaling": "StandardScaler (fit inside fold-train only)",
+        "classifier": "LogisticRegression",
+        "classifier_params": {
+          "max_iter": 2000,
+          "class_weight": "balanced",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "C": 1.0
+        }
+      },
+      "fold_metrics": {
+        "accuracy": [
+          0.971026,
+          0.974797,
+          0.973799,
+          0.978761,
+          0.973204
+        ],
+        "precision_anomaly": [
+          0.977046,
+          0.976824,
+          0.975536,
+          0.977825,
+          0.977155
+        ],
+        "recall_anomaly": [
+          0.960409,
+          0.968923,
+          0.968058,
+          0.976576,
+          0.965092
+        ],
+        "f1_anomaly": [
+          0.968656,
+          0.972857,
+          0.971783,
+          0.9772,
+          0.971086
+        ],
+        "precision_normal": [
+          0.965934,
+          0.973053,
+          0.972304,
+          0.979577,
+          0.969831
+        ],
+        "recall_normal": [
+          0.980297,
+          0.979926,
+          0.97881,
+          0.980669,
+          0.98029
+        ],
+        "f1_macro": [
+          0.970859,
+          0.974667,
+          0.973665,
+          0.978661,
+          0.973059
+        ]
+      },
+      "summary": {
+        "accuracy": {
+          "mean": 0.974317,
+          "std": 0.002542,
+          "folds": [
+            0.971026,
+            0.974797,
+            0.973799,
+            0.978761,
+            0.973204
+          ]
+        },
+        "precision_anomaly": {
+          "mean": 0.976877,
+          "std": 0.000749,
+          "folds": [
+            0.977046,
+            0.976824,
+            0.975536,
+            0.977825,
+            0.977155
+          ]
+        },
+        "recall_anomaly": {
+          "mean": 0.967812,
+          "std": 0.005297,
+          "folds": [
+            0.960409,
+            0.968923,
+            0.968058,
+            0.976576,
+            0.965092
+          ]
+        },
+        "f1_anomaly": {
+          "mean": 0.972316,
+          "std": 0.002805,
+          "folds": [
+            0.968656,
+            0.972857,
+            0.971783,
+            0.9772,
+            0.971086
+          ]
+        },
+        "precision_normal": {
+          "mean": 0.97214,
+          "std": 0.004472,
+          "folds": [
+            0.965934,
+            0.973053,
+            0.972304,
+            0.979577,
+            0.969831
+          ]
+        },
+        "recall_normal": {
+          "mean": 0.979998,
+          "std": 0.000639,
+          "folds": [
+            0.980297,
+            0.979926,
+            0.97881,
+            0.980669,
+            0.98029
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.974182,
+          "std": 0.002564,
+          "folds": [
+            0.970859,
+            0.974667,
+            0.973665,
+            0.978661,
+            0.973059
+          ]
+        }
+      },
+      "confusion_matrix": {
+        "rows": "actual",
+        "columns": "predicted",
+        "labels": [
+          "normal",
+          "anomaly"
+        ],
+        "out_of_fold_counts": [
+          [
+            13180,
+            269
+          ],
+          [
+            378,
+            11365
+          ]
+        ]
+      }
+    },
+    "rf_production": {
+      "description": "RandomForest \u2014 current production model, evaluated unchanged",
+      "configuration": {
+        "preprocessing": {
+          "source": "src/nids/pipeline.py::build_pipeline (shared, single implementation)",
+          "steps": [
+            "preprocessing"
+          ],
+          "const_drop": [
+            "num_outbound_cmds",
+            "is_host_login"
+          ],
+          "categorical_encoding": "OneHotEncoder(handle_unknown='ignore')"
+        },
+        "classifier": "RandomForestClassifier",
+        "classifier_params": {
+          "n_estimators": 200,
+          "class_weight": "balanced",
+          "random_state": 42,
+          "n_jobs": -1
+        }
+      },
+      "fold_metrics": {
+        "accuracy": [
+          0.998611,
+          0.997222,
+          0.997817,
+          0.998611,
+          0.995038
+        ],
+        "precision_anomaly": [
+          0.999147,
+          0.998293,
+          0.999146,
+          0.999147,
+          0.998285
+        ],
+        "recall_anomaly": [
+          0.997871,
+          0.995743,
+          0.996167,
+          0.997871,
+          0.99106
+        ],
+        "f1_anomaly": [
+          0.998509,
+          0.997016,
+          0.997654,
+          0.998508,
+          0.994659
+        ],
+        "precision_normal": [
+          0.998143,
+          0.996291,
+          0.996663,
+          0.998143,
+          0.992239
+        ],
+        "recall_normal": [
+          0.999257,
+          0.998513,
+          0.999257,
+          0.999257,
+          0.998512
+        ],
+        "f1_macro": [
+          0.998604,
+          0.997208,
+          0.997806,
+          0.998604,
+          0.995013
+        ]
+      },
+      "summary": {
+        "accuracy": {
+          "mean": 0.99746,
+          "std": 0.001319,
+          "folds": [
+            0.998611,
+            0.997222,
+            0.997817,
+            0.998611,
+            0.995038
+          ]
+        },
+        "precision_anomaly": {
+          "mean": 0.998804,
+          "std": 0.00042,
+          "folds": [
+            0.999147,
+            0.998293,
+            0.999146,
+            0.999147,
+            0.998285
+          ]
+        },
+        "recall_anomaly": {
+          "mean": 0.995742,
+          "std": 0.002497,
+          "folds": [
+            0.997871,
+            0.995743,
+            0.996167,
+            0.997871,
+            0.99106
+          ]
+        },
+        "f1_anomaly": {
+          "mean": 0.997269,
+          "std": 0.001421,
+          "folds": [
+            0.998509,
+            0.997016,
+            0.997654,
+            0.998508,
+            0.994659
+          ]
+        },
+        "precision_normal": {
+          "mean": 0.996296,
+          "std": 0.002164,
+          "folds": [
+            0.998143,
+            0.996291,
+            0.996663,
+            0.998143,
+            0.992239
+          ]
+        },
+        "recall_normal": {
+          "mean": 0.998959,
+          "std": 0.000365,
+          "folds": [
+            0.999257,
+            0.998513,
+            0.999257,
+            0.999257,
+            0.998512
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.997447,
+          "std": 0.001326,
+          "folds": [
+            0.998604,
+            0.997208,
+            0.997806,
+            0.998604,
+            0.995013
+          ]
+        }
+      },
+      "confusion_matrix": {
+        "rows": "actual",
+        "columns": "predicted",
+        "labels": [
+          "normal",
+          "anomaly"
+        ],
+        "out_of_fold_counts": [
+          [
+            13435,
+            14
+          ],
+          [
+            50,
+            11693
+          ]
+        ]
+      }
+    },
+    "xgb_candidate": {
+      "description": "XGBoost \u2014 comparison candidate, not production",
+      "configuration": {
+        "preprocessing": {
+          "source": "src/nids/pipeline.py::build_pipeline (shared, single implementation)",
+          "steps": [
+            "preprocessing"
+          ],
+          "const_drop": [
+            "num_outbound_cmds",
+            "is_host_login"
+          ],
+          "categorical_encoding": "OneHotEncoder(handle_unknown='ignore')"
+        },
+        "classifier": "XGBClassifier",
+        "classifier_params": {
+          "n_estimators": 200,
+          "learning_rate": 0.1,
+          "max_depth": 6,
+          "subsample": 0.8,
+          "colsample_bytree": 0.8,
+          "reg_lambda": 1.0,
+          "tree_method": "hist",
+          "eval_metric": "logloss",
+          "random_state": 42,
+          "n_jobs": -1,
+          "scale_pos_weight": 1.1453
+        }
+      },
+      "fold_metrics": {
+        "accuracy": [
+          0.998214,
+          0.998214,
+          0.998015,
+          0.999008,
+          0.99603
+        ],
+        "precision_anomaly": [
+          0.998296,
+          0.999573,
+          0.99872,
+          0.997875,
+          0.998715
+        ],
+        "recall_anomaly": [
+          0.997871,
+          0.996594,
+          0.997019,
+          1.0,
+          0.992763
+        ],
+        "f1_anomaly": [
+          0.998084,
+          0.998081,
+          0.997869,
+          0.998936,
+          0.99573
+        ],
+        "precision_normal": [
+          0.998142,
+          0.997034,
+          0.997402,
+          1.0,
+          0.993711
+        ],
+        "recall_normal": [
+          0.998513,
+          0.999628,
+          0.998885,
+          0.998141,
+          0.998884
+        ],
+        "f1_macro": [
+          0.998206,
+          0.998205,
+          0.998006,
+          0.999003,
+          0.99601
+        ]
+      },
+      "summary": {
+        "accuracy": {
+          "mean": 0.997896,
+          "std": 0.000993,
+          "folds": [
+            0.998214,
+            0.998214,
+            0.998015,
+            0.999008,
+            0.99603
+          ]
+        },
+        "precision_anomaly": {
+          "mean": 0.998636,
+          "std": 0.000563,
+          "folds": [
+            0.998296,
+            0.999573,
+            0.99872,
+            0.997875,
+            0.998715
+          ]
+        },
+        "recall_anomaly": {
+          "mean": 0.996849,
+          "std": 0.002356,
+          "folds": [
+            0.997871,
+            0.996594,
+            0.997019,
+            1.0,
+            0.992763
+          ]
+        },
+        "f1_anomaly": {
+          "mean": 0.99774,
+          "std": 0.00107,
+          "folds": [
+            0.998084,
+            0.998081,
+            0.997869,
+            0.998936,
+            0.99573
+          ]
+        },
+        "precision_normal": {
+          "mean": 0.997258,
+          "std": 0.002047,
+          "folds": [
+            0.998142,
+            0.997034,
+            0.997402,
+            1.0,
+            0.993711
+          ]
+        },
+        "recall_normal": {
+          "mean": 0.99881,
+          "std": 0.000493,
+          "folds": [
+            0.998513,
+            0.999628,
+            0.998885,
+            0.998141,
+            0.998884
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.997886,
+          "std": 0.000999,
+          "folds": [
+            0.998206,
+            0.998205,
+            0.998006,
+            0.999003,
+            0.99601
+          ]
+        }
+      },
+      "confusion_matrix": {
+        "rows": "actual",
+        "columns": "predicted",
+        "labels": [
+          "normal",
+          "anomaly"
+        ],
+        "out_of_fold_counts": [
+          [
+            13433,
+            16
+          ],
+          [
+            37,
+            11706
+          ]
+        ]
+      }
+    }
+  },
+  "model_selection": {
+    "decision": "not_declared",
+    "note": "No winner is declared by this artifact. Final model selection will be an evidence-based decision weighing security-relevant metrics (anomaly recall, precision trade-off, calibration, explainability) \u2014 the production prediction pipeline remains RandomForest until that review."
+  },
+  "environment": {
+    "python": "3.13.1",
+    "sklearn": "1.8.0",
+    "pandas": "2.3.3",
+    "numpy": "2.2.2",
+    "joblib": "1.5.3",
+    "matplotlib": "3.11.2",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "xgboost": "3.4.1"
+  },
+  "provenance": {
+    "git_revision": "60f3d97fea5efd8076b88430b5fe92b8fa0fd10a",
+    "git_dirty": true,
+    "command": "python -m src.nids.compare"
+  }
+}
