@@ -17,6 +17,9 @@ FastAPI REST API with a minimal built-in dashboard.
   score combining P(anomaly) with SHAP evidence consensus
   (see [Transparent risk scoring](#transparent-risk-scoring) and
   `docs/risk_scoring.md`)
+- **Alert prioritization (offline)**: deterministic analyst-review ordering
+  (P1–P4) over the risk-scored records — no new score, no labels
+  (see `docs/alert_prioritization.md`)
 - **API**: FastAPI (`/health`, `/predict`, `/predict/batch`) with strict
   request validation and `feature_errors` on bad input
 - **Dashboard**: vanilla HTML/JS served at `/` (sample loader, 41-feature
@@ -208,8 +211,34 @@ Risk scores are **model-derived prioritization scores** evaluated on the
 labelled training distribution — **not** probabilities of attack or
 compromise, not impact estimates, not causal risk, and the level names are
 alert-prioritization vocabulary, not attack severity. This layer is **not**
-integrated into the API or dashboard; alert prioritization and event
-grouping are later stages.
+integrated into the API or dashboard; event grouping and incident
+correlation are later stages.
+
+## Alert prioritization (offline)
+
+`src/nids/prioritize.py` orders the risk-scored records for analyst review
+(full design in `docs/alert_prioritization.md`):
+
+```
+1. risk_score descending   2. anomaly_score descending
+3. risk_level by explicit rank   4. sample_id ascending
+
+CRITICAL -> P1   HIGH -> P2   MEDIUM -> P3   LOW -> P4 (review backlog)
+```
+
+No new score is computed and no SHAP/model work is redone — it is a pure,
+deterministic re-ordering of the existing risk records (a 1,000-alert
+report builds in ~0.2 s). True labels are dropped from the alert records:
+they structurally cannot influence the operational ordering. P1 means
+"highest analyst review priority", never "most dangerous attack".
+
+```bash
+python -m src.nids.prioritize
+# -> reports/alert_prioritization.json   ordered alerts + counts + methodology
+```
+
+An offline deterministic prioritization of model-generated alerts; not
+integrated into the API or dashboard.
 
 ## Implementation status
 
@@ -234,9 +263,9 @@ grouping are later stages.
 
 **Planned (NOT implemented yet):**
 
-- Alert prioritization
 - Optional lightweight event grouping
-- Dashboard/API integration of explanations and risk scores
+- Incident correlation
+- Dashboard/API integration of explanations, risk scores, and priorities
 
 Live packet capture / real-time network monitoring is explicitly out of
 scope for this project.
@@ -258,7 +287,7 @@ python -m unittest discover -s tests -v
 ## Project layout
 
 ```
-src/nids/        config, data loading, pipeline, training, evaluation, model comparison, explainability, risk assessment, prediction, API
+src/nids/        config, data loading, pipeline, training, evaluation, model comparison, explainability, risk assessment, alert prioritization, prediction, API
 static/          dashboard (index.html, app.js, app.css)
 tests/           unittest suite (ML core + evaluation + comparison + API + dashboard)
 models/          saved pipeline artifact
