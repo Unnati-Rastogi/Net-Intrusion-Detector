@@ -13,6 +13,10 @@ FastAPI REST API with a minimal built-in dashboard.
 - **Explainability**: SHAP TreeExplainer over the production Random Forest,
   reported in the original 41 feature names (see
   [Explainability](#explainability-shap) below)
+- **Risk assessment (offline)**: transparent, model-derived prioritization
+  score combining P(anomaly) with SHAP evidence consensus
+  (see [Transparent risk scoring](#transparent-risk-scoring) and
+  `docs/risk_scoring.md`)
 - **API**: FastAPI (`/health`, `/predict`, `/predict/batch`) with strict
   request validation and `feature_errors` on bad input
 - **Dashboard**: vanilla HTML/JS served at `/` (sample loader, 41-feature
@@ -178,6 +182,35 @@ causal or real-world feature importance. Everything describes the model on
 the **training distribution** (`Train_data.csv`); `Test_data.csv` is never
 scored or explained.
 
+## Transparent risk scoring (offline)
+
+`src/nids/risk.py` turns prediction + SHAP evidence into a bounded
+prioritization score (full design and reasoning in `docs/risk_scoring.md`):
+
+```
+risk = 100 · P(anomaly) · (1 + consensus_ratio) / 2      ∈ [0, 100]
+consensus_ratio = Σ(shap) / Σ(|shap|)                    ∈ [-1, 1]
+```
+
+The SHAP evidence enters only through its **directional consensus** —
+adding attribution magnitude would double-count the model score, because
+`base + Σ(shap) = P(anomaly)` exactly (an additive candidate was verified
+rank-identical to the score alone and rejected). Fixed policy thresholds
+(LOW < 20 ≤ MEDIUM < 50 ≤ HIGH < 80 ≤ CRITICAL) are anchored to the model's
+0.5 operating point, not fitted to data.
+
+```bash
+python -m src.nids.risk
+# -> reports/risk_assessment.json   per-record risk + aggregates + methodology
+```
+
+Risk scores are **model-derived prioritization scores** evaluated on the
+labelled training distribution — **not** probabilities of attack or
+compromise, not impact estimates, not causal risk, and the level names are
+alert-prioritization vocabulary, not attack severity. This layer is **not**
+integrated into the API or dashboard; alert prioritization and event
+grouping are later stages.
+
 ## Implementation status
 
 **Currently implemented:**
@@ -201,10 +234,9 @@ scored or explained.
 
 **Planned (NOT implemented yet):**
 
-- Risk scoring
 - Alert prioritization
 - Optional lightweight event grouping
-- Dashboard explanation integration
+- Dashboard/API integration of explanations and risk scores
 
 Live packet capture / real-time network monitoring is explicitly out of
 scope for this project.
@@ -226,7 +258,7 @@ python -m unittest discover -s tests -v
 ## Project layout
 
 ```
-src/nids/        config, data loading, pipeline, training, evaluation, model comparison, explainability, prediction, API
+src/nids/        config, data loading, pipeline, training, evaluation, model comparison, explainability, risk assessment, prediction, API
 static/          dashboard (index.html, app.js, app.css)
 tests/           unittest suite (ML core + evaluation + comparison + API + dashboard)
 models/          saved pipeline artifact
