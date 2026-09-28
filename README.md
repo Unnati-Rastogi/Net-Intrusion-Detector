@@ -33,6 +33,10 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+Requires **Python 3.13** (developed and tested on 3.13.1). `requirements.txt`
+is fully pinned, so a clean `pip install` reproduces the exact dependency set
+(verified from an empty virtual environment).
+
 ## Data (not committed)
 
 Place the two dataset files here before training:
@@ -45,6 +49,9 @@ Place the two dataset files here before training:
 Any NSL-KDD-style split with the standard 41 feature columns +
 `duration, protocol_type, service, flag, ...` schema works. The split is
 never merged: train is used for fitting/CV only, test only for inference.
+
+The datasets are gitignored, so tests that read them skip automatically in a
+clean checkout (see [Tests](#tests)); add them locally for the full suite.
 
 ## Train
 
@@ -210,9 +217,10 @@ python -m src.nids.risk
 Risk scores are **model-derived prioritization scores** evaluated on the
 labelled training distribution — **not** probabilities of attack or
 compromise, not impact estimates, not causal risk, and the level names are
-alert-prioritization vocabulary, not attack severity. This layer is **not**
-integrated into the API or dashboard; event grouping and incident
-correlation are later stages.
+alert-prioritization vocabulary, not attack severity. The per-record API
+workflow (`POST /analyze`) consumes this layer, and the committed report is
+served by `GET /alerts`. Event grouping and incident correlation are later
+stages.
 
 ## Alert prioritization (offline)
 
@@ -240,8 +248,9 @@ python -m src.nids.prioritize
 # -> reports/alert_prioritization.json   ordered alerts + counts + methodology
 ```
 
-An offline deterministic prioritization of model-generated alerts; not
-integrated into the API or dashboard.
+An offline deterministic prioritization of model-generated alerts, served
+verbatim by `GET /alerts` (the committed report stays authoritative; nothing
+is re-ranked at request time).
 
 ## Implementation status
 
@@ -264,11 +273,20 @@ integrated into the API or dashboard.
 - SHAP explainability side-layer (`reports/explanations.json`); production
   model, prediction pipeline, and API are unchanged
 
+**New (this stage — engineering hardening):**
+
+- Non-finite rate values (NaN/±inf) are rejected as 422 validation errors
+  instead of reaching the model
+- Structured JSON error contracts (generic 500 handler; clear artifact
+  errors on `/alerts`), verified by robustness and concurrency tests
+- Clean-checkout portability: dataset-dependent tests skip when
+  `data/*.csv` is absent
+- GitHub Actions CI (portable test subset on Python 3.13)
+
 **Planned (NOT implemented yet):**
 
 - Optional lightweight event grouping
 - Incident correlation
-- Dashboard/API integration of explanations, risk scores, and priorities
 
 Live packet capture / real-time network monitoring is explicitly out of
 scope for this project.
@@ -291,11 +309,42 @@ risk is a model-derived prioritization score, not attack severity; P1–P4
 order analyst review, nothing more. Analysis operates on structured
 network-flow records, not live traffic.
 
+## API performance (measured)
+
+Single development machine (Windows, Python 3.13.1, pinned requirements),
+30 repetitions against `python run_api.py` on 127.0.0.1:8000 — recorded for
+transparency, not as a capacity claim:
+
+| Endpoint | Median | p95 | Notes |
+|---|---|---|---|
+| `POST /predict` | ~96 ms | ~106 ms | one record |
+| `POST /predict/batch` (10 rows) | ~95 ms | ~105 ms | ≈105 rows/s |
+| `POST /analyze` | ~307 ms | ~318 ms | first request ≈4.5 s (one-time lazy SHAP context build) |
+| `GET /alerts` | ~52 ms | ~65 ms | ≈923 KiB report payload |
+
+`/analyze` breakdown: prediction ≈ 89 ms + SHAP explanation ≈ 212 ms + risk
+≈ 0.1 ms — SHAP dominates by design: the analyst explicitly requests the
+analysis, and `/predict` stays SHAP-free. No real-time or production-scale
+performance is implied.
+
 ## Tests
 
 ```bash
 python -m unittest discover -s tests -v
 ```
+
+241 tests across the ML core, evaluation, comparison, explainability, risk,
+prioritization, API, dashboard, and hardening suites.
+
+- **Slow/opt-in tests** (full-dataset determinism and CV-reproduction
+  checks, several minutes):
+  `RUN_SLOW_EVAL_TESTS=1 python -m unittest discover -s tests -v`.
+  Skipped by default.
+- **Without `data/*.csv`**, the 41 dataset-dependent tests skip
+  automatically, leaving a portable subset — this is what CI runs. Add the
+  datasets locally for the full suite.
+- **CI**: `.github/workflows/ci.yml` installs the pinned requirements on
+  Python 3.13 and runs the portable test subset on every push/PR.
 
 ## Project layout
 

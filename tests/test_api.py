@@ -21,10 +21,19 @@ from src.nids.data import load_training_data
 from src.nids.sample_data import SAMPLE_CONNECTION
 from src.nids.schemas import FlowFeatures
 
+# data/*.csv are gitignored: tests that read the real datasets are skipped
+# when they are absent (clean checkout / CI). Add the datasets locally for
+# the full suite.
+_HAS_TRAIN = config.TRAIN_CSV.exists()
+_HAS_TEST = config.TEST_CSV.exists()
+
 
 class TestSchemaPinning(unittest.TestCase):
     """The API schema must match the real dataset schema exactly."""
 
+    @unittest.skipUnless(
+        _HAS_TRAIN, "requires data/Train_data.csv (gitignored)"
+    )
     def test_flow_features_match_dataset_columns(self):
         X, _ = load_training_data()
         self.assertEqual(list(FlowFeatures.model_fields.keys()), list(X.columns))
@@ -152,6 +161,9 @@ class TestDashboard(unittest.TestCase):
         self.assertIn("createElement", js)
         self.assertIn("textContent", js)
 
+    @unittest.skipUnless(
+        _HAS_TRAIN, "requires data/Train_data.csv (category values)"
+    )
     def test_features_endpoint(self):
         response = self.client.get("/features")
         self.assertEqual(response.status_code, 200)
@@ -168,6 +180,9 @@ class TestDashboard(unittest.TestCase):
         body = response.json()
         self.assertEqual(body["features"], SAMPLE_CONNECTION)
 
+    @unittest.skipUnless(
+        _HAS_TEST, "requires data/Test_data.csv (gitignored)"
+    )
     def test_demo_test_rows_default_and_limit(self):
         response = self.client.get("/demo/test-rows")
         self.assertEqual(response.status_code, 200)
@@ -181,6 +196,9 @@ class TestDashboard(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["count"], 100)  # capped
 
+    @unittest.skipUnless(
+        _HAS_TEST, "requires data/Test_data.csv (gitignored)"
+    )
     def test_demo_test_rows_are_valid_predict_payloads(self):
         demo = self.client.get("/demo/test-rows?limit=5").json()
         batch = self.client.post("/predict/batch", json={"features": demo["rows"]})
@@ -188,6 +206,10 @@ class TestDashboard(unittest.TestCase):
         self.assertEqual(batch.json()["count"], 5)
 
 
+@unittest.skipUnless(
+    _HAS_TRAIN,
+    "requires data/Train_data.csv (SHAP background + report lineage)",
+)
 class TestAnalyzeWorkflow(unittest.TestCase):
     """POST /analyze: detection -> SHAP explanation -> risk -> priority."""
 
@@ -352,6 +374,10 @@ class TestAnalyzeWorkflow(unittest.TestCase):
         self.assertIsNone(body["sample_id"])
 
 
+@unittest.skipUnless(
+    _HAS_TRAIN,
+    "requires data/Train_data.csv (report lineage join)",
+)
 class TestAnalyzeLineage(unittest.TestCase):
     """source_row_id is preserved for known samples, never fabricated."""
 

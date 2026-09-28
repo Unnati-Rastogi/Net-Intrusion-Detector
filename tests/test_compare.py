@@ -41,6 +41,9 @@ class TestCandidatePipelines(unittest.TestCase):
             self.assertIn("factory", spec)
             self.assertIn("description", spec)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(), "requires data/Train_data.csv (gitignored)"
+    )
     def test_all_candidates_use_the_shared_preprocessing_implementation(self):
         """Every candidate's preprocessing must be the build_pipeline() one.
 
@@ -58,6 +61,9 @@ class TestCandidatePipelines(unittest.TestCase):
             self.assertEqual(repr(preprocessing), reference, name)
             self.assertEqual(preprocessing.remainder, "passthrough", name)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(), "requires data/Train_data.csv (gitignored)"
+    )
     def test_xgb_construction(self):
         import xgboost
 
@@ -90,6 +96,9 @@ class TestCandidatePipelines(unittest.TestCase):
         self.assertEqual(clf.class_weight, config.RF_PARAMS["class_weight"])
         self.assertEqual(clf.random_state, config.RANDOM_STATE)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(), "requires data/Train_data.csv (gitignored)"
+    )
     def test_candidates_fit_and_predict_on_training_schema(self):
         """Preprocessing compatibility: all three fit/predict the real schema."""
         X, y = load_training_data(config.TRAIN_CSV)
@@ -181,6 +190,10 @@ class TestCompareOnSyntheticData(unittest.TestCase):
         self.assertEqual(cfg["random_state"], 42)
         self.assertIn("scale_pos_weight", cfg)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(),
+        "requires data/Train_data.csv (xgb scale_pos_weight)",
+    )
     def test_deterministic_fold_metrics_on_synthetic_data(self):
         """Same data + seed twice -> identical fold metrics (RF and XGB)."""
         X, y = load_training_data(self.csv_path)

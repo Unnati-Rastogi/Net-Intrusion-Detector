@@ -335,9 +335,14 @@ class TestSampleRowIdentity(unittest.TestCase):
         )
 
     def test_report_frame_lineage_survives_report_assembly(self):
-        report, _ = explain.build_explanation_report(
-            self.context, self.X, self.y, sample_size=40, sample_seed=42
-        )
+        # Provenance hashing reads config.TRAIN_CSV; point it at a synthetic
+        # CSV (as TestExplanationReport does) so this runs without the real
+        # datasets.
+        with mock.patch.object(config, "TRAIN_CSV",
+                               Path(_synthetic_training_csv())):
+            report, _ = explain.build_explanation_report(
+                self.context, self.X, self.y, sample_size=40, sample_seed=42
+            )
         embedded = report["sample_explanations"]
         expected_rows = explain.background_sample_indices(
             len(self.X), min(40, len(self.X)), 42
@@ -375,6 +380,9 @@ class TestNoRetrainingAndNoTestCSV(unittest.TestCase):
             explain.build_context(model=fitted, training_data=(X, y),
                                   background_size=20)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(), "requires data/Train_data.csv (gitignored)"
+    )
     def test_saved_artifact_not_modified_by_explanation(self):
         sha_before = hashlib.sha256(config.MODEL_PATH.read_bytes()).hexdigest()
         context = explain.build_context(background_size=20)  # saved artifact

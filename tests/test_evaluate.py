@@ -199,6 +199,9 @@ class TestEvaluateOutputs(unittest.TestCase):
         self.assertEqual(dataset["shape"]["rows"], 400)
         self.assertEqual(dataset["class_counts"], {"normal": 200, "anomaly": 200})
 
+    @unittest.skipUnless(
+        config.TEST_CSV.exists(), "requires data/Test_data.csv (gitignored)"
+    )
     def test_unlabelled_test_dataset_recorded_as_excluded(self):
         excluded = self.report.get("excluded_unlabelled_dataset")
         self.assertIsNotNone(excluded)

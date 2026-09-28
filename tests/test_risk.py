@@ -289,10 +289,13 @@ class TestSourceRowPropagation(unittest.TestCase):
                          self.explanations[0]["source_row_id"])
 
     def test_report_records_propagate_both_ids(self):
-        report = risk.build_risk_report(
-            self.context, self.X, self.y, sample_size=40, sample_seed=42,
-            explanations=self.explanations,
-        )
+        # build_risk_report reads config.TRAIN_CSV (provenance/lineage);
+        # point it at the synthetic CSV so this runs without real datasets.
+        with mock.patch.object(config, "TRAIN_CSV", self.csv_path):
+            report = risk.build_risk_report(
+                self.context, self.X, self.y, sample_size=40, sample_seed=42,
+                explanations=self.explanations,
+            )
         samples = report["samples"]
         self.assertEqual(
             [(s["sample_id"], s["source_row_id"]) for s in samples],
@@ -387,6 +390,9 @@ class TestRiskWithRealExplanations(unittest.TestCase):
             for explanation in explanations:
                 risk.calculate_risk_for_explanation(explanation)
 
+    @unittest.skipUnless(
+        config.TRAIN_CSV.exists(), "requires data/Train_data.csv (gitignored)"
+    )
     def test_saved_artifact_untouched_by_risk_flow(self):
         sha_before = hashlib.sha256(config.MODEL_PATH.read_bytes()).hexdigest()
         context = explain.build_context(background_size=20)
@@ -431,6 +437,9 @@ class TestRiskReport(unittest.TestCase):
             self.assertIn(key, methodology)
         self.assertIn("rank-identical", methodology["double_counting_analysis"])
 
+    @unittest.skipUnless(
+        config.TEST_CSV.exists(), "requires data/Test_data.csv (gitignored)"
+    )
     def test_provenance_blocks(self):
         r = self.report
         self.assertFalse(r["model"]["retrained"])

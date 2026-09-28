@@ -12,6 +12,15 @@ from src.nids.pipeline import build_pipeline
 from src.nids.predict import ModelNotTrainedError, load_model, predict_connection, validate_sample
 from src.nids.sample_data import SAMPLE_CONNECTION
 
+# data/*.csv are gitignored: tests reading the real datasets are skipped when
+# they are absent (clean checkout / CI). Add the datasets locally for the
+# full suite.
+_HAS_DATA = config.TRAIN_CSV.exists() and config.TEST_CSV.exists()
+
+
+@unittest.skipUnless(
+    _HAS_DATA, "requires data/Train_data.csv and data/Test_data.csv (gitignored)"
+)
 class TestDataLoading(unittest.TestCase):
     def test_training_data_shape_and_schema(self):
         X, y = load_training_data()

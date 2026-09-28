@@ -84,6 +84,21 @@ def create_app() -> FastAPI:
             content={"detail": errors, "feature_errors": errors},
         )
 
+    @app.exception_handler(Exception)
+    async def unhandled_exception_handler(
+        request: Request, exc: Exception
+    ) -> JSONResponse:
+        """Last-resort handler: JSON 500 without leaking internals.
+
+        Validation and known artifact problems are handled by their own
+        paths; anything unexpected lands here so the client gets a stable,
+        readable error instead of a bare 'Internal Server Error' page.
+        """
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "internal server error; the request was not processed"},
+        )
+
     @app.get("/", include_in_schema=False)
     def dashboard() -> HTMLResponse:
         """Serve the minimal dashboard (no template engine needed)."""
@@ -171,17 +186,31 @@ def create_app() -> FastAPI:
                     "'python -m src.nids.prioritize' first"
                 ),
             )
-        report = json.loads(
-            prioritize.ALERT_REPORT_PATH.read_text(encoding="utf-8")
-        )
-        return AlertsResponse(
-            report=report["report"],
-            timestamp_utc=report["timestamp_utc"],
-            total_alerts=report["total_alerts"],
-            counts_by_priority=report["counts_by_priority"],
-            note=report["note"],
-            alerts=[AlertItem(**alert) for alert in report["alerts"]],
-        )
+        try:
+            report = json.loads(
+                prioritize.ALERT_REPORT_PATH.read_text(encoding="utf-8")
+            )
+            return AlertsResponse(
+                report=report["report"],
+                timestamp_utc=report["timestamp_utc"],
+                total_alerts=report["total_alerts"],
+                counts_by_priority=report["counts_by_priority"],
+                note=report["note"],
+                alerts=[AlertItem(**alert) for alert in report["alerts"]],
+            )
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            # Unreadable or structurally wrong artifact: name the file and
+            # the fix instead of leaking a traceback (or silently serving
+            # nothing). The committed report passes; only a corrupted one
+            # can land here.
+            raise HTTPException(
+                status_code=500,
+                detail=(
+                    f"could not read the prioritization report at "
+                    f"{prioritize.ALERT_REPORT_PATH} (it may be corrupted); "
+                    "regenerate it with 'python -m src.nids.prioritize'"
+                ),
+            ) from exc
 
     # --- Dashboard support endpoints --------------------------------------
 
