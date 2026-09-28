@@ -324,6 +324,12 @@ def explain_samples(
     """Explain raw (41-column) samples with the prepared context.
 
     Returns one dict per sample (original row order):
+        sample_id          position of the record within `samples` (0-based);
+                           preserved meaning: the report sample position
+        source_row_id      zero-based row position of the record in the
+                           SOURCE dataframe it was drawn from (not the
+                           position within `samples`) — explicit data
+                           lineage, carried through risk/prioritization
         prediction         'anomaly' | 'normal' (threshold 0.5, as in predict.py)
         anomaly_score      model P(anomaly) for the sample
         base_value         baseline P(anomaly) = background mean (class 1)
@@ -391,7 +397,13 @@ def explain_samples(
         contributions.sort(key=lambda c: c["abs_contribution"], reverse=True)
         results.append(
             {
-                "index": int(samples.index[i]) if samples.index.name else i,
+                # sample_id stays the POSITION within the sampled frame;
+                # source_row_id is the record's row in the source dataframe
+                # (the frame's index label), so report samples built as
+                # X.iloc[...] (e.g. _report_sample_frame) carry their real
+                # Train_data row identity explicitly.
+                "index": i,
+                "source_row_id": int(samples.index[i]),
                 "prediction": "anomaly" if scores[i] >= 0.5 else "normal",
                 "anomaly_score": float(scores[i]),
                 "base_value": base_value,
@@ -498,7 +510,9 @@ def build_explanation_report(
         "evaluation_population": (
             f"{min(sample_size, len(X))} deterministically sampled labelled "
             f"training rows (seed {sample_seed}) from data/Train_data.csv "
-            "(25,192 rows); SHAP importance describes the MODEL on the "
+            "(25,192 rows); each embedded record carries sample_id (position "
+            "within the report sample) and source_row_id (its zero-based row "
+            "in Train_data.csv); SHAP importance describes the MODEL on the "
             "training distribution, not real-world or causal feature effects"
         ),
         "model": {

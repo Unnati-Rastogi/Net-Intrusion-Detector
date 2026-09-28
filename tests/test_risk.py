@@ -205,6 +205,7 @@ class TestRiskForExplanationRow(unittest.TestCase):
         ordered = sorted(contribs, key=abs, reverse=True)
         return {
             "index": 7,
+            "source_row_id": 18473,
             "prediction": "anomaly" if s >= 0.5 else "normal",
             "anomaly_score": s,
             "base_value": base,
@@ -227,6 +228,26 @@ class TestRiskForExplanationRow(unittest.TestCase):
         self.assertEqual(result["risk_score"], 80.0)
         self.assertEqual(result["risk_level"], "CRITICAL")
 
+    def test_output_schema_carries_source_row_id(self):
+        result = risk.calculate_risk_for_explanation(
+            self._row(0.6, 0.5, [0.06, 0.04])
+        )
+        self.assertEqual(
+            set(result),
+            {"anomaly_score", "evidence", "evidence_score", "risk_score",
+             "risk_level", "methodology", "prediction", "additivity_note",
+             "source_row_id"},
+        )
+        self.assertEqual(result["source_row_id"], 18473)
+
+    def test_missing_source_row_id_falls_back_to_sentinel(self):
+        # Legacy explanations without the field propagate -1, so a lineage
+        # gap stays detectable instead of looking like row 0.
+        row = self._row(0.6, 0.5, [0.06, 0.04])
+        del row["source_row_id"]
+        result = risk.calculate_risk_for_explanation(row)
+        self.assertEqual(result["source_row_id"], risk._SOURCE_ROW_ID_SENTINEL)
+
     def test_tie_row_requires_n_estimators(self):
         # sum = 0.005 vs expected 0.0 -> the one-vote tie signature.
         row = self._row(0.5, 0.5, [0.01, -0.005],
@@ -242,6 +263,61 @@ class TestRiskForExplanationRow(unittest.TestCase):
         row = self._row(float("nan"), 0.5, [0.1])
         with self.assertRaises(ValueError):
             risk.calculate_risk_for_explanation(row)
+
+
+class TestSourceRowPropagation(unittest.TestCase):
+    """source_row_id flows from explanation records into risk records."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.csv_path = Path(_synthetic_training_csv())
+        X, y = load_training_data(cls.csv_path)
+        fitted = build_pipeline().fit(X, y)
+        cls.context = explain.build_context(
+            model=fitted, training_data=(X, y), background_size=20
+        )
+        cls.X, cls.y = X, y
+        cls.sample_idx = explain.background_sample_indices(len(X), 40, 42)
+        cls.sample_X = X.iloc[cls.sample_idx]
+        cls.explanations = explain.explain_samples(
+            cls.context, cls.sample_X, top_k=None
+        )
+
+    def test_risk_record_carries_source_row_id(self):
+        result = risk.calculate_risk_for_explanation(self.explanations[0])
+        self.assertEqual(result["source_row_id"],
+                         self.explanations[0]["source_row_id"])
+
+    def test_report_records_propagate_both_ids(self):
+        report = risk.build_risk_report(
+            self.context, self.X, self.y, sample_size=40, sample_seed=42,
+            explanations=self.explanations,
+        )
+        samples = report["samples"]
+        self.assertEqual(
+            [(s["sample_id"], s["source_row_id"]) for s in samples],
+            [
+                (e["index"], e["source_row_id"])
+                for e in self.explanations
+            ],
+        )
+        # The source ids must be the sampler's rows (not 0..N-1 positions).
+        self.assertEqual([s["source_row_id"] for s in samples],
+                         [int(v) for v in self.sample_idx])
+
+    def test_report_lineage_cross_check_rejects_corrupt_mapping(self):
+        import copy
+
+        explanations = explain.explain_samples(
+            self.context, self.sample_X, top_k=None
+        )
+        broken = copy.deepcopy(explanations)
+        broken[0]["source_row_id"] += 1
+        with self.assertRaises(ValueError):
+            risk.build_risk_report(
+                self.context, self.X, self.y, sample_size=40, sample_seed=42,
+                explanations=broken,
+            )
 
 
 class TestRiskWithRealExplanations(unittest.TestCase):
@@ -370,9 +446,11 @@ class TestRiskReport(unittest.TestCase):
         for sample in samples:
             self.assertEqual(
                 set(sample),
-                {"sample_id", "true_label", "prediction", "anomaly_score",
-                 "evidence_score", "risk_score", "risk_level", "top_evidence"},
+                {"sample_id", "source_row_id", "true_label", "prediction",
+                 "anomaly_score", "evidence_score", "risk_score", "risk_level",
+                 "top_evidence"},
             )
+            self.assertIsInstance(sample["source_row_id"], int)
             self.assertIn(sample["true_label"], {"normal", "anomaly"})
             self.assertGreaterEqual(sample["risk_score"], 0.0)
             self.assertLessEqual(sample["risk_score"], 100.0)

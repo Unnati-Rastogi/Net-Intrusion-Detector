@@ -230,7 +230,10 @@ No new score is computed and no SHAP/model work is redone — it is a pure,
 deterministic re-ordering of the existing risk records (a 1,000-alert
 report builds in ~0.2 s). True labels are dropped from the alert records:
 they structurally cannot influence the operational ordering. P1 means
-"highest analyst review priority", never "most dangerous attack".
+"highest analyst review priority", never "most dangerous attack". Every
+report record carries `sample_id` (position within the 1,000-row report
+sample) and `source_row_id` (its zero-based row in `Train_data.csv`); the
+latter is lineage metadata only and never influences ordering.
 
 ```bash
 python -m src.nids.prioritize

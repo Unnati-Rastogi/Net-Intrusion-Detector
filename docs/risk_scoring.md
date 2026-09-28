@@ -25,6 +25,11 @@ Per record (exactly the outputs of `explain_samples(..., top_k=None)`):
   (one-hot groups already summed; the two dropped constants are exactly 0).
 - `base_value` — the model's mean P(anomaly) over the explanation background.
 
+Identity/lineage fields carried alongside (never used by the risk engine):
+`sample_id` is the record's position within the deterministic report sample,
+and `source_row_id` is its zero-based row in the source dataframe
+(Train_data.csv), propagated verbatim from the explanation records.
+
 SHAP is never recomputed inside `risk.py`; the risk engine is pure
 arithmetic on these inputs (~800 µs/sample measured).
 

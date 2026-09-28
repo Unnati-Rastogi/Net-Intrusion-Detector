@@ -81,3 +81,6 @@ working queue; that choice belongs to the operator, not to this artifact.
 - Ties at risk=0.0 (unflagged records with identical scores) are ordered by
   `sample_id`, which carries no security meaning — it exists purely to make
   the order deterministic.
+- `source_row_id` (the record's zero-based row in its source dataset) is
+  carried through as provenance metadata only: it is never validated and
+  never used as a sorting key, so it cannot influence the ordering.

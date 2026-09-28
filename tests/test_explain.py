@@ -157,8 +157,9 @@ class TestExplainSamples(unittest.TestCase):
         for row in results:
             self.assertEqual(
                 set(row),
-                {"index", "prediction", "anomaly_score", "base_value",
-                 "top_features", "additivity_error", "additivity_note"},
+                {"index", "source_row_id", "prediction", "anomaly_score",
+                 "base_value", "top_features", "additivity_error",
+                 "additivity_note"},
             )
             self.assertIn(row["prediction"], {"anomaly", "normal"})
             for contribution in row["top_features"]:
@@ -260,6 +261,97 @@ class TestExplainSamples(unittest.TestCase):
 
     def test_empty_input_returns_empty(self):
         self.assertEqual(explain.explain_samples(self.context, self.X.head(0)), [])
+
+
+class TestSampleRowIdentity(unittest.TestCase):
+    """sample_id (frame position) vs source_row_id (source row) semantics."""
+
+    @classmethod
+    def setUpClass(cls):
+        csv_path = Path(_synthetic_training_csv())
+        X, y = load_training_data(csv_path)
+        fitted = build_pipeline().fit(X, y)
+        cls.context = explain.build_context(
+            model=fitted, training_data=(X, y), background_size=20
+        )
+        cls.X, cls.y = X, y
+        # A report-style sample: positions spread through the source frame.
+        cls.sample_idx = explain.background_sample_indices(len(X), 40, 42)
+        cls.sample_X = X.iloc[cls.sample_idx]
+        cls.results = explain.explain_samples(cls.context, cls.sample_X,
+                                              top_k=None)
+
+    def test_sample_id_is_position_within_sample(self):
+        self.assertEqual([r["index"] for r in self.results],
+                         list(range(len(self.results))))
+
+    def test_source_row_id_equals_source_index_labels(self):
+        self.assertEqual([r["source_row_id"] for r in self.results],
+                         [int(v) for v in self.sample_idx])
+
+    def test_source_row_id_not_reindexed_positions(self):
+        # Data-driven: the sample's source rows are a spread draw, so they
+        # cannot all coincide with the frame positions 0..N-1.
+        self.assertEqual(self.results[0]["index"], 0)
+        self.assertEqual(self.results[0]["source_row_id"],
+                         int(self.sample_idx[0]))
+        self.assertNotEqual(self.results[0]["index"],
+                            self.results[0]["source_row_id"])
+        self.assertEqual(self.results[-1]["source_row_id"],
+                         int(self.sample_idx[-1]))
+        self.assertTrue(
+            any(r["index"] != r["source_row_id"] for r in self.results),
+            "sample appears re-indexed: source_row_id equals frame position",
+        )
+
+    def test_source_row_id_values_match_source_rows_exactly(self):
+        for row in self.results:
+            src = self.X.iloc[row["source_row_id"]]
+            for contribution in row["top_features"]:
+                feature, value = contribution["feature"], contribution["value"]
+                if pd.isna(value):
+                    self.assertTrue(pd.isna(src[feature]))
+                else:
+                    self.assertEqual(
+                        str(src[feature]), str(value),
+                        f"row {row['source_row_id']} feature {feature}",
+                    )
+
+    def test_non_default_integer_index_is_source_row(self):
+        rows = self.X.iloc[[4, 5, 6, 7]]
+        results = explain.explain_samples(self.context, rows, top_k=1)
+        self.assertEqual([r["index"] for r in results], [0, 1, 2, 3])
+        self.assertEqual([r["source_row_id"] for r in results], [4, 5, 6, 7])
+
+    def test_source_row_id_is_json_safe_int(self):
+        for row in self.results:
+            self.assertIsInstance(row["source_row_id"], int)
+
+    def test_mapping_is_deterministic(self):
+        again = explain.explain_samples(self.context, self.sample_X, top_k=None)
+        self.assertEqual(
+            [(r["index"], r["source_row_id"]) for r in self.results],
+            [(r["index"], r["source_row_id"]) for r in again],
+        )
+
+    def test_report_frame_lineage_survives_report_assembly(self):
+        report, _ = explain.build_explanation_report(
+            self.context, self.X, self.y, sample_size=40, sample_seed=42
+        )
+        embedded = report["sample_explanations"]
+        expected_rows = explain.background_sample_indices(
+            len(self.X), min(40, len(self.X)), 42
+        )
+        self.assertEqual([r["index"] for r in embedded], list(range(5)))
+        self.assertEqual([r["source_row_id"] for r in embedded],
+                         [int(v) for v in expected_rows[:5]])
+        for row in embedded:
+            src = self.X.iloc[row["source_row_id"]]
+            for contribution in row["top_features"]:
+                self.assertEqual(
+                    str(src[contribution["feature"]]),
+                    str(contribution["value"]),
+                )
 
 
 class TestNoRetrainingAndNoTestCSV(unittest.TestCase):

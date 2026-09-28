@@ -21,6 +21,13 @@ Ordering rules (all four, in order)
    never reorders records whose level/score are consistent (validated).
 4. sample_id ascending      — total-order tiebreaker, fully deterministic
 
+Data lineage
+------------
+Alert records additionally carry `source_row_id` (when present upstream) —
+the zero-based row of the record in its source dataset. It is copied
+verbatim, never validated, never used in ordering, and purely informational
+metadata: changing it cannot change the prioritization.
+
 Priority mapping (review priority, NOT attack severity)
 -------------------------------------------------------
     CRITICAL -> P1    HIGH -> P2    MEDIUM -> P3    LOW -> P4
@@ -168,6 +175,9 @@ def prioritize_alerts(
             "risk_score": float(record["risk_score"]),
             "risk_level": record["risk_level"],
             "priority": PRIORITY_MAP[record["risk_level"]],
+            # Data lineage only: copied when present, never used in ordering.
+            **({"source_row_id": int(record["source_row_id"])}
+               if "source_row_id" in record else {}),
             "top_evidence": record["top_evidence"],
         }
         for rank, record in enumerate(ordered, start=1)
@@ -243,6 +253,13 @@ def build_prioritization_report(
                 "prioritization reuses risk_score, risk_level, "
                 "anomaly_score and the evidence consensus from "
                 "src/nids/risk.py verbatim; no new score is computed"
+            ),
+            "data_lineage": (
+                "source_row_id (the record's zero-based row in its source "
+                "dataset) is carried through from the explanation/risk "
+                "records verbatim; it is provenance metadata only — never "
+                "validated, never used as a sorting key, and never allowed "
+                "to influence the ordering"
             ),
             "upstream": {
                 "risk_report": risk_report["report"],

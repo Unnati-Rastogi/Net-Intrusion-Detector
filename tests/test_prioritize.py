@@ -8,6 +8,7 @@ Run from the project root:
     python -m unittest discover -s tests -v
 """
 
+import copy
 import json
 import os
 import unittest
@@ -29,6 +30,7 @@ def make_record(
     risk_level: str | None = None,
     prediction: str | None = None,
     true_label: str | None = None,
+    source_row_id: int | None = None,
 ) -> dict:
     """A valid risk record; level defaults to the score's true classification."""
     if anomaly_score is None:
@@ -52,6 +54,8 @@ def make_record(
     }
     if true_label is not None:
         record["true_label"] = true_label
+    if source_row_id is not None:
+        record["source_row_id"] = source_row_id
     return record
 
 
@@ -346,12 +350,21 @@ class TestPrioritizationReport(unittest.TestCase):
         for alert in self.report["alerts"]:
             self.assertEqual(
                 set(alert),
-                {"rank", "sample_id", "prediction", "anomaly_score",
-                 "evidence_score", "risk_score", "risk_level", "priority",
-                 "top_evidence"},
+                {"rank", "sample_id", "source_row_id", "prediction",
+                 "anomaly_score", "evidence_score", "risk_score", "risk_level",
+                 "priority", "top_evidence"},
             )
             self.assertEqual(alert["priority"],
                              prioritize.PRIORITY_MAP[alert["risk_level"]])
+
+    def test_alerts_preserve_source_row_ids(self):
+        risk_by_id = {
+            int(r["sample_id"]): r["source_row_id"]
+            for r in self.risk_report["samples"]
+        }
+        for alert in self.report["alerts"]:
+            self.assertEqual(alert["source_row_id"],
+                             risk_by_id[alert["sample_id"]])
 
     def test_provenance_blocks(self):
         r = self.report
@@ -384,6 +397,95 @@ class TestGeneratedArtifact(unittest.TestCase):
         self.assertEqual(r["top_n"][0]["risk_score"],
                          max(a["risk_score"] for a in r["alerts"]))
         self.assertTrue(all("true_label" not in a for a in r["alerts"]))
+
+
+class TestSourceRowIdentity(unittest.TestCase):
+    """source_row_id is pass-through lineage metadata, never ordering input."""
+
+    @staticmethod
+    def _mini_risk_report(records):
+        """The blocks build_prioritization_report reads from a risk report."""
+        return {
+            "samples": records,
+            "report": "nids_risk_assessment",
+            "timestamp_utc": "2026-01-01T00:00:00+00:00",
+            "evaluation_population": "synthetic mini risk report",
+            "excluded_unlabelled_dataset": {"has_class_column": False},
+            "dataset": {},
+            "model": {"sha256": ""},
+            "risk": {
+                "methodology": {"version": "1.0.0", "formula": "test"},
+                "levels": {"counts": {}},
+            },
+        }
+
+    def test_sample_id_semantics_unchanged(self):
+        # sample_id remains the record's own identity field and the final
+        # sort key: the records below carry distinct risk/anomaly scores, so
+        # ties resolve by sample_id ascending.
+        records = [
+            make_record(9, 80.0, anomaly_score=0.8),
+            make_record(2, 80.0, anomaly_score=0.8),
+            make_record(7, 80.0, anomaly_score=0.8),
+        ]
+        result = prioritize.prioritize_alerts(records, top_n=None)
+        self.assertEqual([a["sample_id"] for a in result["ordered_alerts"]],
+                         [2, 7, 9])
+
+    def test_both_ids_propagate_from_risk_records(self):
+        records = [
+            make_record(0, 97.0, source_row_id=18473),
+            make_record(1, 42.0, source_row_id=17),
+        ]
+        report = prioritize.build_prioritization_report(
+            self._mini_risk_report(records), top_n=None
+        )
+        by_id = {a["sample_id"]: a for a in report["alerts"]}
+        self.assertEqual(by_id[0]["source_row_id"], 18473)
+        self.assertEqual(by_id[1]["source_row_id"], 17)
+
+    def test_source_row_id_absent_stays_absent(self):
+        # Backward compatibility: legacy risk records without the field
+        # produce legacy alert records without it.
+        report = prioritize.build_prioritization_report(
+            self._mini_risk_report([make_record(0, 97.0)]), top_n=None
+        )
+        self.assertNotIn("source_row_id", report["alerts"][0])
+
+    def test_changing_source_row_id_cannot_change_ordering(self):
+        records = [
+            make_record(i, 50.0 + (i % 3) * 10)
+            for i in range(12)
+        ]
+        base = prioritize.prioritize_alerts(
+            copy.deepcopy(records), top_n=None
+        )
+        scrambled = copy.deepcopy(records)
+        for i, record in enumerate(scrambled):
+            record["source_row_id"] = (i * 7919) % 1000 - 500
+        permuted = prioritize.prioritize_alerts(scrambled, top_n=None)
+        self.assertEqual(
+            [(a["sample_id"], a["risk_score"]) for a in base["ordered_alerts"]],
+            [(a["sample_id"], a["risk_score"]) for a in permuted["ordered_alerts"]],
+        )
+
+    def test_source_row_id_not_in_ordering_rules(self):
+        records = [make_record(0, 97.0, source_row_id=12345)]
+        report = prioritize.build_prioritization_report(
+            self._mini_risk_report(records), top_n=None
+        )
+        joined = " ".join(report["methodology"]["ordering_rules"])
+        self.assertNotIn("source_row_id", joined)
+        self.assertIn("source_row_id", report["methodology"]["data_lineage"])
+
+    def test_source_row_id_not_validated(self):
+        # Metadata only: out-of-range values are passed through untouched
+        # (the field is never interpreted, so there is nothing to validate).
+        records = [make_record(0, 97.0, source_row_id=-1)]
+        report = prioritize.build_prioritization_report(
+            self._mini_risk_report(records), top_n=None
+        )
+        self.assertEqual(report["alerts"][0]["source_row_id"], -1)
 
 
 class TestSlowRealDataPrioritize(unittest.TestCase):

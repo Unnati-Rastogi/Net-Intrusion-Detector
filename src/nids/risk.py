@@ -242,6 +242,11 @@ def calculate_risk_for_explanation(
     )
     result["prediction"] = explanation.get("prediction")
     result["additivity_note"] = explanation.get("additivity_note")
+    # Data lineage: the source row this explanation was computed from.
+    # Passed through untouched; never used in the risk arithmetic.
+    result["source_row_id"] = int(
+        explanation.get("source_row_id", _SOURCE_ROW_ID_SENTINEL)
+    )
     return result
 
 
@@ -270,6 +275,17 @@ def build_risk_report(
     if explanations is None:
         explanations = explain.explain_samples(context, sample_X, top_k=None)
 
+    # Lineage cross-check: the explanation records must agree with the
+    # deterministic sampler about which source row each one came from.
+    for pos, (explanation, row_pos) in enumerate(zip(explanations, sample_idx)):
+        carried = explanation.get("source_row_id")
+        if carried is not None and int(carried) != int(row_pos):
+            raise ValueError(
+                f"source-row mismatch at sample position {pos}: explanation "
+                f"carries source_row_id={int(carried)} but the deterministic "
+                f"sample row is {int(row_pos)}"
+            )
+
     per_sample: list[dict[str, Any]] = []
     level_counts = {level: 0 for level in LEVEL_ORDER}
     scores: list[float] = []
@@ -284,6 +300,16 @@ def build_risk_report(
         per_sample.append(
             {
                 "sample_id": result_index(explanation),
+                # Data lineage: the source row the explanation was computed
+                # from. Taken from the explanation record itself (carried
+                # out of explain_samples); the deterministic sampler that
+                # produced `sample_idx` must agree with it, and the
+                # cross-check above fails loudly if the two ever diverge.
+                "source_row_id": int(
+                    explanation.get(
+                        "source_row_id", _SOURCE_ROW_ID_SENTINEL
+                    )
+                ),
                 "true_label": true_label,
                 "prediction": result["prediction"],
                 "anomaly_score": result["anomaly_score"],
@@ -308,7 +334,9 @@ def build_risk_report(
         "evaluation_population": (
             f"{len(per_sample)} deterministically sampled labelled training "
             f"rows (seed {sample_seed}) from data/Train_data.csv "
-            "(25,192 rows); risk scores are model-derived prioritization "
+            "(25,192 rows); each record carries sample_id (position within "
+            "the report sample) and source_row_id (its zero-based row in "
+            "Train_data.csv); risk scores are model-derived prioritization "
             "scores evaluated on the labelled training distribution"
         ),
         "risk": {
@@ -406,6 +434,12 @@ def build_risk_report(
 def result_index(explanation: dict[str, Any]) -> int:
     """The sample identifier recorded by explain_samples()."""
     return int(explanation.get("index", 0))
+
+
+# Placeholder for legacy explanations that predate source_row_id. A real
+# source row can never be negative, so propagating this sentinel makes the
+# lineage gap detectable instead of silently misleading.
+_SOURCE_ROW_ID_SENTINEL = -1
 
 
 def main(

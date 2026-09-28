@@ -1,8 +1,8 @@
 {
   "report": "nids_shap_explanations",
   "schema_version": "1.0",
-  "timestamp_utc": "2026-09-27T20:00:24+00:00",
-  "evaluation_population": "1000 deterministically sampled labelled training rows (seed 42) from data/Train_data.csv (25,192 rows); SHAP importance describes the MODEL on the training distribution, not real-world or causal feature effects",
+  "timestamp_utc": "2026-09-28T07:55:03+00:00",
+  "evaluation_population": "1000 deterministically sampled labelled training rows (seed 42) from data/Train_data.csv (25,192 rows); each embedded record carries sample_id (position within the report sample) and source_row_id (its zero-based row in Train_data.csv); SHAP importance describes the MODEL on the training distribution, not real-world or causal feature effects",
   "model": {
     "path": "models/rf_ids_pipeline.joblib",
     "sha256": "7c6097c8cdd3d8946818ae88b61a062fc9cb9e67950efc3699538308ee8a3c13",
@@ -702,19 +702,20 @@
     "shap": "0.52.0"
   },
   "provenance": {
-    "git_revision": "60f3d97fea5efd8076b88430b5fe92b8fa0fd10a",
+    "git_revision": "65115528a74580f5a37da50065152696a10e8566",
     "git_dirty": true,
     "command": "python -m src.nids.explain"
   },
   "_runtime": {
     "report_sample_size": 1000,
     "explainer_class": "TreeExplainer(interventional)",
-    "elapsed_seconds": 115.54,
-    "per_sample_seconds_approx": 0.1155
+    "elapsed_seconds": 120.06,
+    "per_sample_seconds_approx": 0.1201
   },
   "sample_explanations": [
     {
       "index": 0,
+      "source_row_id": 106,
       "prediction": "normal",
       "anomaly_score": 0.0,
       "base_value": 0.51715,
@@ -795,6 +796,7 @@
     },
     {
       "index": 1,
+      "source_row_id": 119,
       "prediction": "normal",
       "anomaly_score": 0.0,
       "base_value": 0.51715,
@@ -875,6 +877,7 @@
     },
     {
       "index": 2,
+      "source_row_id": 131,
       "prediction": "anomaly",
       "anomaly_score": 1.0,
       "base_value": 0.51715,
@@ -955,6 +958,7 @@
     },
     {
       "index": 3,
+      "source_row_id": 132,
       "prediction": "normal",
       "anomaly_score": 0.005,
       "base_value": 0.51715,
@@ -1035,6 +1039,7 @@
     },
     {
       "index": 4,
+      "source_row_id": 133,
       "prediction": "normal",
       "anomaly_score": 0.0,
       "base_value": 0.51715,

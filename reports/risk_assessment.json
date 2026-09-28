@@ -1,8 +1,8 @@
 {
   "report": "nids_risk_assessment",
   "schema_version": "1.0",
-  "timestamp_utc": "2026-09-27T20:33:50+00:00",
-  "evaluation_population": "1000 deterministically sampled labelled training rows (seed 42) from data/Train_data.csv (25,192 rows); risk scores are model-derived prioritization scores evaluated on the labelled training distribution",
+  "timestamp_utc": "2026-09-28T07:57:22+00:00",
+  "evaluation_population": "1000 deterministically sampled labelled training rows (seed 42) from data/Train_data.csv (25,192 rows); each record carries sample_id (position within the report sample) and source_row_id (its zero-based row in Train_data.csv); risk scores are model-derived prioritization scores evaluated on the labelled training distribution",
   "risk": {
     "methodology": {
       "name": "consensus_weighted_model_risk",
@@ -101,13 +101,14 @@
     "platform": "Windows-11-10.0.26200-SP0"
   },
   "provenance": {
-    "git_revision": "7f0cbd3fccff893c6e313c5b74cb4e189e62519d",
+    "git_revision": "65115528a74580f5a37da50065152696a10e8566",
     "git_dirty": true,
     "command": "python -m src.nids.risk"
   },
   "samples": [
     {
       "sample_id": 0,
+      "source_row_id": 106,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -154,6 +155,7 @@
     },
     {
       "sample_id": 1,
+      "source_row_id": 119,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -200,6 +202,7 @@
     },
     {
       "sample_id": 2,
+      "source_row_id": 131,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -246,6 +249,7 @@
     },
     {
       "sample_id": 3,
+      "source_row_id": 132,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -292,6 +296,7 @@
     },
     {
       "sample_id": 4,
+      "source_row_id": 133,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -338,6 +343,7 @@
     },
     {
       "sample_id": 5,
+      "source_row_id": 161,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -384,6 +390,7 @@
     },
     {
       "sample_id": 6,
+      "source_row_id": 174,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -430,6 +437,7 @@
     },
     {
       "sample_id": 7,
+      "source_row_id": 184,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -476,6 +484,7 @@
     },
     {
       "sample_id": 8,
+      "source_row_id": 192,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -522,6 +531,7 @@
     },
     {
       "sample_id": 9,
+      "source_row_id": 246,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -568,6 +578,7 @@
     },
     {
       "sample_id": 10,
+      "source_row_id": 294,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -614,6 +625,7 @@
     },
     {
       "sample_id": 11,
+      "source_row_id": 300,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -660,6 +672,7 @@
     },
     {
       "sample_id": 12,
+      "source_row_id": 345,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -706,6 +719,7 @@
     },
     {
       "sample_id": 13,
+      "source_row_id": 354,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -752,6 +766,7 @@
     },
     {
       "sample_id": 14,
+      "source_row_id": 382,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -798,6 +813,7 @@
     },
     {
       "sample_id": 15,
+      "source_row_id": 440,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -844,6 +860,7 @@
     },
     {
       "sample_id": 16,
+      "source_row_id": 445,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -890,6 +907,7 @@
     },
     {
       "sample_id": 17,
+      "source_row_id": 487,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -936,6 +954,7 @@
     },
     {
       "sample_id": 18,
+      "source_row_id": 521,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -982,6 +1001,7 @@
     },
     {
       "sample_id": 19,
+      "source_row_id": 537,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1028,6 +1048,7 @@
     },
     {
       "sample_id": 20,
+      "source_row_id": 548,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1074,6 +1095,7 @@
     },
     {
       "sample_id": 21,
+      "source_row_id": 568,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1120,6 +1142,7 @@
     },
     {
       "sample_id": 22,
+      "source_row_id": 584,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1166,6 +1189,7 @@
     },
     {
       "sample_id": 23,
+      "source_row_id": 614,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1212,6 +1236,7 @@
     },
     {
       "sample_id": 24,
+      "source_row_id": 621,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1258,6 +1283,7 @@
     },
     {
       "sample_id": 25,
+      "source_row_id": 706,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1304,6 +1330,7 @@
     },
     {
       "sample_id": 26,
+      "source_row_id": 772,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1350,6 +1377,7 @@
     },
     {
       "sample_id": 27,
+      "source_row_id": 790,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1396,6 +1424,7 @@
     },
     {
       "sample_id": 28,
+      "source_row_id": 791,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1442,6 +1471,7 @@
     },
     {
       "sample_id": 29,
+      "source_row_id": 862,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1488,6 +1518,7 @@
     },
     {
       "sample_id": 30,
+      "source_row_id": 868,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1534,6 +1565,7 @@
     },
     {
       "sample_id": 31,
+      "source_row_id": 873,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1580,6 +1612,7 @@
     },
     {
       "sample_id": 32,
+      "source_row_id": 880,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1626,6 +1659,7 @@
     },
     {
       "sample_id": 33,
+      "source_row_id": 930,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1672,6 +1706,7 @@
     },
     {
       "sample_id": 34,
+      "source_row_id": 934,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1718,6 +1753,7 @@
     },
     {
       "sample_id": 35,
+      "source_row_id": 976,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -1764,6 +1800,7 @@
     },
     {
       "sample_id": 36,
+      "source_row_id": 1028,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1810,6 +1847,7 @@
     },
     {
       "sample_id": 37,
+      "source_row_id": 1037,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1856,6 +1894,7 @@
     },
     {
       "sample_id": 38,
+      "source_row_id": 1053,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1902,6 +1941,7 @@
     },
     {
       "sample_id": 39,
+      "source_row_id": 1070,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -1948,6 +1988,7 @@
     },
     {
       "sample_id": 40,
+      "source_row_id": 1076,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -1994,6 +2035,7 @@
     },
     {
       "sample_id": 41,
+      "source_row_id": 1101,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2040,6 +2082,7 @@
     },
     {
       "sample_id": 42,
+      "source_row_id": 1110,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2086,6 +2129,7 @@
     },
     {
       "sample_id": 43,
+      "source_row_id": 1115,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2132,6 +2176,7 @@
     },
     {
       "sample_id": 44,
+      "source_row_id": 1212,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2178,6 +2223,7 @@
     },
     {
       "sample_id": 45,
+      "source_row_id": 1228,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -2224,6 +2270,7 @@
     },
     {
       "sample_id": 46,
+      "source_row_id": 1257,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2270,6 +2317,7 @@
     },
     {
       "sample_id": 47,
+      "source_row_id": 1278,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2316,6 +2364,7 @@
     },
     {
       "sample_id": 48,
+      "source_row_id": 1288,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2362,6 +2411,7 @@
     },
     {
       "sample_id": 49,
+      "source_row_id": 1315,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2408,6 +2458,7 @@
     },
     {
       "sample_id": 50,
+      "source_row_id": 1324,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2454,6 +2505,7 @@
     },
     {
       "sample_id": 51,
+      "source_row_id": 1365,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2500,6 +2552,7 @@
     },
     {
       "sample_id": 52,
+      "source_row_id": 1392,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2546,6 +2599,7 @@
     },
     {
       "sample_id": 53,
+      "source_row_id": 1460,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2592,6 +2646,7 @@
     },
     {
       "sample_id": 54,
+      "source_row_id": 1502,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2638,6 +2693,7 @@
     },
     {
       "sample_id": 55,
+      "source_row_id": 1605,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2684,6 +2740,7 @@
     },
     {
       "sample_id": 56,
+      "source_row_id": 1618,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2730,6 +2787,7 @@
     },
     {
       "sample_id": 57,
+      "source_row_id": 1642,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2776,6 +2834,7 @@
     },
     {
       "sample_id": 58,
+      "source_row_id": 1677,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2822,6 +2881,7 @@
     },
     {
       "sample_id": 59,
+      "source_row_id": 1705,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2868,6 +2928,7 @@
     },
     {
       "sample_id": 60,
+      "source_row_id": 1708,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -2914,6 +2975,7 @@
     },
     {
       "sample_id": 61,
+      "source_row_id": 1777,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -2960,6 +3022,7 @@
     },
     {
       "sample_id": 62,
+      "source_row_id": 1918,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3006,6 +3069,7 @@
     },
     {
       "sample_id": 63,
+      "source_row_id": 1979,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3052,6 +3116,7 @@
     },
     {
       "sample_id": 64,
+      "source_row_id": 1985,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3098,6 +3163,7 @@
     },
     {
       "sample_id": 65,
+      "source_row_id": 2001,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -3144,6 +3210,7 @@
     },
     {
       "sample_id": 66,
+      "source_row_id": 2061,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3190,6 +3257,7 @@
     },
     {
       "sample_id": 67,
+      "source_row_id": 2071,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3236,6 +3304,7 @@
     },
     {
       "sample_id": 68,
+      "source_row_id": 2089,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3282,6 +3351,7 @@
     },
     {
       "sample_id": 69,
+      "source_row_id": 2091,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3328,6 +3398,7 @@
     },
     {
       "sample_id": 70,
+      "source_row_id": 2106,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3374,6 +3445,7 @@
     },
     {
       "sample_id": 71,
+      "source_row_id": 2108,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3420,6 +3492,7 @@
     },
     {
       "sample_id": 72,
+      "source_row_id": 2145,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -3466,6 +3539,7 @@
     },
     {
       "sample_id": 73,
+      "source_row_id": 2164,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3512,6 +3586,7 @@
     },
     {
       "sample_id": 74,
+      "source_row_id": 2190,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3558,6 +3633,7 @@
     },
     {
       "sample_id": 75,
+      "source_row_id": 2203,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3604,6 +3680,7 @@
     },
     {
       "sample_id": 76,
+      "source_row_id": 2207,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3650,6 +3727,7 @@
     },
     {
       "sample_id": 77,
+      "source_row_id": 2227,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3696,6 +3774,7 @@
     },
     {
       "sample_id": 78,
+      "source_row_id": 2248,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3742,6 +3821,7 @@
     },
     {
       "sample_id": 79,
+      "source_row_id": 2253,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3788,6 +3868,7 @@
     },
     {
       "sample_id": 80,
+      "source_row_id": 2258,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -3834,6 +3915,7 @@
     },
     {
       "sample_id": 81,
+      "source_row_id": 2264,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -3880,6 +3962,7 @@
     },
     {
       "sample_id": 82,
+      "source_row_id": 2269,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -3926,6 +4009,7 @@
     },
     {
       "sample_id": 83,
+      "source_row_id": 2296,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.97,
@@ -3972,6 +4056,7 @@
     },
     {
       "sample_id": 84,
+      "source_row_id": 2306,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4018,6 +4103,7 @@
     },
     {
       "sample_id": 85,
+      "source_row_id": 2318,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4064,6 +4150,7 @@
     },
     {
       "sample_id": 86,
+      "source_row_id": 2328,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4110,6 +4197,7 @@
     },
     {
       "sample_id": 87,
+      "source_row_id": 2331,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4156,6 +4244,7 @@
     },
     {
       "sample_id": 88,
+      "source_row_id": 2334,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4202,6 +4291,7 @@
     },
     {
       "sample_id": 89,
+      "source_row_id": 2344,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4248,6 +4338,7 @@
     },
     {
       "sample_id": 90,
+      "source_row_id": 2362,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4294,6 +4385,7 @@
     },
     {
       "sample_id": 91,
+      "source_row_id": 2371,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4340,6 +4432,7 @@
     },
     {
       "sample_id": 92,
+      "source_row_id": 2407,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4386,6 +4479,7 @@
     },
     {
       "sample_id": 93,
+      "source_row_id": 2429,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4432,6 +4526,7 @@
     },
     {
       "sample_id": 94,
+      "source_row_id": 2438,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4478,6 +4573,7 @@
     },
     {
       "sample_id": 95,
+      "source_row_id": 2440,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4524,6 +4620,7 @@
     },
     {
       "sample_id": 96,
+      "source_row_id": 2502,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4570,6 +4667,7 @@
     },
     {
       "sample_id": 97,
+      "source_row_id": 2578,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4616,6 +4714,7 @@
     },
     {
       "sample_id": 98,
+      "source_row_id": 2593,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4662,6 +4761,7 @@
     },
     {
       "sample_id": 99,
+      "source_row_id": 2597,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4708,6 +4808,7 @@
     },
     {
       "sample_id": 100,
+      "source_row_id": 2619,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4754,6 +4855,7 @@
     },
     {
       "sample_id": 101,
+      "source_row_id": 2626,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4800,6 +4902,7 @@
     },
     {
       "sample_id": 102,
+      "source_row_id": 2655,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4846,6 +4949,7 @@
     },
     {
       "sample_id": 103,
+      "source_row_id": 2679,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -4892,6 +4996,7 @@
     },
     {
       "sample_id": 104,
+      "source_row_id": 2696,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4938,6 +5043,7 @@
     },
     {
       "sample_id": 105,
+      "source_row_id": 2697,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -4984,6 +5090,7 @@
     },
     {
       "sample_id": 106,
+      "source_row_id": 2701,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -5030,6 +5137,7 @@
     },
     {
       "sample_id": 107,
+      "source_row_id": 2765,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5076,6 +5184,7 @@
     },
     {
       "sample_id": 108,
+      "source_row_id": 2808,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5122,6 +5231,7 @@
     },
     {
       "sample_id": 109,
+      "source_row_id": 2847,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5168,6 +5278,7 @@
     },
     {
       "sample_id": 110,
+      "source_row_id": 2865,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5214,6 +5325,7 @@
     },
     {
       "sample_id": 111,
+      "source_row_id": 2871,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5260,6 +5372,7 @@
     },
     {
       "sample_id": 112,
+      "source_row_id": 2879,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5306,6 +5419,7 @@
     },
     {
       "sample_id": 113,
+      "source_row_id": 2890,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5352,6 +5466,7 @@
     },
     {
       "sample_id": 114,
+      "source_row_id": 2892,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5398,6 +5513,7 @@
     },
     {
       "sample_id": 115,
+      "source_row_id": 2925,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5444,6 +5560,7 @@
     },
     {
       "sample_id": 116,
+      "source_row_id": 2929,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5490,6 +5607,7 @@
     },
     {
       "sample_id": 117,
+      "source_row_id": 2936,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5536,6 +5654,7 @@
     },
     {
       "sample_id": 118,
+      "source_row_id": 2949,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5582,6 +5701,7 @@
     },
     {
       "sample_id": 119,
+      "source_row_id": 2957,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5628,6 +5748,7 @@
     },
     {
       "sample_id": 120,
+      "source_row_id": 2975,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5674,6 +5795,7 @@
     },
     {
       "sample_id": 121,
+      "source_row_id": 2996,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5720,6 +5842,7 @@
     },
     {
       "sample_id": 122,
+      "source_row_id": 3018,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5766,6 +5889,7 @@
     },
     {
       "sample_id": 123,
+      "source_row_id": 3038,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5812,6 +5936,7 @@
     },
     {
       "sample_id": 124,
+      "source_row_id": 3045,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -5858,6 +5983,7 @@
     },
     {
       "sample_id": 125,
+      "source_row_id": 3063,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5904,6 +6030,7 @@
     },
     {
       "sample_id": 126,
+      "source_row_id": 3125,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5950,6 +6077,7 @@
     },
     {
       "sample_id": 127,
+      "source_row_id": 3136,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -5996,6 +6124,7 @@
     },
     {
       "sample_id": 128,
+      "source_row_id": 3161,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6042,6 +6171,7 @@
     },
     {
       "sample_id": 129,
+      "source_row_id": 3167,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6088,6 +6218,7 @@
     },
     {
       "sample_id": 130,
+      "source_row_id": 3185,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6134,6 +6265,7 @@
     },
     {
       "sample_id": 131,
+      "source_row_id": 3225,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6180,6 +6312,7 @@
     },
     {
       "sample_id": 132,
+      "source_row_id": 3239,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6226,6 +6359,7 @@
     },
     {
       "sample_id": 133,
+      "source_row_id": 3244,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6272,6 +6406,7 @@
     },
     {
       "sample_id": 134,
+      "source_row_id": 3251,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6318,6 +6453,7 @@
     },
     {
       "sample_id": 135,
+      "source_row_id": 3263,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.035,
@@ -6364,6 +6500,7 @@
     },
     {
       "sample_id": 136,
+      "source_row_id": 3266,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -6410,6 +6547,7 @@
     },
     {
       "sample_id": 137,
+      "source_row_id": 3272,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6456,6 +6594,7 @@
     },
     {
       "sample_id": 138,
+      "source_row_id": 3308,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6502,6 +6641,7 @@
     },
     {
       "sample_id": 139,
+      "source_row_id": 3327,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6548,6 +6688,7 @@
     },
     {
       "sample_id": 140,
+      "source_row_id": 3368,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6594,6 +6735,7 @@
     },
     {
       "sample_id": 141,
+      "source_row_id": 3404,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6640,6 +6782,7 @@
     },
     {
       "sample_id": 142,
+      "source_row_id": 3417,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -6686,6 +6829,7 @@
     },
     {
       "sample_id": 143,
+      "source_row_id": 3434,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6732,6 +6876,7 @@
     },
     {
       "sample_id": 144,
+      "source_row_id": 3470,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6778,6 +6923,7 @@
     },
     {
       "sample_id": 145,
+      "source_row_id": 3483,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6824,6 +6970,7 @@
     },
     {
       "sample_id": 146,
+      "source_row_id": 3490,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6870,6 +7017,7 @@
     },
     {
       "sample_id": 147,
+      "source_row_id": 3498,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -6916,6 +7064,7 @@
     },
     {
       "sample_id": 148,
+      "source_row_id": 3505,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -6962,6 +7111,7 @@
     },
     {
       "sample_id": 149,
+      "source_row_id": 3506,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7008,6 +7158,7 @@
     },
     {
       "sample_id": 150,
+      "source_row_id": 3512,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7054,6 +7205,7 @@
     },
     {
       "sample_id": 151,
+      "source_row_id": 3522,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7100,6 +7252,7 @@
     },
     {
       "sample_id": 152,
+      "source_row_id": 3548,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7146,6 +7299,7 @@
     },
     {
       "sample_id": 153,
+      "source_row_id": 3566,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7192,6 +7346,7 @@
     },
     {
       "sample_id": 154,
+      "source_row_id": 3582,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7238,6 +7393,7 @@
     },
     {
       "sample_id": 155,
+      "source_row_id": 3600,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7284,6 +7440,7 @@
     },
     {
       "sample_id": 156,
+      "source_row_id": 3603,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7330,6 +7487,7 @@
     },
     {
       "sample_id": 157,
+      "source_row_id": 3606,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7376,6 +7534,7 @@
     },
     {
       "sample_id": 158,
+      "source_row_id": 3611,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -7422,6 +7581,7 @@
     },
     {
       "sample_id": 159,
+      "source_row_id": 3666,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7468,6 +7628,7 @@
     },
     {
       "sample_id": 160,
+      "source_row_id": 3718,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7514,6 +7675,7 @@
     },
     {
       "sample_id": 161,
+      "source_row_id": 3763,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7560,6 +7722,7 @@
     },
     {
       "sample_id": 162,
+      "source_row_id": 3773,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7606,6 +7769,7 @@
     },
     {
       "sample_id": 163,
+      "source_row_id": 3775,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7652,6 +7816,7 @@
     },
     {
       "sample_id": 164,
+      "source_row_id": 3787,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -7698,6 +7863,7 @@
     },
     {
       "sample_id": 165,
+      "source_row_id": 3801,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -7744,6 +7910,7 @@
     },
     {
       "sample_id": 166,
+      "source_row_id": 3805,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7790,6 +7957,7 @@
     },
     {
       "sample_id": 167,
+      "source_row_id": 3809,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -7836,6 +8004,7 @@
     },
     {
       "sample_id": 168,
+      "source_row_id": 3830,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7882,6 +8051,7 @@
     },
     {
       "sample_id": 169,
+      "source_row_id": 3843,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7928,6 +8098,7 @@
     },
     {
       "sample_id": 170,
+      "source_row_id": 3852,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -7974,6 +8145,7 @@
     },
     {
       "sample_id": 171,
+      "source_row_id": 3878,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8020,6 +8192,7 @@
     },
     {
       "sample_id": 172,
+      "source_row_id": 4010,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8066,6 +8239,7 @@
     },
     {
       "sample_id": 173,
+      "source_row_id": 4034,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8112,6 +8286,7 @@
     },
     {
       "sample_id": 174,
+      "source_row_id": 4057,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8158,6 +8333,7 @@
     },
     {
       "sample_id": 175,
+      "source_row_id": 4082,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8204,6 +8380,7 @@
     },
     {
       "sample_id": 176,
+      "source_row_id": 4089,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8250,6 +8427,7 @@
     },
     {
       "sample_id": 177,
+      "source_row_id": 4103,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8296,6 +8474,7 @@
     },
     {
       "sample_id": 178,
+      "source_row_id": 4107,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8342,6 +8521,7 @@
     },
     {
       "sample_id": 179,
+      "source_row_id": 4151,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8388,6 +8568,7 @@
     },
     {
       "sample_id": 180,
+      "source_row_id": 4155,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8434,6 +8615,7 @@
     },
     {
       "sample_id": 181,
+      "source_row_id": 4156,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8480,6 +8662,7 @@
     },
     {
       "sample_id": 182,
+      "source_row_id": 4178,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8526,6 +8709,7 @@
     },
     {
       "sample_id": 183,
+      "source_row_id": 4194,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8572,6 +8756,7 @@
     },
     {
       "sample_id": 184,
+      "source_row_id": 4204,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8618,6 +8803,7 @@
     },
     {
       "sample_id": 185,
+      "source_row_id": 4253,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8664,6 +8850,7 @@
     },
     {
       "sample_id": 186,
+      "source_row_id": 4300,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8710,6 +8897,7 @@
     },
     {
       "sample_id": 187,
+      "source_row_id": 4304,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -8756,6 +8944,7 @@
     },
     {
       "sample_id": 188,
+      "source_row_id": 4318,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8802,6 +8991,7 @@
     },
     {
       "sample_id": 189,
+      "source_row_id": 4335,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8848,6 +9038,7 @@
     },
     {
       "sample_id": 190,
+      "source_row_id": 4368,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -8894,6 +9085,7 @@
     },
     {
       "sample_id": 191,
+      "source_row_id": 4412,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8940,6 +9132,7 @@
     },
     {
       "sample_id": 192,
+      "source_row_id": 4446,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -8986,6 +9179,7 @@
     },
     {
       "sample_id": 193,
+      "source_row_id": 4456,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9032,6 +9226,7 @@
     },
     {
       "sample_id": 194,
+      "source_row_id": 4470,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.99,
@@ -9078,6 +9273,7 @@
     },
     {
       "sample_id": 195,
+      "source_row_id": 4476,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9124,6 +9320,7 @@
     },
     {
       "sample_id": 196,
+      "source_row_id": 4486,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9170,6 +9367,7 @@
     },
     {
       "sample_id": 197,
+      "source_row_id": 4489,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9216,6 +9414,7 @@
     },
     {
       "sample_id": 198,
+      "source_row_id": 4492,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -9262,6 +9461,7 @@
     },
     {
       "sample_id": 199,
+      "source_row_id": 4594,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9308,6 +9508,7 @@
     },
     {
       "sample_id": 200,
+      "source_row_id": 4691,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9354,6 +9555,7 @@
     },
     {
       "sample_id": 201,
+      "source_row_id": 4694,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9400,6 +9602,7 @@
     },
     {
       "sample_id": 202,
+      "source_row_id": 4744,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9446,6 +9649,7 @@
     },
     {
       "sample_id": 203,
+      "source_row_id": 4759,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9492,6 +9696,7 @@
     },
     {
       "sample_id": 204,
+      "source_row_id": 4766,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9538,6 +9743,7 @@
     },
     {
       "sample_id": 205,
+      "source_row_id": 4802,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9584,6 +9790,7 @@
     },
     {
       "sample_id": 206,
+      "source_row_id": 4827,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9630,6 +9837,7 @@
     },
     {
       "sample_id": 207,
+      "source_row_id": 4870,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9676,6 +9884,7 @@
     },
     {
       "sample_id": 208,
+      "source_row_id": 4893,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9722,6 +9931,7 @@
     },
     {
       "sample_id": 209,
+      "source_row_id": 4907,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9768,6 +9978,7 @@
     },
     {
       "sample_id": 210,
+      "source_row_id": 4947,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -9814,6 +10025,7 @@
     },
     {
       "sample_id": 211,
+      "source_row_id": 4964,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9860,6 +10072,7 @@
     },
     {
       "sample_id": 212,
+      "source_row_id": 4965,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9906,6 +10119,7 @@
     },
     {
       "sample_id": 213,
+      "source_row_id": 5015,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9952,6 +10166,7 @@
     },
     {
       "sample_id": 214,
+      "source_row_id": 5038,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -9998,6 +10213,7 @@
     },
     {
       "sample_id": 215,
+      "source_row_id": 5052,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10044,6 +10260,7 @@
     },
     {
       "sample_id": 216,
+      "source_row_id": 5073,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10090,6 +10307,7 @@
     },
     {
       "sample_id": 217,
+      "source_row_id": 5093,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10136,6 +10354,7 @@
     },
     {
       "sample_id": 218,
+      "source_row_id": 5272,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10182,6 +10401,7 @@
     },
     {
       "sample_id": 219,
+      "source_row_id": 5322,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10228,6 +10448,7 @@
     },
     {
       "sample_id": 220,
+      "source_row_id": 5375,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -10274,6 +10495,7 @@
     },
     {
       "sample_id": 221,
+      "source_row_id": 5463,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10320,6 +10542,7 @@
     },
     {
       "sample_id": 222,
+      "source_row_id": 5547,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10366,6 +10589,7 @@
     },
     {
       "sample_id": 223,
+      "source_row_id": 5616,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10412,6 +10636,7 @@
     },
     {
       "sample_id": 224,
+      "source_row_id": 5691,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10458,6 +10683,7 @@
     },
     {
       "sample_id": 225,
+      "source_row_id": 5698,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10504,6 +10730,7 @@
     },
     {
       "sample_id": 226,
+      "source_row_id": 5713,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -10550,6 +10777,7 @@
     },
     {
       "sample_id": 227,
+      "source_row_id": 5717,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10596,6 +10824,7 @@
     },
     {
       "sample_id": 228,
+      "source_row_id": 5724,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10642,6 +10871,7 @@
     },
     {
       "sample_id": 229,
+      "source_row_id": 5747,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10688,6 +10918,7 @@
     },
     {
       "sample_id": 230,
+      "source_row_id": 5768,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10734,6 +10965,7 @@
     },
     {
       "sample_id": 231,
+      "source_row_id": 5781,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10780,6 +11012,7 @@
     },
     {
       "sample_id": 232,
+      "source_row_id": 5806,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10826,6 +11059,7 @@
     },
     {
       "sample_id": 233,
+      "source_row_id": 5830,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10872,6 +11106,7 @@
     },
     {
       "sample_id": 234,
+      "source_row_id": 5841,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -10918,6 +11153,7 @@
     },
     {
       "sample_id": 235,
+      "source_row_id": 5859,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -10964,6 +11200,7 @@
     },
     {
       "sample_id": 236,
+      "source_row_id": 5866,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11010,6 +11247,7 @@
     },
     {
       "sample_id": 237,
+      "source_row_id": 5879,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11056,6 +11294,7 @@
     },
     {
       "sample_id": 238,
+      "source_row_id": 5900,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11102,6 +11341,7 @@
     },
     {
       "sample_id": 239,
+      "source_row_id": 5959,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11148,6 +11388,7 @@
     },
     {
       "sample_id": 240,
+      "source_row_id": 5961,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11194,6 +11435,7 @@
     },
     {
       "sample_id": 241,
+      "source_row_id": 5970,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11240,6 +11482,7 @@
     },
     {
       "sample_id": 242,
+      "source_row_id": 5978,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11286,6 +11529,7 @@
     },
     {
       "sample_id": 243,
+      "source_row_id": 5991,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11332,6 +11576,7 @@
     },
     {
       "sample_id": 244,
+      "source_row_id": 6011,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11378,6 +11623,7 @@
     },
     {
       "sample_id": 245,
+      "source_row_id": 6025,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11424,6 +11670,7 @@
     },
     {
       "sample_id": 246,
+      "source_row_id": 6067,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11470,6 +11717,7 @@
     },
     {
       "sample_id": 247,
+      "source_row_id": 6117,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11516,6 +11764,7 @@
     },
     {
       "sample_id": 248,
+      "source_row_id": 6139,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11562,6 +11811,7 @@
     },
     {
       "sample_id": 249,
+      "source_row_id": 6141,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11608,6 +11858,7 @@
     },
     {
       "sample_id": 250,
+      "source_row_id": 6155,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11654,6 +11905,7 @@
     },
     {
       "sample_id": 251,
+      "source_row_id": 6177,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11700,6 +11952,7 @@
     },
     {
       "sample_id": 252,
+      "source_row_id": 6190,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11746,6 +11999,7 @@
     },
     {
       "sample_id": 253,
+      "source_row_id": 6207,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -11792,6 +12046,7 @@
     },
     {
       "sample_id": 254,
+      "source_row_id": 6246,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11838,6 +12093,7 @@
     },
     {
       "sample_id": 255,
+      "source_row_id": 6359,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11884,6 +12140,7 @@
     },
     {
       "sample_id": 256,
+      "source_row_id": 6512,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.95,
@@ -11930,6 +12187,7 @@
     },
     {
       "sample_id": 257,
+      "source_row_id": 6523,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -11976,6 +12234,7 @@
     },
     {
       "sample_id": 258,
+      "source_row_id": 6548,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12022,6 +12281,7 @@
     },
     {
       "sample_id": 259,
+      "source_row_id": 6580,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12068,6 +12328,7 @@
     },
     {
       "sample_id": 260,
+      "source_row_id": 6583,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12114,6 +12375,7 @@
     },
     {
       "sample_id": 261,
+      "source_row_id": 6614,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12160,6 +12422,7 @@
     },
     {
       "sample_id": 262,
+      "source_row_id": 6615,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12206,6 +12469,7 @@
     },
     {
       "sample_id": 263,
+      "source_row_id": 6632,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12252,6 +12516,7 @@
     },
     {
       "sample_id": 264,
+      "source_row_id": 6643,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12298,6 +12563,7 @@
     },
     {
       "sample_id": 265,
+      "source_row_id": 6647,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12344,6 +12610,7 @@
     },
     {
       "sample_id": 266,
+      "source_row_id": 6741,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12390,6 +12657,7 @@
     },
     {
       "sample_id": 267,
+      "source_row_id": 6766,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12436,6 +12704,7 @@
     },
     {
       "sample_id": 268,
+      "source_row_id": 6799,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12482,6 +12751,7 @@
     },
     {
       "sample_id": 269,
+      "source_row_id": 6871,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12528,6 +12798,7 @@
     },
     {
       "sample_id": 270,
+      "source_row_id": 6920,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12574,6 +12845,7 @@
     },
     {
       "sample_id": 271,
+      "source_row_id": 6921,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12620,6 +12892,7 @@
     },
     {
       "sample_id": 272,
+      "source_row_id": 6927,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -12666,6 +12939,7 @@
     },
     {
       "sample_id": 273,
+      "source_row_id": 6949,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12712,6 +12986,7 @@
     },
     {
       "sample_id": 274,
+      "source_row_id": 6950,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -12758,6 +13033,7 @@
     },
     {
       "sample_id": 275,
+      "source_row_id": 6954,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12804,6 +13080,7 @@
     },
     {
       "sample_id": 276,
+      "source_row_id": 6961,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12850,6 +13127,7 @@
     },
     {
       "sample_id": 277,
+      "source_row_id": 6996,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12896,6 +13174,7 @@
     },
     {
       "sample_id": 278,
+      "source_row_id": 7004,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.975,
@@ -12942,6 +13221,7 @@
     },
     {
       "sample_id": 279,
+      "source_row_id": 7020,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -12988,6 +13268,7 @@
     },
     {
       "sample_id": 280,
+      "source_row_id": 7035,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13034,6 +13315,7 @@
     },
     {
       "sample_id": 281,
+      "source_row_id": 7046,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13080,6 +13362,7 @@
     },
     {
       "sample_id": 282,
+      "source_row_id": 7069,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13126,6 +13409,7 @@
     },
     {
       "sample_id": 283,
+      "source_row_id": 7083,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13172,6 +13456,7 @@
     },
     {
       "sample_id": 284,
+      "source_row_id": 7087,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13218,6 +13503,7 @@
     },
     {
       "sample_id": 285,
+      "source_row_id": 7115,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13264,6 +13550,7 @@
     },
     {
       "sample_id": 286,
+      "source_row_id": 7158,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13310,6 +13597,7 @@
     },
     {
       "sample_id": 287,
+      "source_row_id": 7205,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13356,6 +13644,7 @@
     },
     {
       "sample_id": 288,
+      "source_row_id": 7229,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.035,
@@ -13402,6 +13691,7 @@
     },
     {
       "sample_id": 289,
+      "source_row_id": 7234,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13448,6 +13738,7 @@
     },
     {
       "sample_id": 290,
+      "source_row_id": 7236,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13494,6 +13785,7 @@
     },
     {
       "sample_id": 291,
+      "source_row_id": 7289,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13540,6 +13832,7 @@
     },
     {
       "sample_id": 292,
+      "source_row_id": 7312,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13586,6 +13879,7 @@
     },
     {
       "sample_id": 293,
+      "source_row_id": 7345,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13632,6 +13926,7 @@
     },
     {
       "sample_id": 294,
+      "source_row_id": 7346,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13678,6 +13973,7 @@
     },
     {
       "sample_id": 295,
+      "source_row_id": 7351,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13724,6 +14020,7 @@
     },
     {
       "sample_id": 296,
+      "source_row_id": 7364,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13770,6 +14067,7 @@
     },
     {
       "sample_id": 297,
+      "source_row_id": 7386,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13816,6 +14114,7 @@
     },
     {
       "sample_id": 298,
+      "source_row_id": 7422,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.965,
@@ -13862,6 +14161,7 @@
     },
     {
       "sample_id": 299,
+      "source_row_id": 7448,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -13908,6 +14208,7 @@
     },
     {
       "sample_id": 300,
+      "source_row_id": 7478,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -13954,6 +14255,7 @@
     },
     {
       "sample_id": 301,
+      "source_row_id": 7520,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -14000,6 +14302,7 @@
     },
     {
       "sample_id": 302,
+      "source_row_id": 7538,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -14046,6 +14349,7 @@
     },
     {
       "sample_id": 303,
+      "source_row_id": 7616,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14092,6 +14396,7 @@
     },
     {
       "sample_id": 304,
+      "source_row_id": 7638,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14138,6 +14443,7 @@
     },
     {
       "sample_id": 305,
+      "source_row_id": 7651,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14184,6 +14490,7 @@
     },
     {
       "sample_id": 306,
+      "source_row_id": 7653,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -14230,6 +14537,7 @@
     },
     {
       "sample_id": 307,
+      "source_row_id": 7655,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -14276,6 +14584,7 @@
     },
     {
       "sample_id": 308,
+      "source_row_id": 7680,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -14322,6 +14631,7 @@
     },
     {
       "sample_id": 309,
+      "source_row_id": 7686,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14368,6 +14678,7 @@
     },
     {
       "sample_id": 310,
+      "source_row_id": 7693,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.12,
@@ -14414,6 +14725,7 @@
     },
     {
       "sample_id": 311,
+      "source_row_id": 7702,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14460,6 +14772,7 @@
     },
     {
       "sample_id": 312,
+      "source_row_id": 7705,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14506,6 +14819,7 @@
     },
     {
       "sample_id": 313,
+      "source_row_id": 7763,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -14552,6 +14866,7 @@
     },
     {
       "sample_id": 314,
+      "source_row_id": 7834,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -14598,6 +14913,7 @@
     },
     {
       "sample_id": 315,
+      "source_row_id": 7841,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.99,
@@ -14644,6 +14960,7 @@
     },
     {
       "sample_id": 316,
+      "source_row_id": 7842,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14690,6 +15007,7 @@
     },
     {
       "sample_id": 317,
+      "source_row_id": 7855,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -14736,6 +15054,7 @@
     },
     {
       "sample_id": 318,
+      "source_row_id": 7862,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14782,6 +15101,7 @@
     },
     {
       "sample_id": 319,
+      "source_row_id": 7882,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14828,6 +15148,7 @@
     },
     {
       "sample_id": 320,
+      "source_row_id": 7888,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14874,6 +15195,7 @@
     },
     {
       "sample_id": 321,
+      "source_row_id": 7943,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14920,6 +15242,7 @@
     },
     {
       "sample_id": 322,
+      "source_row_id": 7975,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -14966,6 +15289,7 @@
     },
     {
       "sample_id": 323,
+      "source_row_id": 8038,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15012,6 +15336,7 @@
     },
     {
       "sample_id": 324,
+      "source_row_id": 8043,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15058,6 +15383,7 @@
     },
     {
       "sample_id": 325,
+      "source_row_id": 8060,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15104,6 +15430,7 @@
     },
     {
       "sample_id": 326,
+      "source_row_id": 8159,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15150,6 +15477,7 @@
     },
     {
       "sample_id": 327,
+      "source_row_id": 8187,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15196,6 +15524,7 @@
     },
     {
       "sample_id": 328,
+      "source_row_id": 8226,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15242,6 +15571,7 @@
     },
     {
       "sample_id": 329,
+      "source_row_id": 8255,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15288,6 +15618,7 @@
     },
     {
       "sample_id": 330,
+      "source_row_id": 8257,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15334,6 +15665,7 @@
     },
     {
       "sample_id": 331,
+      "source_row_id": 8293,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15380,6 +15712,7 @@
     },
     {
       "sample_id": 332,
+      "source_row_id": 8294,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15426,6 +15759,7 @@
     },
     {
       "sample_id": 333,
+      "source_row_id": 8309,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15472,6 +15806,7 @@
     },
     {
       "sample_id": 334,
+      "source_row_id": 8329,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15518,6 +15853,7 @@
     },
     {
       "sample_id": 335,
+      "source_row_id": 8365,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15564,6 +15900,7 @@
     },
     {
       "sample_id": 336,
+      "source_row_id": 8471,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15610,6 +15947,7 @@
     },
     {
       "sample_id": 337,
+      "source_row_id": 8495,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15656,6 +15994,7 @@
     },
     {
       "sample_id": 338,
+      "source_row_id": 8563,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15702,6 +16041,7 @@
     },
     {
       "sample_id": 339,
+      "source_row_id": 8645,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15748,6 +16088,7 @@
     },
     {
       "sample_id": 340,
+      "source_row_id": 8706,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15794,6 +16135,7 @@
     },
     {
       "sample_id": 341,
+      "source_row_id": 8726,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -15840,6 +16182,7 @@
     },
     {
       "sample_id": 342,
+      "source_row_id": 8813,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15886,6 +16229,7 @@
     },
     {
       "sample_id": 343,
+      "source_row_id": 8829,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15932,6 +16276,7 @@
     },
     {
       "sample_id": 344,
+      "source_row_id": 8903,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -15978,6 +16323,7 @@
     },
     {
       "sample_id": 345,
+      "source_row_id": 8915,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16024,6 +16370,7 @@
     },
     {
       "sample_id": 346,
+      "source_row_id": 8999,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16070,6 +16417,7 @@
     },
     {
       "sample_id": 347,
+      "source_row_id": 9013,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16116,6 +16464,7 @@
     },
     {
       "sample_id": 348,
+      "source_row_id": 9027,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16162,6 +16511,7 @@
     },
     {
       "sample_id": 349,
+      "source_row_id": 9044,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16208,6 +16558,7 @@
     },
     {
       "sample_id": 350,
+      "source_row_id": 9052,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16254,6 +16605,7 @@
     },
     {
       "sample_id": 351,
+      "source_row_id": 9106,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16300,6 +16652,7 @@
     },
     {
       "sample_id": 352,
+      "source_row_id": 9138,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16346,6 +16699,7 @@
     },
     {
       "sample_id": 353,
+      "source_row_id": 9148,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16392,6 +16746,7 @@
     },
     {
       "sample_id": 354,
+      "source_row_id": 9153,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16438,6 +16793,7 @@
     },
     {
       "sample_id": 355,
+      "source_row_id": 9191,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16484,6 +16840,7 @@
     },
     {
       "sample_id": 356,
+      "source_row_id": 9197,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16530,6 +16887,7 @@
     },
     {
       "sample_id": 357,
+      "source_row_id": 9213,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -16576,6 +16934,7 @@
     },
     {
       "sample_id": 358,
+      "source_row_id": 9221,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -16622,6 +16981,7 @@
     },
     {
       "sample_id": 359,
+      "source_row_id": 9240,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16668,6 +17028,7 @@
     },
     {
       "sample_id": 360,
+      "source_row_id": 9273,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16714,6 +17075,7 @@
     },
     {
       "sample_id": 361,
+      "source_row_id": 9307,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16760,6 +17122,7 @@
     },
     {
       "sample_id": 362,
+      "source_row_id": 9319,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -16806,6 +17169,7 @@
     },
     {
       "sample_id": 363,
+      "source_row_id": 9333,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16852,6 +17216,7 @@
     },
     {
       "sample_id": 364,
+      "source_row_id": 9366,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16898,6 +17263,7 @@
     },
     {
       "sample_id": 365,
+      "source_row_id": 9429,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -16944,6 +17310,7 @@
     },
     {
       "sample_id": 366,
+      "source_row_id": 9465,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -16990,6 +17357,7 @@
     },
     {
       "sample_id": 367,
+      "source_row_id": 9527,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17036,6 +17404,7 @@
     },
     {
       "sample_id": 368,
+      "source_row_id": 9532,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17082,6 +17451,7 @@
     },
     {
       "sample_id": 369,
+      "source_row_id": 9699,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17128,6 +17498,7 @@
     },
     {
       "sample_id": 370,
+      "source_row_id": 9713,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17174,6 +17545,7 @@
     },
     {
       "sample_id": 371,
+      "source_row_id": 9725,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17220,6 +17592,7 @@
     },
     {
       "sample_id": 372,
+      "source_row_id": 9798,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17266,6 +17639,7 @@
     },
     {
       "sample_id": 373,
+      "source_row_id": 9841,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17312,6 +17686,7 @@
     },
     {
       "sample_id": 374,
+      "source_row_id": 9905,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17358,6 +17733,7 @@
     },
     {
       "sample_id": 375,
+      "source_row_id": 9943,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17404,6 +17780,7 @@
     },
     {
       "sample_id": 376,
+      "source_row_id": 9967,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.975,
@@ -17450,6 +17827,7 @@
     },
     {
       "sample_id": 377,
+      "source_row_id": 9979,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17496,6 +17874,7 @@
     },
     {
       "sample_id": 378,
+      "source_row_id": 9995,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17542,6 +17921,7 @@
     },
     {
       "sample_id": 379,
+      "source_row_id": 10127,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17588,6 +17968,7 @@
     },
     {
       "sample_id": 380,
+      "source_row_id": 10134,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17634,6 +18015,7 @@
     },
     {
       "sample_id": 381,
+      "source_row_id": 10151,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17680,6 +18062,7 @@
     },
     {
       "sample_id": 382,
+      "source_row_id": 10171,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17726,6 +18109,7 @@
     },
     {
       "sample_id": 383,
+      "source_row_id": 10181,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17772,6 +18156,7 @@
     },
     {
       "sample_id": 384,
+      "source_row_id": 10189,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17818,6 +18203,7 @@
     },
     {
       "sample_id": 385,
+      "source_row_id": 10233,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -17864,6 +18250,7 @@
     },
     {
       "sample_id": 386,
+      "source_row_id": 10239,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17910,6 +18297,7 @@
     },
     {
       "sample_id": 387,
+      "source_row_id": 10241,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -17956,6 +18344,7 @@
     },
     {
       "sample_id": 388,
+      "source_row_id": 10242,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18002,6 +18391,7 @@
     },
     {
       "sample_id": 389,
+      "source_row_id": 10248,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18048,6 +18438,7 @@
     },
     {
       "sample_id": 390,
+      "source_row_id": 10323,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18094,6 +18485,7 @@
     },
     {
       "sample_id": 391,
+      "source_row_id": 10329,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18140,6 +18532,7 @@
     },
     {
       "sample_id": 392,
+      "source_row_id": 10347,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18186,6 +18579,7 @@
     },
     {
       "sample_id": 393,
+      "source_row_id": 10364,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18232,6 +18626,7 @@
     },
     {
       "sample_id": 394,
+      "source_row_id": 10371,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18278,6 +18673,7 @@
     },
     {
       "sample_id": 395,
+      "source_row_id": 10372,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18324,6 +18720,7 @@
     },
     {
       "sample_id": 396,
+      "source_row_id": 10419,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18370,6 +18767,7 @@
     },
     {
       "sample_id": 397,
+      "source_row_id": 10439,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18416,6 +18814,7 @@
     },
     {
       "sample_id": 398,
+      "source_row_id": 10460,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18462,6 +18861,7 @@
     },
     {
       "sample_id": 399,
+      "source_row_id": 10516,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18508,6 +18908,7 @@
     },
     {
       "sample_id": 400,
+      "source_row_id": 10522,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18554,6 +18955,7 @@
     },
     {
       "sample_id": 401,
+      "source_row_id": 10579,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18600,6 +19002,7 @@
     },
     {
       "sample_id": 402,
+      "source_row_id": 10654,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -18646,6 +19049,7 @@
     },
     {
       "sample_id": 403,
+      "source_row_id": 10656,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18692,6 +19096,7 @@
     },
     {
       "sample_id": 404,
+      "source_row_id": 10681,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18738,6 +19143,7 @@
     },
     {
       "sample_id": 405,
+      "source_row_id": 10701,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -18784,6 +19190,7 @@
     },
     {
       "sample_id": 406,
+      "source_row_id": 10738,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.675,
@@ -18830,6 +19237,7 @@
     },
     {
       "sample_id": 407,
+      "source_row_id": 10740,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.805,
@@ -18876,6 +19284,7 @@
     },
     {
       "sample_id": 408,
+      "source_row_id": 10749,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18922,6 +19331,7 @@
     },
     {
       "sample_id": 409,
+      "source_row_id": 10782,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -18968,6 +19378,7 @@
     },
     {
       "sample_id": 410,
+      "source_row_id": 10789,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19014,6 +19425,7 @@
     },
     {
       "sample_id": 411,
+      "source_row_id": 10807,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19060,6 +19472,7 @@
     },
     {
       "sample_id": 412,
+      "source_row_id": 10837,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19106,6 +19519,7 @@
     },
     {
       "sample_id": 413,
+      "source_row_id": 10861,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19152,6 +19566,7 @@
     },
     {
       "sample_id": 414,
+      "source_row_id": 10874,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19198,6 +19613,7 @@
     },
     {
       "sample_id": 415,
+      "source_row_id": 10906,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19244,6 +19660,7 @@
     },
     {
       "sample_id": 416,
+      "source_row_id": 10908,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19290,6 +19707,7 @@
     },
     {
       "sample_id": 417,
+      "source_row_id": 10909,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19336,6 +19754,7 @@
     },
     {
       "sample_id": 418,
+      "source_row_id": 10924,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19382,6 +19801,7 @@
     },
     {
       "sample_id": 419,
+      "source_row_id": 10926,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -19428,6 +19848,7 @@
     },
     {
       "sample_id": 420,
+      "source_row_id": 10941,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -19474,6 +19895,7 @@
     },
     {
       "sample_id": 421,
+      "source_row_id": 10977,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19520,6 +19942,7 @@
     },
     {
       "sample_id": 422,
+      "source_row_id": 10988,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19566,6 +19989,7 @@
     },
     {
       "sample_id": 423,
+      "source_row_id": 11021,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19612,6 +20036,7 @@
     },
     {
       "sample_id": 424,
+      "source_row_id": 11042,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -19658,6 +20083,7 @@
     },
     {
       "sample_id": 425,
+      "source_row_id": 11054,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.925,
@@ -19704,6 +20130,7 @@
     },
     {
       "sample_id": 426,
+      "source_row_id": 11085,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19750,6 +20177,7 @@
     },
     {
       "sample_id": 427,
+      "source_row_id": 11095,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19796,6 +20224,7 @@
     },
     {
       "sample_id": 428,
+      "source_row_id": 11132,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -19842,6 +20271,7 @@
     },
     {
       "sample_id": 429,
+      "source_row_id": 11142,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19888,6 +20318,7 @@
     },
     {
       "sample_id": 430,
+      "source_row_id": 11146,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19934,6 +20365,7 @@
     },
     {
       "sample_id": 431,
+      "source_row_id": 11157,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -19980,6 +20412,7 @@
     },
     {
       "sample_id": 432,
+      "source_row_id": 11163,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20026,6 +20459,7 @@
     },
     {
       "sample_id": 433,
+      "source_row_id": 11186,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20072,6 +20506,7 @@
     },
     {
       "sample_id": 434,
+      "source_row_id": 11197,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20118,6 +20553,7 @@
     },
     {
       "sample_id": 435,
+      "source_row_id": 11205,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -20164,6 +20600,7 @@
     },
     {
       "sample_id": 436,
+      "source_row_id": 11207,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20210,6 +20647,7 @@
     },
     {
       "sample_id": 437,
+      "source_row_id": 11224,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20256,6 +20694,7 @@
     },
     {
       "sample_id": 438,
+      "source_row_id": 11234,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20302,6 +20741,7 @@
     },
     {
       "sample_id": 439,
+      "source_row_id": 11303,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -20348,6 +20788,7 @@
     },
     {
       "sample_id": 440,
+      "source_row_id": 11334,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -20394,6 +20835,7 @@
     },
     {
       "sample_id": 441,
+      "source_row_id": 11337,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20440,6 +20882,7 @@
     },
     {
       "sample_id": 442,
+      "source_row_id": 11376,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20486,6 +20929,7 @@
     },
     {
       "sample_id": 443,
+      "source_row_id": 11381,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20532,6 +20976,7 @@
     },
     {
       "sample_id": 444,
+      "source_row_id": 11408,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20578,6 +21023,7 @@
     },
     {
       "sample_id": 445,
+      "source_row_id": 11429,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20624,6 +21070,7 @@
     },
     {
       "sample_id": 446,
+      "source_row_id": 11435,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20670,6 +21117,7 @@
     },
     {
       "sample_id": 447,
+      "source_row_id": 11439,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20716,6 +21164,7 @@
     },
     {
       "sample_id": 448,
+      "source_row_id": 11483,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20762,6 +21211,7 @@
     },
     {
       "sample_id": 449,
+      "source_row_id": 11498,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20808,6 +21258,7 @@
     },
     {
       "sample_id": 450,
+      "source_row_id": 11509,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20854,6 +21305,7 @@
     },
     {
       "sample_id": 451,
+      "source_row_id": 11553,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -20900,6 +21352,7 @@
     },
     {
       "sample_id": 452,
+      "source_row_id": 11554,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -20946,6 +21399,7 @@
     },
     {
       "sample_id": 453,
+      "source_row_id": 11559,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -20992,6 +21446,7 @@
     },
     {
       "sample_id": 454,
+      "source_row_id": 11562,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21038,6 +21493,7 @@
     },
     {
       "sample_id": 455,
+      "source_row_id": 11629,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21084,6 +21540,7 @@
     },
     {
       "sample_id": 456,
+      "source_row_id": 11638,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21130,6 +21587,7 @@
     },
     {
       "sample_id": 457,
+      "source_row_id": 11652,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21176,6 +21634,7 @@
     },
     {
       "sample_id": 458,
+      "source_row_id": 11656,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21222,6 +21681,7 @@
     },
     {
       "sample_id": 459,
+      "source_row_id": 11671,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21268,6 +21728,7 @@
     },
     {
       "sample_id": 460,
+      "source_row_id": 11708,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21314,6 +21775,7 @@
     },
     {
       "sample_id": 461,
+      "source_row_id": 11730,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21360,6 +21822,7 @@
     },
     {
       "sample_id": 462,
+      "source_row_id": 11732,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21406,6 +21869,7 @@
     },
     {
       "sample_id": 463,
+      "source_row_id": 11741,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -21452,6 +21916,7 @@
     },
     {
       "sample_id": 464,
+      "source_row_id": 11791,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21498,6 +21963,7 @@
     },
     {
       "sample_id": 465,
+      "source_row_id": 11796,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21544,6 +22010,7 @@
     },
     {
       "sample_id": 466,
+      "source_row_id": 11805,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21590,6 +22057,7 @@
     },
     {
       "sample_id": 467,
+      "source_row_id": 11809,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21636,6 +22104,7 @@
     },
     {
       "sample_id": 468,
+      "source_row_id": 11828,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21682,6 +22151,7 @@
     },
     {
       "sample_id": 469,
+      "source_row_id": 11943,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21728,6 +22198,7 @@
     },
     {
       "sample_id": 470,
+      "source_row_id": 11948,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -21774,6 +22245,7 @@
     },
     {
       "sample_id": 471,
+      "source_row_id": 12007,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21820,6 +22292,7 @@
     },
     {
       "sample_id": 472,
+      "source_row_id": 12017,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21866,6 +22339,7 @@
     },
     {
       "sample_id": 473,
+      "source_row_id": 12045,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21912,6 +22386,7 @@
     },
     {
       "sample_id": 474,
+      "source_row_id": 12091,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -21958,6 +22433,7 @@
     },
     {
       "sample_id": 475,
+      "source_row_id": 12123,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22004,6 +22480,7 @@
     },
     {
       "sample_id": 476,
+      "source_row_id": 12144,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22050,6 +22527,7 @@
     },
     {
       "sample_id": 477,
+      "source_row_id": 12223,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22096,6 +22574,7 @@
     },
     {
       "sample_id": 478,
+      "source_row_id": 12268,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22142,6 +22621,7 @@
     },
     {
       "sample_id": 479,
+      "source_row_id": 12298,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -22188,6 +22668,7 @@
     },
     {
       "sample_id": 480,
+      "source_row_id": 12320,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.04,
@@ -22234,6 +22715,7 @@
     },
     {
       "sample_id": 481,
+      "source_row_id": 12329,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22280,6 +22762,7 @@
     },
     {
       "sample_id": 482,
+      "source_row_id": 12344,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22326,6 +22809,7 @@
     },
     {
       "sample_id": 483,
+      "source_row_id": 12349,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22372,6 +22856,7 @@
     },
     {
       "sample_id": 484,
+      "source_row_id": 12371,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22418,6 +22903,7 @@
     },
     {
       "sample_id": 485,
+      "source_row_id": 12374,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -22464,6 +22950,7 @@
     },
     {
       "sample_id": 486,
+      "source_row_id": 12376,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22510,6 +22997,7 @@
     },
     {
       "sample_id": 487,
+      "source_row_id": 12394,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -22556,6 +23044,7 @@
     },
     {
       "sample_id": 488,
+      "source_row_id": 12404,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -22602,6 +23091,7 @@
     },
     {
       "sample_id": 489,
+      "source_row_id": 12406,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -22648,6 +23138,7 @@
     },
     {
       "sample_id": 490,
+      "source_row_id": 12411,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22694,6 +23185,7 @@
     },
     {
       "sample_id": 491,
+      "source_row_id": 12430,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.21,
@@ -22740,6 +23232,7 @@
     },
     {
       "sample_id": 492,
+      "source_row_id": 12438,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -22786,6 +23279,7 @@
     },
     {
       "sample_id": 493,
+      "source_row_id": 12513,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22832,6 +23326,7 @@
     },
     {
       "sample_id": 494,
+      "source_row_id": 12532,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -22878,6 +23373,7 @@
     },
     {
       "sample_id": 495,
+      "source_row_id": 12543,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22924,6 +23420,7 @@
     },
     {
       "sample_id": 496,
+      "source_row_id": 12574,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -22970,6 +23467,7 @@
     },
     {
       "sample_id": 497,
+      "source_row_id": 12581,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23016,6 +23514,7 @@
     },
     {
       "sample_id": 498,
+      "source_row_id": 12594,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23062,6 +23561,7 @@
     },
     {
       "sample_id": 499,
+      "source_row_id": 12642,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23108,6 +23608,7 @@
     },
     {
       "sample_id": 500,
+      "source_row_id": 12671,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23154,6 +23655,7 @@
     },
     {
       "sample_id": 501,
+      "source_row_id": 12679,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23200,6 +23702,7 @@
     },
     {
       "sample_id": 502,
+      "source_row_id": 12698,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23246,6 +23749,7 @@
     },
     {
       "sample_id": 503,
+      "source_row_id": 12716,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23292,6 +23796,7 @@
     },
     {
       "sample_id": 504,
+      "source_row_id": 12736,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23338,6 +23843,7 @@
     },
     {
       "sample_id": 505,
+      "source_row_id": 12749,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23384,6 +23890,7 @@
     },
     {
       "sample_id": 506,
+      "source_row_id": 12794,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23430,6 +23937,7 @@
     },
     {
       "sample_id": 507,
+      "source_row_id": 12798,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23476,6 +23984,7 @@
     },
     {
       "sample_id": 508,
+      "source_row_id": 12816,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23522,6 +24031,7 @@
     },
     {
       "sample_id": 509,
+      "source_row_id": 12826,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23568,6 +24078,7 @@
     },
     {
       "sample_id": 510,
+      "source_row_id": 12881,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23614,6 +24125,7 @@
     },
     {
       "sample_id": 511,
+      "source_row_id": 12892,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23660,6 +24172,7 @@
     },
     {
       "sample_id": 512,
+      "source_row_id": 12920,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23706,6 +24219,7 @@
     },
     {
       "sample_id": 513,
+      "source_row_id": 12963,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -23752,6 +24266,7 @@
     },
     {
       "sample_id": 514,
+      "source_row_id": 13010,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23798,6 +24313,7 @@
     },
     {
       "sample_id": 515,
+      "source_row_id": 13041,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -23844,6 +24360,7 @@
     },
     {
       "sample_id": 516,
+      "source_row_id": 13071,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23890,6 +24407,7 @@
     },
     {
       "sample_id": 517,
+      "source_row_id": 13108,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.985,
@@ -23936,6 +24454,7 @@
     },
     {
       "sample_id": 518,
+      "source_row_id": 13112,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -23982,6 +24501,7 @@
     },
     {
       "sample_id": 519,
+      "source_row_id": 13126,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24028,6 +24548,7 @@
     },
     {
       "sample_id": 520,
+      "source_row_id": 13134,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24074,6 +24595,7 @@
     },
     {
       "sample_id": 521,
+      "source_row_id": 13142,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24120,6 +24642,7 @@
     },
     {
       "sample_id": 522,
+      "source_row_id": 13180,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24166,6 +24689,7 @@
     },
     {
       "sample_id": 523,
+      "source_row_id": 13182,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24212,6 +24736,7 @@
     },
     {
       "sample_id": 524,
+      "source_row_id": 13215,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24258,6 +24783,7 @@
     },
     {
       "sample_id": 525,
+      "source_row_id": 13243,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24304,6 +24830,7 @@
     },
     {
       "sample_id": 526,
+      "source_row_id": 13244,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24350,6 +24877,7 @@
     },
     {
       "sample_id": 527,
+      "source_row_id": 13257,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24396,6 +24924,7 @@
     },
     {
       "sample_id": 528,
+      "source_row_id": 13287,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24442,6 +24971,7 @@
     },
     {
       "sample_id": 529,
+      "source_row_id": 13288,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24488,6 +25018,7 @@
     },
     {
       "sample_id": 530,
+      "source_row_id": 13289,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24534,6 +25065,7 @@
     },
     {
       "sample_id": 531,
+      "source_row_id": 13320,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24580,6 +25112,7 @@
     },
     {
       "sample_id": 532,
+      "source_row_id": 13330,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24626,6 +25159,7 @@
     },
     {
       "sample_id": 533,
+      "source_row_id": 13504,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24672,6 +25206,7 @@
     },
     {
       "sample_id": 534,
+      "source_row_id": 13509,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24718,6 +25253,7 @@
     },
     {
       "sample_id": 535,
+      "source_row_id": 13510,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24764,6 +25300,7 @@
     },
     {
       "sample_id": 536,
+      "source_row_id": 13563,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24810,6 +25347,7 @@
     },
     {
       "sample_id": 537,
+      "source_row_id": 13569,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24856,6 +25394,7 @@
     },
     {
       "sample_id": 538,
+      "source_row_id": 13570,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -24902,6 +25441,7 @@
     },
     {
       "sample_id": 539,
+      "source_row_id": 13594,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24948,6 +25488,7 @@
     },
     {
       "sample_id": 540,
+      "source_row_id": 13652,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -24994,6 +25535,7 @@
     },
     {
       "sample_id": 541,
+      "source_row_id": 13699,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25040,6 +25582,7 @@
     },
     {
       "sample_id": 542,
+      "source_row_id": 13725,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25086,6 +25629,7 @@
     },
     {
       "sample_id": 543,
+      "source_row_id": 13733,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25132,6 +25676,7 @@
     },
     {
       "sample_id": 544,
+      "source_row_id": 13738,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25178,6 +25723,7 @@
     },
     {
       "sample_id": 545,
+      "source_row_id": 13787,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25224,6 +25770,7 @@
     },
     {
       "sample_id": 546,
+      "source_row_id": 13795,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25270,6 +25817,7 @@
     },
     {
       "sample_id": 547,
+      "source_row_id": 13833,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25316,6 +25864,7 @@
     },
     {
       "sample_id": 548,
+      "source_row_id": 13862,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25362,6 +25911,7 @@
     },
     {
       "sample_id": 549,
+      "source_row_id": 13873,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25408,6 +25958,7 @@
     },
     {
       "sample_id": 550,
+      "source_row_id": 13893,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25454,6 +26005,7 @@
     },
     {
       "sample_id": 551,
+      "source_row_id": 13935,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25500,6 +26052,7 @@
     },
     {
       "sample_id": 552,
+      "source_row_id": 13945,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25546,6 +26099,7 @@
     },
     {
       "sample_id": 553,
+      "source_row_id": 13952,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25592,6 +26146,7 @@
     },
     {
       "sample_id": 554,
+      "source_row_id": 14013,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25638,6 +26193,7 @@
     },
     {
       "sample_id": 555,
+      "source_row_id": 14015,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25684,6 +26240,7 @@
     },
     {
       "sample_id": 556,
+      "source_row_id": 14024,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25730,6 +26287,7 @@
     },
     {
       "sample_id": 557,
+      "source_row_id": 14043,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25776,6 +26334,7 @@
     },
     {
       "sample_id": 558,
+      "source_row_id": 14065,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25822,6 +26381,7 @@
     },
     {
       "sample_id": 559,
+      "source_row_id": 14168,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -25868,6 +26428,7 @@
     },
     {
       "sample_id": 560,
+      "source_row_id": 14169,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25914,6 +26475,7 @@
     },
     {
       "sample_id": 561,
+      "source_row_id": 14176,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -25960,6 +26522,7 @@
     },
     {
       "sample_id": 562,
+      "source_row_id": 14213,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26006,6 +26569,7 @@
     },
     {
       "sample_id": 563,
+      "source_row_id": 14237,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26052,6 +26616,7 @@
     },
     {
       "sample_id": 564,
+      "source_row_id": 14238,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26098,6 +26663,7 @@
     },
     {
       "sample_id": 565,
+      "source_row_id": 14250,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26144,6 +26710,7 @@
     },
     {
       "sample_id": 566,
+      "source_row_id": 14252,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26190,6 +26757,7 @@
     },
     {
       "sample_id": 567,
+      "source_row_id": 14262,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26236,6 +26804,7 @@
     },
     {
       "sample_id": 568,
+      "source_row_id": 14278,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26282,6 +26851,7 @@
     },
     {
       "sample_id": 569,
+      "source_row_id": 14357,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26328,6 +26898,7 @@
     },
     {
       "sample_id": 570,
+      "source_row_id": 14371,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26374,6 +26945,7 @@
     },
     {
       "sample_id": 571,
+      "source_row_id": 14393,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26420,6 +26992,7 @@
     },
     {
       "sample_id": 572,
+      "source_row_id": 14401,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26466,6 +27039,7 @@
     },
     {
       "sample_id": 573,
+      "source_row_id": 14453,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26512,6 +27086,7 @@
     },
     {
       "sample_id": 574,
+      "source_row_id": 14460,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26558,6 +27133,7 @@
     },
     {
       "sample_id": 575,
+      "source_row_id": 14484,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26604,6 +27180,7 @@
     },
     {
       "sample_id": 576,
+      "source_row_id": 14548,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26650,6 +27227,7 @@
     },
     {
       "sample_id": 577,
+      "source_row_id": 14568,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26696,6 +27274,7 @@
     },
     {
       "sample_id": 578,
+      "source_row_id": 14573,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26742,6 +27321,7 @@
     },
     {
       "sample_id": 579,
+      "source_row_id": 14651,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26788,6 +27368,7 @@
     },
     {
       "sample_id": 580,
+      "source_row_id": 14654,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -26834,6 +27415,7 @@
     },
     {
       "sample_id": 581,
+      "source_row_id": 14666,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -26880,6 +27462,7 @@
     },
     {
       "sample_id": 582,
+      "source_row_id": 14673,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26926,6 +27509,7 @@
     },
     {
       "sample_id": 583,
+      "source_row_id": 14727,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -26972,6 +27556,7 @@
     },
     {
       "sample_id": 584,
+      "source_row_id": 14737,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27018,6 +27603,7 @@
     },
     {
       "sample_id": 585,
+      "source_row_id": 14750,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27064,6 +27650,7 @@
     },
     {
       "sample_id": 586,
+      "source_row_id": 14761,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.02,
@@ -27110,6 +27697,7 @@
     },
     {
       "sample_id": 587,
+      "source_row_id": 14767,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27156,6 +27744,7 @@
     },
     {
       "sample_id": 588,
+      "source_row_id": 14808,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27202,6 +27791,7 @@
     },
     {
       "sample_id": 589,
+      "source_row_id": 14843,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27248,6 +27838,7 @@
     },
     {
       "sample_id": 590,
+      "source_row_id": 14858,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27294,6 +27885,7 @@
     },
     {
       "sample_id": 591,
+      "source_row_id": 14864,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27340,6 +27932,7 @@
     },
     {
       "sample_id": 592,
+      "source_row_id": 14896,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27386,6 +27979,7 @@
     },
     {
       "sample_id": 593,
+      "source_row_id": 14900,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27432,6 +28026,7 @@
     },
     {
       "sample_id": 594,
+      "source_row_id": 14926,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27478,6 +28073,7 @@
     },
     {
       "sample_id": 595,
+      "source_row_id": 14965,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27524,6 +28120,7 @@
     },
     {
       "sample_id": 596,
+      "source_row_id": 14970,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27570,6 +28167,7 @@
     },
     {
       "sample_id": 597,
+      "source_row_id": 14971,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -27616,6 +28214,7 @@
     },
     {
       "sample_id": 598,
+      "source_row_id": 15065,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27662,6 +28261,7 @@
     },
     {
       "sample_id": 599,
+      "source_row_id": 15090,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27708,6 +28308,7 @@
     },
     {
       "sample_id": 600,
+      "source_row_id": 15104,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -27754,6 +28355,7 @@
     },
     {
       "sample_id": 601,
+      "source_row_id": 15147,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27800,6 +28402,7 @@
     },
     {
       "sample_id": 602,
+      "source_row_id": 15155,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27846,6 +28449,7 @@
     },
     {
       "sample_id": 603,
+      "source_row_id": 15179,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -27892,6 +28496,7 @@
     },
     {
       "sample_id": 604,
+      "source_row_id": 15188,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.84,
@@ -27938,6 +28543,7 @@
     },
     {
       "sample_id": 605,
+      "source_row_id": 15247,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -27984,6 +28590,7 @@
     },
     {
       "sample_id": 606,
+      "source_row_id": 15264,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28030,6 +28637,7 @@
     },
     {
       "sample_id": 607,
+      "source_row_id": 15286,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -28076,6 +28684,7 @@
     },
     {
       "sample_id": 608,
+      "source_row_id": 15317,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28122,6 +28731,7 @@
     },
     {
       "sample_id": 609,
+      "source_row_id": 15380,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28168,6 +28778,7 @@
     },
     {
       "sample_id": 610,
+      "source_row_id": 15440,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28214,6 +28825,7 @@
     },
     {
       "sample_id": 611,
+      "source_row_id": 15447,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28260,6 +28872,7 @@
     },
     {
       "sample_id": 612,
+      "source_row_id": 15453,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28306,6 +28919,7 @@
     },
     {
       "sample_id": 613,
+      "source_row_id": 15513,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28352,6 +28966,7 @@
     },
     {
       "sample_id": 614,
+      "source_row_id": 15528,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -28398,6 +29013,7 @@
     },
     {
       "sample_id": 615,
+      "source_row_id": 15551,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28444,6 +29060,7 @@
     },
     {
       "sample_id": 616,
+      "source_row_id": 15600,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28490,6 +29107,7 @@
     },
     {
       "sample_id": 617,
+      "source_row_id": 15653,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28536,6 +29154,7 @@
     },
     {
       "sample_id": 618,
+      "source_row_id": 15678,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28582,6 +29201,7 @@
     },
     {
       "sample_id": 619,
+      "source_row_id": 15681,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28628,6 +29248,7 @@
     },
     {
       "sample_id": 620,
+      "source_row_id": 15685,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28674,6 +29295,7 @@
     },
     {
       "sample_id": 621,
+      "source_row_id": 15686,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28720,6 +29342,7 @@
     },
     {
       "sample_id": 622,
+      "source_row_id": 15718,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28766,6 +29389,7 @@
     },
     {
       "sample_id": 623,
+      "source_row_id": 15749,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28812,6 +29436,7 @@
     },
     {
       "sample_id": 624,
+      "source_row_id": 15757,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28858,6 +29483,7 @@
     },
     {
       "sample_id": 625,
+      "source_row_id": 15776,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28904,6 +29530,7 @@
     },
     {
       "sample_id": 626,
+      "source_row_id": 15793,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -28950,6 +29577,7 @@
     },
     {
       "sample_id": 627,
+      "source_row_id": 15800,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -28996,6 +29624,7 @@
     },
     {
       "sample_id": 628,
+      "source_row_id": 15812,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29042,6 +29671,7 @@
     },
     {
       "sample_id": 629,
+      "source_row_id": 15822,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29088,6 +29718,7 @@
     },
     {
       "sample_id": 630,
+      "source_row_id": 15842,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29134,6 +29765,7 @@
     },
     {
       "sample_id": 631,
+      "source_row_id": 15888,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -29180,6 +29812,7 @@
     },
     {
       "sample_id": 632,
+      "source_row_id": 15907,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29226,6 +29859,7 @@
     },
     {
       "sample_id": 633,
+      "source_row_id": 15921,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29272,6 +29906,7 @@
     },
     {
       "sample_id": 634,
+      "source_row_id": 15978,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29318,6 +29953,7 @@
     },
     {
       "sample_id": 635,
+      "source_row_id": 15980,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29364,6 +30000,7 @@
     },
     {
       "sample_id": 636,
+      "source_row_id": 16015,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.7926692997777073,
@@ -29410,6 +30047,7 @@
     },
     {
       "sample_id": 637,
+      "source_row_id": 16093,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29456,6 +30094,7 @@
     },
     {
       "sample_id": 638,
+      "source_row_id": 16096,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -29502,6 +30141,7 @@
     },
     {
       "sample_id": 639,
+      "source_row_id": 16204,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29548,6 +30188,7 @@
     },
     {
       "sample_id": 640,
+      "source_row_id": 16213,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29594,6 +30235,7 @@
     },
     {
       "sample_id": 641,
+      "source_row_id": 16223,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29640,6 +30282,7 @@
     },
     {
       "sample_id": 642,
+      "source_row_id": 16226,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -29686,6 +30329,7 @@
     },
     {
       "sample_id": 643,
+      "source_row_id": 16282,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -29732,6 +30376,7 @@
     },
     {
       "sample_id": 644,
+      "source_row_id": 16399,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29778,6 +30423,7 @@
     },
     {
       "sample_id": 645,
+      "source_row_id": 16403,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -29824,6 +30470,7 @@
     },
     {
       "sample_id": 646,
+      "source_row_id": 16404,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29870,6 +30517,7 @@
     },
     {
       "sample_id": 647,
+      "source_row_id": 16406,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -29916,6 +30564,7 @@
     },
     {
       "sample_id": 648,
+      "source_row_id": 16416,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -29962,6 +30611,7 @@
     },
     {
       "sample_id": 649,
+      "source_row_id": 16423,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30008,6 +30658,7 @@
     },
     {
       "sample_id": 650,
+      "source_row_id": 16470,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30054,6 +30705,7 @@
     },
     {
       "sample_id": 651,
+      "source_row_id": 16474,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30100,6 +30752,7 @@
     },
     {
       "sample_id": 652,
+      "source_row_id": 16488,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30146,6 +30799,7 @@
     },
     {
       "sample_id": 653,
+      "source_row_id": 16553,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30192,6 +30846,7 @@
     },
     {
       "sample_id": 654,
+      "source_row_id": 16571,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30238,6 +30893,7 @@
     },
     {
       "sample_id": 655,
+      "source_row_id": 16572,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30284,6 +30940,7 @@
     },
     {
       "sample_id": 656,
+      "source_row_id": 16586,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30330,6 +30987,7 @@
     },
     {
       "sample_id": 657,
+      "source_row_id": 16628,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30376,6 +31034,7 @@
     },
     {
       "sample_id": 658,
+      "source_row_id": 16630,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30422,6 +31081,7 @@
     },
     {
       "sample_id": 659,
+      "source_row_id": 16677,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30468,6 +31128,7 @@
     },
     {
       "sample_id": 660,
+      "source_row_id": 16688,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30514,6 +31175,7 @@
     },
     {
       "sample_id": 661,
+      "source_row_id": 16717,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30560,6 +31222,7 @@
     },
     {
       "sample_id": 662,
+      "source_row_id": 16726,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30606,6 +31269,7 @@
     },
     {
       "sample_id": 663,
+      "source_row_id": 16744,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30652,6 +31316,7 @@
     },
     {
       "sample_id": 664,
+      "source_row_id": 16755,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -30698,6 +31363,7 @@
     },
     {
       "sample_id": 665,
+      "source_row_id": 16757,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30744,6 +31410,7 @@
     },
     {
       "sample_id": 666,
+      "source_row_id": 16774,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -30790,6 +31457,7 @@
     },
     {
       "sample_id": 667,
+      "source_row_id": 16790,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30836,6 +31504,7 @@
     },
     {
       "sample_id": 668,
+      "source_row_id": 16821,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30882,6 +31551,7 @@
     },
     {
       "sample_id": 669,
+      "source_row_id": 16839,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30928,6 +31598,7 @@
     },
     {
       "sample_id": 670,
+      "source_row_id": 16864,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -30974,6 +31645,7 @@
     },
     {
       "sample_id": 671,
+      "source_row_id": 16899,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.955,
@@ -31020,6 +31692,7 @@
     },
     {
       "sample_id": 672,
+      "source_row_id": 16958,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31066,6 +31739,7 @@
     },
     {
       "sample_id": 673,
+      "source_row_id": 16962,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31112,6 +31786,7 @@
     },
     {
       "sample_id": 674,
+      "source_row_id": 16977,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31158,6 +31833,7 @@
     },
     {
       "sample_id": 675,
+      "source_row_id": 16983,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.795,
@@ -31204,6 +31880,7 @@
     },
     {
       "sample_id": 676,
+      "source_row_id": 16996,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31250,6 +31927,7 @@
     },
     {
       "sample_id": 677,
+      "source_row_id": 17041,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31296,6 +31974,7 @@
     },
     {
       "sample_id": 678,
+      "source_row_id": 17045,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31342,6 +32021,7 @@
     },
     {
       "sample_id": 679,
+      "source_row_id": 17093,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31388,6 +32068,7 @@
     },
     {
       "sample_id": 680,
+      "source_row_id": 17127,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31434,6 +32115,7 @@
     },
     {
       "sample_id": 681,
+      "source_row_id": 17167,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31480,6 +32162,7 @@
     },
     {
       "sample_id": 682,
+      "source_row_id": 17197,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31526,6 +32209,7 @@
     },
     {
       "sample_id": 683,
+      "source_row_id": 17233,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31572,6 +32256,7 @@
     },
     {
       "sample_id": 684,
+      "source_row_id": 17242,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31618,6 +32303,7 @@
     },
     {
       "sample_id": 685,
+      "source_row_id": 17251,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -31664,6 +32350,7 @@
     },
     {
       "sample_id": 686,
+      "source_row_id": 17414,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -31710,6 +32397,7 @@
     },
     {
       "sample_id": 687,
+      "source_row_id": 17431,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31756,6 +32444,7 @@
     },
     {
       "sample_id": 688,
+      "source_row_id": 17479,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31802,6 +32491,7 @@
     },
     {
       "sample_id": 689,
+      "source_row_id": 17484,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31848,6 +32538,7 @@
     },
     {
       "sample_id": 690,
+      "source_row_id": 17526,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -31894,6 +32585,7 @@
     },
     {
       "sample_id": 691,
+      "source_row_id": 17563,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -31940,6 +32632,7 @@
     },
     {
       "sample_id": 692,
+      "source_row_id": 17579,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -31986,6 +32679,7 @@
     },
     {
       "sample_id": 693,
+      "source_row_id": 17581,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32032,6 +32726,7 @@
     },
     {
       "sample_id": 694,
+      "source_row_id": 17618,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32078,6 +32773,7 @@
     },
     {
       "sample_id": 695,
+      "source_row_id": 17631,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32124,6 +32820,7 @@
     },
     {
       "sample_id": 696,
+      "source_row_id": 17645,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32170,6 +32867,7 @@
     },
     {
       "sample_id": 697,
+      "source_row_id": 17682,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32216,6 +32914,7 @@
     },
     {
       "sample_id": 698,
+      "source_row_id": 17687,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32262,6 +32961,7 @@
     },
     {
       "sample_id": 699,
+      "source_row_id": 17715,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.07,
@@ -32308,6 +33008,7 @@
     },
     {
       "sample_id": 700,
+      "source_row_id": 17732,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32354,6 +33055,7 @@
     },
     {
       "sample_id": 701,
+      "source_row_id": 17792,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32400,6 +33102,7 @@
     },
     {
       "sample_id": 702,
+      "source_row_id": 17815,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32446,6 +33149,7 @@
     },
     {
       "sample_id": 703,
+      "source_row_id": 17828,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.99,
@@ -32492,6 +33196,7 @@
     },
     {
       "sample_id": 704,
+      "source_row_id": 17852,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32538,6 +33243,7 @@
     },
     {
       "sample_id": 705,
+      "source_row_id": 17856,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32584,6 +33290,7 @@
     },
     {
       "sample_id": 706,
+      "source_row_id": 17865,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32630,6 +33337,7 @@
     },
     {
       "sample_id": 707,
+      "source_row_id": 17889,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -32676,6 +33384,7 @@
     },
     {
       "sample_id": 708,
+      "source_row_id": 17908,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32722,6 +33431,7 @@
     },
     {
       "sample_id": 709,
+      "source_row_id": 17937,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32768,6 +33478,7 @@
     },
     {
       "sample_id": 710,
+      "source_row_id": 17955,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32814,6 +33525,7 @@
     },
     {
       "sample_id": 711,
+      "source_row_id": 18003,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32860,6 +33572,7 @@
     },
     {
       "sample_id": 712,
+      "source_row_id": 18017,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -32906,6 +33619,7 @@
     },
     {
       "sample_id": 713,
+      "source_row_id": 18021,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32952,6 +33666,7 @@
     },
     {
       "sample_id": 714,
+      "source_row_id": 18027,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -32998,6 +33713,7 @@
     },
     {
       "sample_id": 715,
+      "source_row_id": 18052,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33044,6 +33760,7 @@
     },
     {
       "sample_id": 716,
+      "source_row_id": 18064,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -33090,6 +33807,7 @@
     },
     {
       "sample_id": 717,
+      "source_row_id": 18072,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33136,6 +33854,7 @@
     },
     {
       "sample_id": 718,
+      "source_row_id": 18083,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33182,6 +33901,7 @@
     },
     {
       "sample_id": 719,
+      "source_row_id": 18100,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33228,6 +33948,7 @@
     },
     {
       "sample_id": 720,
+      "source_row_id": 18119,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33274,6 +33995,7 @@
     },
     {
       "sample_id": 721,
+      "source_row_id": 18132,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33320,6 +34042,7 @@
     },
     {
       "sample_id": 722,
+      "source_row_id": 18166,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33366,6 +34089,7 @@
     },
     {
       "sample_id": 723,
+      "source_row_id": 18173,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33412,6 +34136,7 @@
     },
     {
       "sample_id": 724,
+      "source_row_id": 18209,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33458,6 +34183,7 @@
     },
     {
       "sample_id": 725,
+      "source_row_id": 18252,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33504,6 +34230,7 @@
     },
     {
       "sample_id": 726,
+      "source_row_id": 18279,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33550,6 +34277,7 @@
     },
     {
       "sample_id": 727,
+      "source_row_id": 18297,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33596,6 +34324,7 @@
     },
     {
       "sample_id": 728,
+      "source_row_id": 18406,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33642,6 +34371,7 @@
     },
     {
       "sample_id": 729,
+      "source_row_id": 18412,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33688,6 +34418,7 @@
     },
     {
       "sample_id": 730,
+      "source_row_id": 18518,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33734,6 +34465,7 @@
     },
     {
       "sample_id": 731,
+      "source_row_id": 18520,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33780,6 +34512,7 @@
     },
     {
       "sample_id": 732,
+      "source_row_id": 18526,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33826,6 +34559,7 @@
     },
     {
       "sample_id": 733,
+      "source_row_id": 18531,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33872,6 +34606,7 @@
     },
     {
       "sample_id": 734,
+      "source_row_id": 18590,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -33918,6 +34653,7 @@
     },
     {
       "sample_id": 735,
+      "source_row_id": 18607,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -33964,6 +34700,7 @@
     },
     {
       "sample_id": 736,
+      "source_row_id": 18644,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -34010,6 +34747,7 @@
     },
     {
       "sample_id": 737,
+      "source_row_id": 18684,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34056,6 +34794,7 @@
     },
     {
       "sample_id": 738,
+      "source_row_id": 18700,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34102,6 +34841,7 @@
     },
     {
       "sample_id": 739,
+      "source_row_id": 18703,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34148,6 +34888,7 @@
     },
     {
       "sample_id": 740,
+      "source_row_id": 18716,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34194,6 +34935,7 @@
     },
     {
       "sample_id": 741,
+      "source_row_id": 18784,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34240,6 +34982,7 @@
     },
     {
       "sample_id": 742,
+      "source_row_id": 18801,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -34286,6 +35029,7 @@
     },
     {
       "sample_id": 743,
+      "source_row_id": 18896,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -34332,6 +35076,7 @@
     },
     {
       "sample_id": 744,
+      "source_row_id": 18902,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -34378,6 +35123,7 @@
     },
     {
       "sample_id": 745,
+      "source_row_id": 18909,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34424,6 +35170,7 @@
     },
     {
       "sample_id": 746,
+      "source_row_id": 18919,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -34470,6 +35217,7 @@
     },
     {
       "sample_id": 747,
+      "source_row_id": 18931,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34516,6 +35264,7 @@
     },
     {
       "sample_id": 748,
+      "source_row_id": 18939,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34562,6 +35311,7 @@
     },
     {
       "sample_id": 749,
+      "source_row_id": 18965,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34608,6 +35358,7 @@
     },
     {
       "sample_id": 750,
+      "source_row_id": 18978,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34654,6 +35405,7 @@
     },
     {
       "sample_id": 751,
+      "source_row_id": 19033,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34700,6 +35452,7 @@
     },
     {
       "sample_id": 752,
+      "source_row_id": 19040,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -34746,6 +35499,7 @@
     },
     {
       "sample_id": 753,
+      "source_row_id": 19053,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -34792,6 +35546,7 @@
     },
     {
       "sample_id": 754,
+      "source_row_id": 19058,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -34838,6 +35593,7 @@
     },
     {
       "sample_id": 755,
+      "source_row_id": 19060,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -34884,6 +35640,7 @@
     },
     {
       "sample_id": 756,
+      "source_row_id": 19066,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -34930,6 +35687,7 @@
     },
     {
       "sample_id": 757,
+      "source_row_id": 19095,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -34976,6 +35734,7 @@
     },
     {
       "sample_id": 758,
+      "source_row_id": 19105,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.98,
@@ -35022,6 +35781,7 @@
     },
     {
       "sample_id": 759,
+      "source_row_id": 19118,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35068,6 +35828,7 @@
     },
     {
       "sample_id": 760,
+      "source_row_id": 19156,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35114,6 +35875,7 @@
     },
     {
       "sample_id": 761,
+      "source_row_id": 19163,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35160,6 +35922,7 @@
     },
     {
       "sample_id": 762,
+      "source_row_id": 19164,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35206,6 +35969,7 @@
     },
     {
       "sample_id": 763,
+      "source_row_id": 19171,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35252,6 +36016,7 @@
     },
     {
       "sample_id": 764,
+      "source_row_id": 19174,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35298,6 +36063,7 @@
     },
     {
       "sample_id": 765,
+      "source_row_id": 19176,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35344,6 +36110,7 @@
     },
     {
       "sample_id": 766,
+      "source_row_id": 19230,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35390,6 +36157,7 @@
     },
     {
       "sample_id": 767,
+      "source_row_id": 19272,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35436,6 +36204,7 @@
     },
     {
       "sample_id": 768,
+      "source_row_id": 19274,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35482,6 +36251,7 @@
     },
     {
       "sample_id": 769,
+      "source_row_id": 19275,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35528,6 +36298,7 @@
     },
     {
       "sample_id": 770,
+      "source_row_id": 19304,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -35574,6 +36345,7 @@
     },
     {
       "sample_id": 771,
+      "source_row_id": 19396,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -35620,6 +36392,7 @@
     },
     {
       "sample_id": 772,
+      "source_row_id": 19441,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -35666,6 +36439,7 @@
     },
     {
       "sample_id": 773,
+      "source_row_id": 19455,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -35712,6 +36486,7 @@
     },
     {
       "sample_id": 774,
+      "source_row_id": 19465,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -35758,6 +36533,7 @@
     },
     {
       "sample_id": 775,
+      "source_row_id": 19481,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35804,6 +36580,7 @@
     },
     {
       "sample_id": 776,
+      "source_row_id": 19489,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35850,6 +36627,7 @@
     },
     {
       "sample_id": 777,
+      "source_row_id": 19496,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -35896,6 +36674,7 @@
     },
     {
       "sample_id": 778,
+      "source_row_id": 19501,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -35942,6 +36721,7 @@
     },
     {
       "sample_id": 779,
+      "source_row_id": 19508,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -35988,6 +36768,7 @@
     },
     {
       "sample_id": 780,
+      "source_row_id": 19526,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36034,6 +36815,7 @@
     },
     {
       "sample_id": 781,
+      "source_row_id": 19563,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36080,6 +36862,7 @@
     },
     {
       "sample_id": 782,
+      "source_row_id": 19570,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36126,6 +36909,7 @@
     },
     {
       "sample_id": 783,
+      "source_row_id": 19576,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36172,6 +36956,7 @@
     },
     {
       "sample_id": 784,
+      "source_row_id": 19581,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36218,6 +37003,7 @@
     },
     {
       "sample_id": 785,
+      "source_row_id": 19623,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36264,6 +37050,7 @@
     },
     {
       "sample_id": 786,
+      "source_row_id": 19627,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36310,6 +37097,7 @@
     },
     {
       "sample_id": 787,
+      "source_row_id": 19628,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36356,6 +37144,7 @@
     },
     {
       "sample_id": 788,
+      "source_row_id": 19670,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36402,6 +37191,7 @@
     },
     {
       "sample_id": 789,
+      "source_row_id": 19688,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36448,6 +37238,7 @@
     },
     {
       "sample_id": 790,
+      "source_row_id": 19698,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36494,6 +37285,7 @@
     },
     {
       "sample_id": 791,
+      "source_row_id": 19709,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36540,6 +37332,7 @@
     },
     {
       "sample_id": 792,
+      "source_row_id": 19727,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.985,
@@ -36586,6 +37379,7 @@
     },
     {
       "sample_id": 793,
+      "source_row_id": 19738,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36632,6 +37426,7 @@
     },
     {
       "sample_id": 794,
+      "source_row_id": 19741,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36678,6 +37473,7 @@
     },
     {
       "sample_id": 795,
+      "source_row_id": 19770,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36724,6 +37520,7 @@
     },
     {
       "sample_id": 796,
+      "source_row_id": 19783,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36770,6 +37567,7 @@
     },
     {
       "sample_id": 797,
+      "source_row_id": 19790,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -36816,6 +37614,7 @@
     },
     {
       "sample_id": 798,
+      "source_row_id": 19884,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36862,6 +37661,7 @@
     },
     {
       "sample_id": 799,
+      "source_row_id": 19914,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36908,6 +37708,7 @@
     },
     {
       "sample_id": 800,
+      "source_row_id": 19918,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -36954,6 +37755,7 @@
     },
     {
       "sample_id": 801,
+      "source_row_id": 19942,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37000,6 +37802,7 @@
     },
     {
       "sample_id": 802,
+      "source_row_id": 19961,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37046,6 +37849,7 @@
     },
     {
       "sample_id": 803,
+      "source_row_id": 19980,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37092,6 +37896,7 @@
     },
     {
       "sample_id": 804,
+      "source_row_id": 19989,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37138,6 +37943,7 @@
     },
     {
       "sample_id": 805,
+      "source_row_id": 19991,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37184,6 +37990,7 @@
     },
     {
       "sample_id": 806,
+      "source_row_id": 20090,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37230,6 +38037,7 @@
     },
     {
       "sample_id": 807,
+      "source_row_id": 20110,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37276,6 +38084,7 @@
     },
     {
       "sample_id": 808,
+      "source_row_id": 20138,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37322,6 +38131,7 @@
     },
     {
       "sample_id": 809,
+      "source_row_id": 20152,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37368,6 +38178,7 @@
     },
     {
       "sample_id": 810,
+      "source_row_id": 20189,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37414,6 +38225,7 @@
     },
     {
       "sample_id": 811,
+      "source_row_id": 20194,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37460,6 +38272,7 @@
     },
     {
       "sample_id": 812,
+      "source_row_id": 20200,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37506,6 +38319,7 @@
     },
     {
       "sample_id": 813,
+      "source_row_id": 20311,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37552,6 +38366,7 @@
     },
     {
       "sample_id": 814,
+      "source_row_id": 20343,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37598,6 +38413,7 @@
     },
     {
       "sample_id": 815,
+      "source_row_id": 20355,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37644,6 +38460,7 @@
     },
     {
       "sample_id": 816,
+      "source_row_id": 20372,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37690,6 +38507,7 @@
     },
     {
       "sample_id": 817,
+      "source_row_id": 20383,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37736,6 +38554,7 @@
     },
     {
       "sample_id": 818,
+      "source_row_id": 20401,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37782,6 +38601,7 @@
     },
     {
       "sample_id": 819,
+      "source_row_id": 20407,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -37828,6 +38648,7 @@
     },
     {
       "sample_id": 820,
+      "source_row_id": 20450,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37874,6 +38695,7 @@
     },
     {
       "sample_id": 821,
+      "source_row_id": 20482,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37920,6 +38742,7 @@
     },
     {
       "sample_id": 822,
+      "source_row_id": 20493,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -37966,6 +38789,7 @@
     },
     {
       "sample_id": 823,
+      "source_row_id": 20496,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38012,6 +38836,7 @@
     },
     {
       "sample_id": 824,
+      "source_row_id": 20512,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38058,6 +38883,7 @@
     },
     {
       "sample_id": 825,
+      "source_row_id": 20567,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38104,6 +38930,7 @@
     },
     {
       "sample_id": 826,
+      "source_row_id": 20578,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38150,6 +38977,7 @@
     },
     {
       "sample_id": 827,
+      "source_row_id": 20584,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38196,6 +39024,7 @@
     },
     {
       "sample_id": 828,
+      "source_row_id": 20596,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38242,6 +39071,7 @@
     },
     {
       "sample_id": 829,
+      "source_row_id": 20615,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.98,
@@ -38288,6 +39118,7 @@
     },
     {
       "sample_id": 830,
+      "source_row_id": 20627,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38334,6 +39165,7 @@
     },
     {
       "sample_id": 831,
+      "source_row_id": 20665,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38380,6 +39212,7 @@
     },
     {
       "sample_id": 832,
+      "source_row_id": 20672,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -38426,6 +39259,7 @@
     },
     {
       "sample_id": 833,
+      "source_row_id": 20678,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38472,6 +39306,7 @@
     },
     {
       "sample_id": 834,
+      "source_row_id": 20691,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38518,6 +39353,7 @@
     },
     {
       "sample_id": 835,
+      "source_row_id": 20704,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38564,6 +39400,7 @@
     },
     {
       "sample_id": 836,
+      "source_row_id": 20752,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38610,6 +39447,7 @@
     },
     {
       "sample_id": 837,
+      "source_row_id": 20754,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38656,6 +39494,7 @@
     },
     {
       "sample_id": 838,
+      "source_row_id": 20764,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.665,
@@ -38702,6 +39541,7 @@
     },
     {
       "sample_id": 839,
+      "source_row_id": 20796,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38748,6 +39588,7 @@
     },
     {
       "sample_id": 840,
+      "source_row_id": 20810,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38794,6 +39635,7 @@
     },
     {
       "sample_id": 841,
+      "source_row_id": 20819,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38840,6 +39682,7 @@
     },
     {
       "sample_id": 842,
+      "source_row_id": 20826,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38886,6 +39729,7 @@
     },
     {
       "sample_id": 843,
+      "source_row_id": 20892,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -38932,6 +39776,7 @@
     },
     {
       "sample_id": 844,
+      "source_row_id": 20895,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -38978,6 +39823,7 @@
     },
     {
       "sample_id": 845,
+      "source_row_id": 20907,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39024,6 +39870,7 @@
     },
     {
       "sample_id": 846,
+      "source_row_id": 20933,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39070,6 +39917,7 @@
     },
     {
       "sample_id": 847,
+      "source_row_id": 20965,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39116,6 +39964,7 @@
     },
     {
       "sample_id": 848,
+      "source_row_id": 20970,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39162,6 +40011,7 @@
     },
     {
       "sample_id": 849,
+      "source_row_id": 20998,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39208,6 +40058,7 @@
     },
     {
       "sample_id": 850,
+      "source_row_id": 21036,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39254,6 +40105,7 @@
     },
     {
       "sample_id": 851,
+      "source_row_id": 21081,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39300,6 +40152,7 @@
     },
     {
       "sample_id": 852,
+      "source_row_id": 21109,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39346,6 +40199,7 @@
     },
     {
       "sample_id": 853,
+      "source_row_id": 21126,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39392,6 +40246,7 @@
     },
     {
       "sample_id": 854,
+      "source_row_id": 21139,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39438,6 +40293,7 @@
     },
     {
       "sample_id": 855,
+      "source_row_id": 21156,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39484,6 +40340,7 @@
     },
     {
       "sample_id": 856,
+      "source_row_id": 21181,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39530,6 +40387,7 @@
     },
     {
       "sample_id": 857,
+      "source_row_id": 21375,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39576,6 +40434,7 @@
     },
     {
       "sample_id": 858,
+      "source_row_id": 21381,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39622,6 +40481,7 @@
     },
     {
       "sample_id": 859,
+      "source_row_id": 21405,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -39668,6 +40528,7 @@
     },
     {
       "sample_id": 860,
+      "source_row_id": 21417,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39714,6 +40575,7 @@
     },
     {
       "sample_id": 861,
+      "source_row_id": 21427,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39760,6 +40622,7 @@
     },
     {
       "sample_id": 862,
+      "source_row_id": 21432,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39806,6 +40669,7 @@
     },
     {
       "sample_id": 863,
+      "source_row_id": 21434,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -39852,6 +40716,7 @@
     },
     {
       "sample_id": 864,
+      "source_row_id": 21435,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39898,6 +40763,7 @@
     },
     {
       "sample_id": 865,
+      "source_row_id": 21475,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39944,6 +40810,7 @@
     },
     {
       "sample_id": 866,
+      "source_row_id": 21555,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -39990,6 +40857,7 @@
     },
     {
       "sample_id": 867,
+      "source_row_id": 21591,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40036,6 +40904,7 @@
     },
     {
       "sample_id": 868,
+      "source_row_id": 21625,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40082,6 +40951,7 @@
     },
     {
       "sample_id": 869,
+      "source_row_id": 21686,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40128,6 +40998,7 @@
     },
     {
       "sample_id": 870,
+      "source_row_id": 21755,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40174,6 +41045,7 @@
     },
     {
       "sample_id": 871,
+      "source_row_id": 21856,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40220,6 +41092,7 @@
     },
     {
       "sample_id": 872,
+      "source_row_id": 21897,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40266,6 +41139,7 @@
     },
     {
       "sample_id": 873,
+      "source_row_id": 21967,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.025,
@@ -40312,6 +41186,7 @@
     },
     {
       "sample_id": 874,
+      "source_row_id": 21993,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40358,6 +41233,7 @@
     },
     {
       "sample_id": 875,
+      "source_row_id": 21996,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40404,6 +41280,7 @@
     },
     {
       "sample_id": 876,
+      "source_row_id": 22119,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40450,6 +41327,7 @@
     },
     {
       "sample_id": 877,
+      "source_row_id": 22122,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40496,6 +41374,7 @@
     },
     {
       "sample_id": 878,
+      "source_row_id": 22144,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40542,6 +41421,7 @@
     },
     {
       "sample_id": 879,
+      "source_row_id": 22157,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40588,6 +41468,7 @@
     },
     {
       "sample_id": 880,
+      "source_row_id": 22176,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40634,6 +41515,7 @@
     },
     {
       "sample_id": 881,
+      "source_row_id": 22183,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40680,6 +41562,7 @@
     },
     {
       "sample_id": 882,
+      "source_row_id": 22206,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40726,6 +41609,7 @@
     },
     {
       "sample_id": 883,
+      "source_row_id": 22297,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40772,6 +41656,7 @@
     },
     {
       "sample_id": 884,
+      "source_row_id": 22304,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40818,6 +41703,7 @@
     },
     {
       "sample_id": 885,
+      "source_row_id": 22337,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40864,6 +41750,7 @@
     },
     {
       "sample_id": 886,
+      "source_row_id": 22399,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -40910,6 +41797,7 @@
     },
     {
       "sample_id": 887,
+      "source_row_id": 22457,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -40956,6 +41844,7 @@
     },
     {
       "sample_id": 888,
+      "source_row_id": 22497,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -41002,6 +41891,7 @@
     },
     {
       "sample_id": 889,
+      "source_row_id": 22500,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41048,6 +41938,7 @@
     },
     {
       "sample_id": 890,
+      "source_row_id": 22522,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41094,6 +41985,7 @@
     },
     {
       "sample_id": 891,
+      "source_row_id": 22528,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41140,6 +42032,7 @@
     },
     {
       "sample_id": 892,
+      "source_row_id": 22536,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41186,6 +42079,7 @@
     },
     {
       "sample_id": 893,
+      "source_row_id": 22540,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41232,6 +42126,7 @@
     },
     {
       "sample_id": 894,
+      "source_row_id": 22542,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41278,6 +42173,7 @@
     },
     {
       "sample_id": 895,
+      "source_row_id": 22574,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41324,6 +42220,7 @@
     },
     {
       "sample_id": 896,
+      "source_row_id": 22706,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41370,6 +42267,7 @@
     },
     {
       "sample_id": 897,
+      "source_row_id": 22713,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41416,6 +42314,7 @@
     },
     {
       "sample_id": 898,
+      "source_row_id": 22752,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41462,6 +42361,7 @@
     },
     {
       "sample_id": 899,
+      "source_row_id": 22757,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41508,6 +42408,7 @@
     },
     {
       "sample_id": 900,
+      "source_row_id": 22775,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41554,6 +42455,7 @@
     },
     {
       "sample_id": 901,
+      "source_row_id": 22780,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41600,6 +42502,7 @@
     },
     {
       "sample_id": 902,
+      "source_row_id": 22788,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41646,6 +42549,7 @@
     },
     {
       "sample_id": 903,
+      "source_row_id": 22789,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41692,6 +42596,7 @@
     },
     {
       "sample_id": 904,
+      "source_row_id": 22815,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41738,6 +42643,7 @@
     },
     {
       "sample_id": 905,
+      "source_row_id": 22818,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.035,
@@ -41784,6 +42690,7 @@
     },
     {
       "sample_id": 906,
+      "source_row_id": 22868,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -41830,6 +42737,7 @@
     },
     {
       "sample_id": 907,
+      "source_row_id": 22878,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41876,6 +42784,7 @@
     },
     {
       "sample_id": 908,
+      "source_row_id": 22880,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -41922,6 +42831,7 @@
     },
     {
       "sample_id": 909,
+      "source_row_id": 22942,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -41968,6 +42878,7 @@
     },
     {
       "sample_id": 910,
+      "source_row_id": 22957,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42014,6 +42925,7 @@
     },
     {
       "sample_id": 911,
+      "source_row_id": 22961,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42060,6 +42972,7 @@
     },
     {
       "sample_id": 912,
+      "source_row_id": 22976,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42106,6 +43019,7 @@
     },
     {
       "sample_id": 913,
+      "source_row_id": 22978,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42152,6 +43066,7 @@
     },
     {
       "sample_id": 914,
+      "source_row_id": 22979,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42198,6 +43113,7 @@
     },
     {
       "sample_id": 915,
+      "source_row_id": 22995,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42244,6 +43160,7 @@
     },
     {
       "sample_id": 916,
+      "source_row_id": 23052,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42290,6 +43207,7 @@
     },
     {
       "sample_id": 917,
+      "source_row_id": 23062,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42336,6 +43254,7 @@
     },
     {
       "sample_id": 918,
+      "source_row_id": 23067,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42382,6 +43301,7 @@
     },
     {
       "sample_id": 919,
+      "source_row_id": 23157,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42428,6 +43348,7 @@
     },
     {
       "sample_id": 920,
+      "source_row_id": 23176,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42474,6 +43395,7 @@
     },
     {
       "sample_id": 921,
+      "source_row_id": 23184,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42520,6 +43442,7 @@
     },
     {
       "sample_id": 922,
+      "source_row_id": 23185,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42566,6 +43489,7 @@
     },
     {
       "sample_id": 923,
+      "source_row_id": 23225,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -42612,6 +43536,7 @@
     },
     {
       "sample_id": 924,
+      "source_row_id": 23243,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42658,6 +43583,7 @@
     },
     {
       "sample_id": 925,
+      "source_row_id": 23256,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42704,6 +43630,7 @@
     },
     {
       "sample_id": 926,
+      "source_row_id": 23269,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42750,6 +43677,7 @@
     },
     {
       "sample_id": 927,
+      "source_row_id": 23297,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42796,6 +43724,7 @@
     },
     {
       "sample_id": 928,
+      "source_row_id": 23325,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42842,6 +43771,7 @@
     },
     {
       "sample_id": 929,
+      "source_row_id": 23350,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42888,6 +43818,7 @@
     },
     {
       "sample_id": 930,
+      "source_row_id": 23357,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -42934,6 +43865,7 @@
     },
     {
       "sample_id": 931,
+      "source_row_id": 23358,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -42980,6 +43912,7 @@
     },
     {
       "sample_id": 932,
+      "source_row_id": 23362,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43026,6 +43959,7 @@
     },
     {
       "sample_id": 933,
+      "source_row_id": 23443,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43072,6 +44006,7 @@
     },
     {
       "sample_id": 934,
+      "source_row_id": 23462,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43118,6 +44053,7 @@
     },
     {
       "sample_id": 935,
+      "source_row_id": 23496,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43164,6 +44100,7 @@
     },
     {
       "sample_id": 936,
+      "source_row_id": 23501,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43210,6 +44147,7 @@
     },
     {
       "sample_id": 937,
+      "source_row_id": 23513,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43256,6 +44194,7 @@
     },
     {
       "sample_id": 938,
+      "source_row_id": 23528,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43302,6 +44241,7 @@
     },
     {
       "sample_id": 939,
+      "source_row_id": 23542,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43348,6 +44288,7 @@
     },
     {
       "sample_id": 940,
+      "source_row_id": 23558,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43394,6 +44335,7 @@
     },
     {
       "sample_id": 941,
+      "source_row_id": 23574,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -43440,6 +44382,7 @@
     },
     {
       "sample_id": 942,
+      "source_row_id": 23601,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43486,6 +44429,7 @@
     },
     {
       "sample_id": 943,
+      "source_row_id": 23612,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -43532,6 +44476,7 @@
     },
     {
       "sample_id": 944,
+      "source_row_id": 23622,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -43578,6 +44523,7 @@
     },
     {
       "sample_id": 945,
+      "source_row_id": 23646,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43624,6 +44570,7 @@
     },
     {
       "sample_id": 946,
+      "source_row_id": 23669,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43670,6 +44617,7 @@
     },
     {
       "sample_id": 947,
+      "source_row_id": 23682,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43716,6 +44664,7 @@
     },
     {
       "sample_id": 948,
+      "source_row_id": 23748,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43762,6 +44711,7 @@
     },
     {
       "sample_id": 949,
+      "source_row_id": 23759,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43808,6 +44758,7 @@
     },
     {
       "sample_id": 950,
+      "source_row_id": 23766,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43854,6 +44805,7 @@
     },
     {
       "sample_id": 951,
+      "source_row_id": 23772,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -43900,6 +44852,7 @@
     },
     {
       "sample_id": 952,
+      "source_row_id": 23794,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.015,
@@ -43946,6 +44899,7 @@
     },
     {
       "sample_id": 953,
+      "source_row_id": 23817,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -43992,6 +44946,7 @@
     },
     {
       "sample_id": 954,
+      "source_row_id": 23856,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44038,6 +44993,7 @@
     },
     {
       "sample_id": 955,
+      "source_row_id": 23886,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44084,6 +45040,7 @@
     },
     {
       "sample_id": 956,
+      "source_row_id": 23892,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44130,6 +45087,7 @@
     },
     {
       "sample_id": 957,
+      "source_row_id": 23941,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44176,6 +45134,7 @@
     },
     {
       "sample_id": 958,
+      "source_row_id": 23990,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44222,6 +45181,7 @@
     },
     {
       "sample_id": 959,
+      "source_row_id": 24015,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -44268,6 +45228,7 @@
     },
     {
       "sample_id": 960,
+      "source_row_id": 24040,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44314,6 +45275,7 @@
     },
     {
       "sample_id": 961,
+      "source_row_id": 24077,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44360,6 +45322,7 @@
     },
     {
       "sample_id": 962,
+      "source_row_id": 24086,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44406,6 +45369,7 @@
     },
     {
       "sample_id": 963,
+      "source_row_id": 24090,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44452,6 +45416,7 @@
     },
     {
       "sample_id": 964,
+      "source_row_id": 24094,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.035,
@@ -44498,6 +45463,7 @@
     },
     {
       "sample_id": 965,
+      "source_row_id": 24096,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44544,6 +45510,7 @@
     },
     {
       "sample_id": 966,
+      "source_row_id": 24214,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44590,6 +45557,7 @@
     },
     {
       "sample_id": 967,
+      "source_row_id": 24250,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44636,6 +45604,7 @@
     },
     {
       "sample_id": 968,
+      "source_row_id": 24254,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44682,6 +45651,7 @@
     },
     {
       "sample_id": 969,
+      "source_row_id": 24310,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44728,6 +45698,7 @@
     },
     {
       "sample_id": 970,
+      "source_row_id": 24312,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.01,
@@ -44774,6 +45745,7 @@
     },
     {
       "sample_id": 971,
+      "source_row_id": 24351,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -44820,6 +45792,7 @@
     },
     {
       "sample_id": 972,
+      "source_row_id": 24410,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44866,6 +45839,7 @@
     },
     {
       "sample_id": 973,
+      "source_row_id": 24420,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44912,6 +45886,7 @@
     },
     {
       "sample_id": 974,
+      "source_row_id": 24461,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -44958,6 +45933,7 @@
     },
     {
       "sample_id": 975,
+      "source_row_id": 24548,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45004,6 +45980,7 @@
     },
     {
       "sample_id": 976,
+      "source_row_id": 24567,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45050,6 +46027,7 @@
     },
     {
       "sample_id": 977,
+      "source_row_id": 24619,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45096,6 +46074,7 @@
     },
     {
       "sample_id": 978,
+      "source_row_id": 24631,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45142,6 +46121,7 @@
     },
     {
       "sample_id": 979,
+      "source_row_id": 24647,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45188,6 +46168,7 @@
     },
     {
       "sample_id": 980,
+      "source_row_id": 24663,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45234,6 +46215,7 @@
     },
     {
       "sample_id": 981,
+      "source_row_id": 24670,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45280,6 +46262,7 @@
     },
     {
       "sample_id": 982,
+      "source_row_id": 24693,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45326,6 +46309,7 @@
     },
     {
       "sample_id": 983,
+      "source_row_id": 24708,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45372,6 +46356,7 @@
     },
     {
       "sample_id": 984,
+      "source_row_id": 24743,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45418,6 +46403,7 @@
     },
     {
       "sample_id": 985,
+      "source_row_id": 24789,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45464,6 +46450,7 @@
     },
     {
       "sample_id": 986,
+      "source_row_id": 24791,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.005,
@@ -45510,6 +46497,7 @@
     },
     {
       "sample_id": 987,
+      "source_row_id": 24792,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45556,6 +46544,7 @@
     },
     {
       "sample_id": 988,
+      "source_row_id": 24834,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45602,6 +46591,7 @@
     },
     {
       "sample_id": 989,
+      "source_row_id": 24864,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45648,6 +46638,7 @@
     },
     {
       "sample_id": 990,
+      "source_row_id": 24904,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45694,6 +46685,7 @@
     },
     {
       "sample_id": 991,
+      "source_row_id": 24934,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45740,6 +46732,7 @@
     },
     {
       "sample_id": 992,
+      "source_row_id": 24950,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45786,6 +46779,7 @@
     },
     {
       "sample_id": 993,
+      "source_row_id": 25022,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45832,6 +46826,7 @@
     },
     {
       "sample_id": 994,
+      "source_row_id": 25033,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 1.0,
@@ -45878,6 +46873,7 @@
     },
     {
       "sample_id": 995,
+      "source_row_id": 25067,
       "true_label": "anomaly",
       "prediction": "anomaly",
       "anomaly_score": 0.995,
@@ -45924,6 +46920,7 @@
     },
     {
       "sample_id": 996,
+      "source_row_id": 25097,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -45970,6 +46967,7 @@
     },
     {
       "sample_id": 997,
+      "source_row_id": 25109,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -46016,6 +47014,7 @@
     },
     {
       "sample_id": 998,
+      "source_row_id": 25162,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
@@ -46062,6 +47061,7 @@
     },
     {
       "sample_id": 999,
+      "source_row_id": 25176,
       "true_label": "normal",
       "prediction": "normal",
       "anomaly_score": 0.0,
