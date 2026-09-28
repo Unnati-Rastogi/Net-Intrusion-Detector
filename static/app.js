@@ -1,14 +1,20 @@
-/* NIDS dashboard logic.
+/* NIDS dashboard logic (analyst workflow).
  *
  * Everything here talks to the existing FastAPI endpoints:
- *   GET  /health, /features, /sample, /demo/test-rows
- *   POST /predict, /predict/batch
- * No build step, no framework.
+ *   GET  /health, /features, /sample, /demo/test-rows, /alerts
+ *   POST /analyze, /predict/batch
+ * No build step, no framework. All API-derived values are rendered through
+ * safe DOM APIs (textContent / createElement); API data never passes
+ * through markup string concatenation, so injection is impossible.
+ *
+ * Terminology honesty: "anomaly score" is the model's P(anomaly) output;
+ * "risk" is a model-derived prioritization score, not attack severity;
+ * "P1..P4" order analyst review, they do not grade attack danger.
  */
 
 const API = {
-  async get(path) {
-    const res = await fetch(path);
+  async request(path, options) {
+    const res = await fetch(path, options);
     if (!res.ok) {
       let detail = `HTTP ${res.status}`;
       try {
@@ -22,23 +28,16 @@ const API = {
     return res.json();
   },
 
-  async post(path, payload) {
-    const res = await fetch(path, {
+  get(path) {
+    return this.request(path);
+  },
+
+  post(path, payload) {
+    return this.request(path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) {
-      let detail = `HTTP ${res.status}`;
-      try {
-        const body = await res.json();
-        detail = body.feature_errors || body.detail || detail;
-      } catch (_) { /* non-JSON error body */ }
-      throw new Error(
-        Array.isArray(detail) ? detail.join("\n") : String(detail)
-      );
-    }
-    return res.json();
   },
 };
 
@@ -47,14 +46,41 @@ const els = {
   form: document.getElementById("flow-form"),
   formError: document.getElementById("form-error"),
   btnSample: document.getElementById("btn-sample"),
-  btnPredict: document.getElementById("btn-predict"),
+  btnAnalyze: document.getElementById("btn-analyze"),
   btnBatch: document.getElementById("btn-batch"),
+  btnAlerts: document.getElementById("btn-alerts"),
   batchSummary: document.getElementById("batch-summary"),
-  recentBody: document.querySelector("#recent-table tbody"),
+  resultCard: document.getElementById("result-card"),
+  whyCard: document.getElementById("why-card"),
+  sourceCard: document.getElementById("source-card"),
+  detVerdict: document.getElementById("det-verdict"),
+  detScore: document.getElementById("det-score"),
+  detProbs: document.getElementById("det-probs"),
+  riskLevel: document.getElementById("risk-level"),
+  riskScore: document.getElementById("risk-score"),
+  priority: document.getElementById("priority"),
+  priorityNote: document.getElementById("priority-note"),
+  evidenceBody: document.querySelector("#evidence-table tbody"),
+  evidenceNote: document.getElementById("evidence-note"),
+  sourceLine: document.getElementById("source-line"),
+  alertsError: document.getElementById("alerts-error"),
+  alertsBody: document.querySelector("#alerts-table tbody"),
+  alertsNote: document.getElementById("alerts-note"),
+  alertFilterRow: document.getElementById("alert-filter-row"),
+  alertFilter: document.getElementById("alert-filter"),
+  alertCounts: document.getElementById("alert-counts"),
 };
 
-let recentCount = 0;
-const RECENT_LIMIT = 20;
+const EVIDENCE_SHOWN = 10;
+const ALERTS_SHOWN = 100;
+const PRIORITY_NOTES = {
+  P1: "P1 - highest analyst review priority",
+  P2: "P2 - high review priority",
+  P3: "P3 - moderate review priority",
+  P4: "P4 - review backlog (model did not flag this record)",
+};
+
+let allAlerts = [];
 
 /* --- health banner ----------------------------------------------------- */
 
@@ -93,7 +119,7 @@ function defaultFor(column, meta) {
 }
 
 function buildForm(meta) {
-  els.form.innerHTML = "";
+  els.form.textContent = "";
   for (const column of meta.featureColumns) {
     const wrap = document.createElement("div");
     wrap.className = "field";
@@ -155,26 +181,6 @@ function loadSample(sample) {
   }
 }
 
-/* --- recent predictions table ------------------------------------------ */
-
-function addRecent(result) {
-  recentCount += 1;
-  const tr = document.createElement("tr");
-  const verdict = result.prediction;
-  tr.innerHTML = `
-    <td>${recentCount}</td>
-    <td class="tag tag-${verdict}">${verdict.toUpperCase()}</td>
-    <td>${(result.confidence * 100).toFixed(1)}%</td>
-    <td>${result.probability_normal.toFixed(4)}</td>
-    <td>${result.probability_anomaly.toFixed(4)}</td>`;
-  els.recentBody.prepend(tr);
-  while (els.recentBody.rows.length > RECENT_LIMIT) {
-    els.recentBody.deleteRow(-1);
-  }
-}
-
-/* --- predict ------------------------------------------------------------ */
-
 function setFormError(message) {
   if (message) {
     els.formError.textContent = message;
@@ -185,45 +191,209 @@ function setFormError(message) {
   }
 }
 
-async function predictCurrent() {
-  els.btnPredict.disabled = true;
+/* --- analyst result rendering ------------------------------------------ */
+
+function renderWorkflow(result) {
+  // Detection
+  const isAnomaly = result.prediction === "anomaly";
+  els.detVerdict.textContent = isAnomaly ? "ANOMALY" : "NORMAL";
+  els.detVerdict.className =
+    "block-value " + (isAnomaly ? "verdict-anomaly" : "verdict-normal");
+  els.detScore.textContent =
+    `anomaly score (model P(anomaly)): ${result.anomaly_score.toFixed(4)}`;
+  els.detProbs.textContent =
+    `P(normal) ${result.probability_normal.toFixed(4)} - ` +
+    `P(anomaly) ${result.probability_anomaly.toFixed(4)}`;
+  els.resultCard.classList.remove("hidden");
+
+  // Risk (model-derived prioritization score)
+  els.riskLevel.textContent = result.risk_level;
+  els.riskLevel.className =
+    "block-value level-" + result.risk_level.toLowerCase();
+  els.riskScore.textContent = `risk score: ${result.risk_score.toFixed(1)} / 100`;
+  els.resultCard.classList.remove("hidden");
+
+  // Review priority
+  els.priority.textContent = result.priority;
+  els.priority.className =
+    "block-value priority-" + result.priority.toLowerCase();
+  els.priorityNote.textContent =
+    PRIORITY_NOTES[result.priority] || "analyst review priority";
+
+  // Why was this flagged? (SHAP attributions of the model output)
+  els.evidenceBody.textContent = "";
+  const rows = result.explanation.slice(0, EVIDENCE_SHOWN);
+  for (const item of rows) {
+    const tr = document.createElement("tr");
+    const cells = [
+      item.feature,
+      String(item.value),
+      (item.shap_value >= 0 ? "+" : "") + item.shap_value.toFixed(4),
+      item.direction === "increases_anomaly_score"
+        ? "increases anomaly score"
+        : "decreases anomaly score",
+    ];
+    cells.forEach((text, i) => {
+      const td = document.createElement("td");
+      td.textContent = text;
+      if (i === 2) {
+        td.className = item.shap_value >= 0 ? "shap-pos" : "shap-neg";
+      }
+      tr.appendChild(td);
+    });
+    els.evidenceBody.appendChild(tr);
+  }
+  els.evidenceNote.textContent =
+    `Showing the ${rows.length} strongest attributions of ` +
+    `${result.explanation.length} features.`;
+  els.whyCard.classList.remove("hidden");
+
+  // Source lineage (only present when the record matches a stored sample)
+  els.sourceLine.textContent = "";
+  if (result.sample_id !== null && result.sample_id !== undefined) {
+    const strong = document.createElement("strong");
+    strong.textContent = "known report sample";
+    els.sourceLine.appendChild(strong);
+    els.sourceLine.appendChild(document.createTextNode(
+      ` - Sample ID: ${result.sample_id}` +
+      ` - Source row: ${result.source_row_id}` +
+      " (zero-based row in Train_data.csv)"
+    ));
+  } else {
+    els.sourceLine.appendChild(document.createTextNode(
+      "ad-hoc record - no stored-report match; " +
+      "sample ID / source row stay empty (never fabricated)"
+    ));
+  }
+  els.sourceCard.classList.remove("hidden");
+  els.resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* --- analyze (features or stored sample) -------------------------------- */
+
+async function analyzeCurrent() {
+  els.btnAnalyze.disabled = true;
   setFormError("");
   try {
-    const result = await API.post("/predict", { features: collectForm() });
-    showResult(result);
-    addRecent(result);
+    const result = await API.post("/analyze", { features: collectForm() });
+    renderWorkflow(result);
   } catch (err) {
-    setFormError("Prediction failed:\n" + err.message);
+    setFormError("Analysis failed:\n" + err.message);
   } finally {
-    els.btnPredict.disabled = false;
+    els.btnAnalyze.disabled = false;
   }
 }
 
-function showResult(result) {
-  let banner = document.getElementById("result-banner");
-  if (!banner) {
-    banner = document.createElement("div");
-    banner.id = "result-banner";
-    els.form.after(banner);
+async function analyzeStoredSample(sampleId) {
+  setFormError("");
+  try {
+    const result = await API.post("/analyze", { sample_id: sampleId });
+    renderWorkflow(result);
+  } catch (err) {
+    setFormError("Analysis failed:\n" + err.message);
   }
-  const isAnomaly = result.prediction === "anomaly";
-  banner.className = "result " + (isAnomaly ? "result-anomaly" : "result-normal");
-  banner.innerHTML = `
-    <span class="verdict verdict-${result.prediction}">
-      ${isAnomaly ? "⚠ ANOMALY" : "✔ NORMAL"}
-    </span>
-    <span class="probs">
-      confidence ${(result.confidence * 100).toFixed(1)}% -
-      P(normal) ${result.probability_normal.toFixed(4)} -
-      P(anomaly) ${result.probability_anomaly.toFixed(4)}
-    </span>`;
 }
 
-/* --- batch demo --------------------------------------------------------- */
+/* --- prioritized alert queue -------------------------------------------- */
+
+function alertRow(alert) {
+  const tr = document.createElement("tr");
+  tr.className = "alert-row priority-" + alert.priority.toLowerCase();
+  tr.title = "click to analyze this record";
+
+  const cells = [
+    alert.priority,
+    alert.risk_level,
+    alert.risk_score.toFixed(1),
+    alert.anomaly_score.toFixed(4),
+    alert.prediction,
+    String(alert.sample_id),
+    alert.source_row_id === null || alert.source_row_id === undefined
+      ? "-"
+      : String(alert.source_row_id),
+  ];
+  cells.forEach((text, i) => {
+    const td = document.createElement("td");
+    td.textContent = text;
+    if (i === 0) td.className = "tag tag-" + alert.priority.toLowerCase();
+    if (i === 4) td.className = "tag tag-" + alert.prediction;
+    tr.appendChild(td);
+  });
+  tr.addEventListener("click", () => analyzeStoredSample(alert.sample_id));
+  return tr;
+}
+
+function renderAlerts() {
+  const filter = els.alertFilter.value;                 // 'ALL' | 'P1'..'P4'
+  const filtered =
+    filter === "ALL" ? allAlerts : allAlerts.filter((a) => a.priority === filter);
+  const shown = filtered.slice(0, ALERTS_SHOWN);
+
+  els.alertsBody.textContent = "";
+  if (!shown.length) {
+    const tr = document.createElement("tr");
+    tr.className = "empty-row";
+    const td = document.createElement("td");
+    td.colSpan = 7;
+    td.textContent = filter === "ALL"
+      ? "no alerts loaded"
+      : `no ${filter} alerts in the report`;
+    tr.appendChild(td);
+    els.alertsBody.appendChild(tr);
+  }
+  for (const alert of shown) els.alertsBody.appendChild(alertRow(alert));
+
+  if (allAlerts.length) {
+    const counts = allAlerts.reduce((acc, a) => {
+      acc[a.priority] = (acc[a.priority] || 0) + 1;
+      return acc;
+    }, {});
+    els.alertCounts.textContent = Object.keys(counts)
+      .sort()
+      .map((p) => `${p}=${counts[p]}`)
+      .join("  ");
+    els.alertsNote.textContent =
+      `Showing ${shown.length} of ${filtered.length} ${filter === "ALL" ? "" : filter + " "}alerts` +
+      (filtered.length > ALERTS_SHOWN ? ` (first ${ALERTS_SHOWN})` : "") +
+      ". Click a row to analyze that record with full SHAP evidence.";
+    els.alertsNote.hidden = false;
+  }
+}
+
+async function loadAlerts() {
+  els.btnAlerts.disabled = true;
+  els.alertsError.classList.add("hidden");
+  try {
+    const report = await API.get("/alerts");
+    allAlerts = report.alerts;
+    els.alertFilterRow.hidden = false;
+    renderAlerts();
+  } catch (err) {
+    els.alertsError.textContent = "Could not load alerts:\n" + err.message;
+    els.alertsError.classList.remove("hidden");
+  } finally {
+    els.btnAlerts.disabled = false;
+  }
+}
+
+/* --- fast batch demo (no SHAP) ------------------------------------------ */
+
+function clearNode(node) {
+  node.textContent = "";
+  return node;
+}
+
+function batchLine(parent, text) {
+  const p = document.createElement("p");
+  p.className = "batch-line";
+  p.textContent = text;
+  parent.appendChild(p);
+  return p;
+}
 
 async function runBatchDemo() {
   els.btnBatch.disabled = true;
-  els.batchSummary.textContent = "fetching test rows…";
+  clearNode(els.batchSummary).textContent = "fetching test rows…";
   try {
     const demo = await API.get("/demo/test-rows?limit=10");
     const batch = await API.post("/predict/batch", { features: demo.rows });
@@ -233,17 +403,17 @@ async function runBatchDemo() {
     const avgConf =
       batch.predictions.reduce((sum, p) => sum + p.confidence, 0) /
       batch.predictions.length;
-    els.batchSummary.innerHTML = `
-      <p class="batch-line">Sent <b>${batch.count}</b> real rows from
-        Test_data.csv to POST /predict/batch.</p>
-      <p class="batch-verdicts batch-line">
-        ${batch.count - anomalies} NORMAL - ${anomalies} ANOMALY
-      </p>
-      <p class="batch-line">Average confidence: ${(avgConf * 100).toFixed(1)}%</p>`;
-    for (const prediction of batch.predictions) addRecent(prediction);
+    clearNode(els.batchSummary);
+    batchLine(els.batchSummary,
+      `Sent ${batch.count} real rows from Test_data.csv to POST /predict/batch.`);
+    batchLine(els.batchSummary,
+      `${batch.count - anomalies} NORMAL - ${anomalies} ANOMALY`);
+    batchLine(els.batchSummary,
+      `Average confidence: ${(avgConf * 100).toFixed(1)}%`);
   } catch (err) {
-    els.batchSummary.innerHTML =
-      `<p class="batch-line" style="color:var(--bad)">Batch demo failed: ${err.message}</p>`;
+    clearNode(els.batchSummary);
+    const p = batchLine(els.batchSummary, "Batch demo failed: " + err.message);
+    p.style.color = "var(--bad)";
   } finally {
     els.btnBatch.disabled = false;
   }
@@ -255,8 +425,9 @@ async function init() {
   try {
     await refreshHealth();
   } catch (_) {
-    els.formError.textContent =
-      "API is unreachable or the model is not loaded. Start it with: python run_api.py";
+    setFormError(
+      "API is unreachable or the model is not loaded. Start it with: python run_api.py"
+    );
     els.formError.classList.remove("hidden");
     return;
   }
@@ -273,11 +444,13 @@ async function init() {
     loadSample(sample.features);
     setFormError("");          // a restored sample invalidates old errors
   });
-  els.btnPredict.addEventListener("click", predictCurrent);
+  els.btnAnalyze.addEventListener("click", analyzeCurrent);
   els.btnBatch.addEventListener("click", runBatchDemo);
+  els.btnAlerts.addEventListener("click", loadAlerts);
+  els.alertFilter.addEventListener("change", renderAlerts);
   els.form.addEventListener("submit", (e) => {
     e.preventDefault();
-    predictCurrent();
+    analyzeCurrent();
   });
 }
 

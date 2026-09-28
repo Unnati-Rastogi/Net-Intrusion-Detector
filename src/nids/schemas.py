@@ -6,6 +6,8 @@ validation error; missing fields and wrong types are rejected automatically.
 A test pins these fields to the real dataset schema via config.FEATURE_COLUMNS.
 """
 
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -84,6 +86,87 @@ class HealthResponse(BaseModel):
     model_path: str
     feature_count: int
     classes: list[int]
+
+
+# --- Analyst analysis (/analyze) -------------------------------------------
+
+
+class EvidenceItem(BaseModel):
+    """One per-feature SHAP attribution (the model's output, not causality)."""
+
+    feature: str
+    value: float | int | str | None
+    shap_value: float
+    direction: str          # 'increases_anomaly_score' | 'decreases_anomaly_score'
+    abs_contribution: float
+
+
+class AnalyzeRequest(BaseModel):
+    """One analyst analysis: an ad-hoc feature vector XOR a known report sample.
+
+    Exactly one of `features` / `sample_id` must be provided. `sample_id`
+    refers to a record of the committed risk-assessment report; its lineage
+    (sample_id + source_row_id) is then preserved in the response. For an
+    ad-hoc vector both ids are null unless the exact feature vector uniquely
+    matches a known report sample.
+    """
+
+    features: FlowFeatures | None = None
+    sample_id: int | None = Field(default=None, ge=0)
+
+
+class AnalyzeResponse(BaseModel):
+    """Full analyst workflow for ONE record: detection -> risk -> priority.
+
+    Terminology contract: anomaly_score is the model's P(anomaly) output
+    (a model score, not an attack probability); risk_score is the
+    model-derived prioritization score (not attack severity or impact);
+    priority is the analyst review priority (P1 = highest review priority).
+    """
+
+    prediction: str
+    label: int
+    anomaly_score: float
+    probability_normal: float
+    probability_anomaly: float
+    confidence: float
+    risk_score: float
+    risk_level: str
+    priority: str
+    sample_id: int | None = None
+    source_row_id: int | None = None
+    explanation: list[EvidenceItem]
+    methodology: dict[str, str]
+
+
+class AlertItem(BaseModel):
+    """One record of the committed prioritization report, served verbatim.
+
+    top_evidence keeps the report's own field names (shap_contribution, ...)
+    so the served payload is byte-faithful to the committed artifact.
+    """
+
+    rank: int
+    sample_id: int
+    source_row_id: int | None = None
+    prediction: str
+    anomaly_score: float
+    risk_score: float
+    risk_level: str
+    priority: str
+    top_evidence: list[dict[str, Any]]
+
+
+class AlertsResponse(BaseModel):
+    """The precomputed prioritization report (the backend stays authoritative;
+    the dashboard must not re-rank anything in JavaScript)."""
+
+    report: str
+    timestamp_utc: str
+    total_alerts: int
+    counts_by_priority: dict[str, int]
+    note: str
+    alerts: list[AlertItem]
 
 
 # --- Dashboard support schemas -------------------------------------------

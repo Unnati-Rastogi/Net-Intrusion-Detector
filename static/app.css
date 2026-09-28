@@ -15,6 +15,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 body {
   margin: 0 auto;
   padding: 16px;
@@ -158,3 +160,69 @@ footer {
   font-size: 0.8rem;
   text-align: center;
 }
+
+/* --- analyst workflow: detection / risk / priority blocks --- */
+.verdict-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.verdict-block {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #fafafa;
+}
+.block-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.block-value { font-size: 1.35rem; font-weight: 700; }
+.block-sub { font-size: 0.85rem; margin-top: 2px; }
+.block-sub.muted { color: var(--muted); font-size: 0.75rem; }
+
+.verdict-normal { color: var(--ok); }
+.verdict-anomaly { color: var(--bad); }
+
+.level-low { color: var(--ok); }
+.level-medium { color: var(--warn-ink); }
+.level-high { color: #c2410c; }
+.level-critical { color: var(--bad); }
+
+.priority-p1 { color: var(--bad); }
+.priority-p2 { color: #c2410c; }
+.priority-p3 { color: var(--warn-ink); }
+.priority-p4 { color: var(--muted); }
+
+/* --- SHAP evidence table --- */
+.shap-pos { color: var(--bad); font-weight: 600; }
+.shap-neg { color: var(--ok); font-weight: 600; }
+
+/* --- prioritized alert queue --- */
+.alert-row { cursor: pointer; }
+.alert-row:hover { background: #eff6ff; }
+.tag-p1 { color: var(--bad); }
+.tag-p2 { color: #c2410c; }
+.tag-p3 { color: var(--warn-ink); }
+.tag-p4 { color: var(--muted); }
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+#alert-filter {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.source-line { font-size: 0.95rem; margin: 4px 0 8px; }
+.muted { color: var(--muted); }

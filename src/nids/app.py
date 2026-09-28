@@ -3,29 +3,42 @@
 Endpoints:
     GET  /                -> dashboard (static/index.html)
     GET  /health          -> model status, feature count, class list
-    POST /predict         -> one flow record -> PredictionResponse
+    POST /predict         -> one flow record -> PredictionResponse (fast, no SHAP)
     POST /predict/batch   -> list of flow records -> BatchPredictionResponse
+    POST /analyze         -> full analyst workflow for ONE record:
+                             prediction -> SHAP explanation -> risk ->
+                             review priority (orchestrates the existing
+                             domain modules; runs no new ML)
+    GET  /alerts          -> the committed prioritization report, verbatim
+                             (no re-ranking happens here or in the browser)
     GET  /features        -> dashboard support: feature column metadata
     GET  /sample          -> dashboard support: canonical sample flow record
     GET  /demo/test-rows  -> dashboard support: real rows from Test_data.csv
 
-Malformed predict requests return HTTP 422 with a flattened "feature_errors"
-list alongside the standard detail, e.g. {"feature_errors": ["features ->
-src_bytes: Field required", ...]}. Unknown categorical values (e.g. an
-unseen 'service') are NOT errors - the model's OneHotEncoder
-(handle_unknown='ignore') handles them by design.
+Malformed predict/analyze requests return HTTP 422 with a flattened
+"feature_errors" list alongside the standard detail, e.g.
+{"feature_errors": ["features -> src_bytes: Field required", ...]}.
+Unknown categorical values (e.g. an unseen 'service') are NOT errors - the
+model's OneHotEncoder (handle_unknown='ignore') handles them by design.
 """
+
+import json
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import config
+from . import analyze as analyze_module
+from . import config, prioritize
 from .data import load_category_values, load_inference_data
 from .predict import load_model, predict_connection, predict_connections
 from .sample_data import SAMPLE_CONNECTION
 from .schemas import (
+    AlertItem,
+    AlertsResponse,
+    AnalyzeRequest,
+    AnalyzeResponse,
     BatchPredictionResponse,
     BatchPredictRequest,
     DemoRowsResponse,
@@ -100,6 +113,74 @@ def create_app() -> FastAPI:
         return BatchPredictionResponse(
             count=len(results),
             predictions=[PredictionResponse(**r) for r in results],
+        )
+
+    # --- Analyst workflow (orchestrates existing domain modules) -----------
+
+    @app.post("/analyze", response_model=AnalyzeResponse)
+    def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
+        """Detection -> SHAP explanation -> risk -> review priority.
+
+        Pass exactly one of `features` (an ad-hoc record) or `sample_id`
+        (a record of the committed risk-assessment report). SHAP runs once
+        because the user explicitly requested analyst-level analysis; the
+        plain /predict endpoint stays fast and SHAP-free.
+        """
+        provided = [
+            name
+            for name, value in (
+                ("features", request.features),
+                ("sample_id", request.sample_id is not None),
+            )
+            if value
+        ]
+        if len(provided) != 1:
+            raise HTTPException(
+                status_code=422,
+                detail="pass exactly one of 'features' or 'sample_id'",
+            )
+        try:
+            if request.sample_id is not None:
+                result = analyze_module.analyze_report_sample(request.sample_id)
+            else:
+                result = analyze_module.analyze_record(
+                    request.features.model_dump(), model=model
+                )
+        except KeyError as exc:
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    f"unknown sample_id {exc.args[0]}: not a record of the "
+                    "committed risk-assessment report"
+                ),
+            ) from exc
+        return AnalyzeResponse(**result)
+
+    @app.get("/alerts", response_model=AlertsResponse)
+    def alerts() -> AlertsResponse:
+        """The precomputed prioritization report, served verbatim.
+
+        This endpoint computes nothing: ranking, risk and priority come from
+        the committed report produced by 'python -m src.nids.prioritize'.
+        """
+        if not prioritize.ALERT_REPORT_PATH.exists():
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    "prioritization report not found; run "
+                    "'python -m src.nids.prioritize' first"
+                ),
+            )
+        report = json.loads(
+            prioritize.ALERT_REPORT_PATH.read_text(encoding="utf-8")
+        )
+        return AlertsResponse(
+            report=report["report"],
+            timestamp_utc=report["timestamp_utc"],
+            total_alerts=report["total_alerts"],
+            counts_by_priority=report["counts_by_priority"],
+            note=report["note"],
+            alerts=[AlertItem(**alert) for alert in report["alerts"]],
         )
 
     # --- Dashboard support endpoints --------------------------------------

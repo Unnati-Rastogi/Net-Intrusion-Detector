@@ -281,6 +281,16 @@ python run_api.py
 # docs at http://127.0.0.1:8000/docs
 ```
 
+The dashboard implements the analyst workflow on top of the API:
+`POST /analyze` runs detection → SHAP explanation → risk → review priority
+for one record (the user explicitly requests the analysis; `/predict` stays
+fast and SHAP-free), and `GET /alerts` serves the committed prioritization
+report verbatim — nothing is re-ranked in the browser. `anomaly_score` is
+the model's P(anomaly) output (a model score, not an attack probability);
+risk is a model-derived prioritization score, not attack severity; P1–P4
+order analyst review, nothing more. Analysis operates on structured
+network-flow records, not live traffic.
+
 ## Tests
 
 ```bash

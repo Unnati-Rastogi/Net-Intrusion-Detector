@@ -12,63 +12,158 @@
     <p class="subtitle">
       A Random Forest model (trained on NSL-KDD-style data) classifies
       network-flow records as <strong>normal</strong> or
-      <strong>anomaly</strong>.
+      <strong>anomaly</strong>, then scores the model's own evidence.
+      Risk scores are model-derived prioritization scores — not attack
+      severity — and priorities order analyst review, nothing more.
     </p>
     <div id="health" class="health health-loading">checking API health…</div>
   </header>
 
   <main>
+    <!-- ================= INPUT ================= -->
     <section class="card">
       <div class="card-head">
-        <h2>Flow record</h2>
+        <h2>1 &middot; Input network flow</h2>
         <div class="btn-row">
           <button id="btn-sample" type="button">Load Sample</button>
-          <button id="btn-predict" type="button" class="primary">Predict</button>
+          <button id="btn-analyze" type="button" class="primary">Analyze</button>
         </div>
       </div>
       <p class="hint">
-        All 41 features are shown; realistic defaults are pre-filled, so you
-        only tweak what you want (e.g. service, flag, src_bytes, rates).
-        "Load Sample" restores the canonical example record.
+        All 41 features are shown with realistic defaults; tweak what you
+        want (e.g. service, flag, src_bytes). "Analyze" runs the full
+        workflow: prediction &rarr; SHAP explanation &rarr; risk &rarr;
+        review priority. (The fast prediction-only path is still available
+        in the batch demo below.)
       </p>
       <div id="form-error" class="form-error hidden"></div>
       <form id="flow-form" autocomplete="off"></form>
     </section>
 
-    <section class="card">
+    <!-- ============ DETECTION / RISK / PRIORITY ============ -->
+    <section class="card hidden" id="result-card">
       <div class="card-head">
-        <h2>Batch demonstration</h2>
-        <button id="btn-batch" type="button">Run Test-Data Demo (10 rows)</button>
+        <h2>2 &middot; Detection &middot; 3 &middot; Risk &middot; 4 &middot; Review priority</h2>
       </div>
-      <p class="hint">
-        Pulls 10 real rows from the unlabelled test dataset, sends them to
-        POST /predict/batch, and summarizes the verdicts.
-      </p>
-      <div id="batch-summary" class="batch-summary"></div>
+      <div class="verdict-row">
+        <div class="verdict-block" id="block-detection">
+          <div class="block-label">Detection</div>
+          <div class="block-value" id="det-verdict">–</div>
+          <div class="block-sub" id="det-score">anomaly score: –</div>
+          <div class="block-sub muted" id="det-probs"></div>
+        </div>
+        <div class="verdict-block" id="block-risk">
+          <div class="block-label">Risk (model-derived prioritization score)</div>
+          <div class="block-value" id="risk-level">–</div>
+          <div class="block-sub" id="risk-score">risk score: –</div>
+          <div class="block-sub muted">not attack severity or impact</div>
+        </div>
+        <div class="verdict-block" id="block-priority">
+          <div class="block-label">Analyst review priority</div>
+          <div class="block-value" id="priority">–</div>
+          <div class="block-sub muted" id="priority-note">P1 = highest review priority</div>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>Recent predictions</h2>
-      <table id="recent-table">
+    <!-- ================= WHY ================= -->
+    <section class="card hidden" id="why-card">
+      <div class="card-head">
+        <h2>5 &middot; Why was this flagged?</h2>
+      </div>
+      <p class="hint">
+        Per-feature SHAP attributions of the model's P(anomaly) output for
+        this record. They explain the MODEL's output — they are not causal
+        and do not prove malicious behaviour.
+      </p>
+      <table id="evidence-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Verdict</th>
-            <th>Confidence</th>
-            <th>P(normal)</th>
-            <th>P(anomaly)</th>
+            <th>Feature</th>
+            <th>Value</th>
+            <th>SHAP contribution</th>
+            <th>Direction</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
-      <p class="hint">Most recent first, capped at 20 rows.</p>
+      <p class="hint" id="evidence-note">Showing the 10 strongest attributions of 41.</p>
+    </section>
+
+    <!-- ================= SOURCE ================= -->
+    <section class="card hidden" id="source-card">
+      <h2>Source</h2>
+      <p class="source-line" id="source-line">–</p>
+      <p class="hint">
+        Lineage comes from the committed risk-assessment report: sample_id is
+        the record's position in that report's 1,000-row sample; source_row_id
+        is its zero-based row in Train_data.csv. Ids stay empty for ad-hoc
+        inputs that do not match a stored report sample — they are never
+        fabricated.
+      </p>
+    </section>
+
+    <!-- ================= ALERT QUEUE ================= -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Prioritized alert queue</h2>
+        <button id="btn-alerts" type="button">Load prioritized alerts</button>
+      </div>
+      <p class="hint">
+        The committed prioritization report (deterministic, precomputed by
+        <code>python -m src.nids.prioritize</code>), served verbatim by
+        GET /alerts — nothing is re-ranked here. Click a row to analyze that
+        exact record with full SHAP evidence.
+      </p>
+      <div id="alerts-error" class="form-error hidden"></div>
+      <div class="btn-row" id="alert-filter-row" hidden>
+        <label class="filter-label">Filter:
+          <select id="alert-filter">
+            <option value="ALL">all priorities</option>
+            <option value="P1">P1</option>
+            <option value="P2">P2</option>
+            <option value="P3">P3</option>
+            <option value="P4">P4</option>
+          </select>
+          <span id="alert-counts" class="muted"></span>
+        </label>
+      </div>
+      <table id="alerts-table">
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Risk level</th>
+            <th>Risk score</th>
+            <th>Anomaly score</th>
+            <th>Prediction</th>
+            <th>Sample ID</th>
+            <th>Source row ID</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="hint" id="alerts-note" hidden></p>
+    </section>
+
+    <!-- ================= BATCH DEMO ================= -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Fast batch demonstration</h2>
+        <button id="btn-batch" type="button">Run Test-Data Demo (10 rows)</button>
+      </div>
+      <p class="hint">
+        Pulls 10 real rows from the unlabelled test dataset and sends them to
+        POST /predict/batch — the fast path (model scores only, no SHAP).
+      </p>
+      <div id="batch-summary" class="batch-summary"></div>
     </section>
   </main>
 
   <footer>
     College minor project - ML core: scikit-learn RandomForest (200 trees);
-    API: FastAPI. The test dataset is unlabelled, so the demo shows model
-    verdicts rather than accuracy.
+    API: FastAPI. Detection, risk, and priority operate on structured
+    network-flow records, not live packet capture. The test dataset is
+    unlabelled, so the demo shows model verdicts rather than accuracy.
   </footer>
 
   <script src="/static/app.js"></script>
