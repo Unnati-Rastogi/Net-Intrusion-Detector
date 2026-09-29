@@ -1,9 +1,12 @@
 # Transparent Risk Scoring
 
-**Status:** implemented as an OFFLINE layer (`src/nids/risk.py`,
-`reports/risk_assessment.json`). It is **not** wired into the API, the
-dashboard, or the prediction path. Alert prioritization and event grouping
-are later stages.
+**Status:** implemented in `src/nids/risk.py` (offline report:
+`reports/risk_assessment.json`) and integrated into the API's analyst
+workflow: `POST /analyze` runs detection → SHAP explanation → risk →
+review priority for one record (the fast `POST /predict` path stays
+SHAP-free and computes no risk). Alert prioritization is implemented on
+top of these risk records (`docs/alert_prioritization.md`); event
+grouping remains a later stage.
 
 ## 1. Motivation
 

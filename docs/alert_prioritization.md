@@ -1,8 +1,11 @@
 # Alert Prioritization
 
-**Status:** implemented as an OFFLINE layer (`src/nids/prioritize.py`,
-`reports/alert_prioritization.json`). It is **not** wired into the API or
-dashboard; event grouping and incident correlation are later stages.
+**Status:** implemented in `src/nids/prioritize.py` (offline report:
+`reports/alert_prioritization.json`). The API serves that committed report
+verbatim via `GET /alerts` — nothing is re-ranked at request time — and
+the per-record analyst workflow `POST /analyze` applies the same
+risk-level → P1–P4 mapping. Event grouping and incident correlation
+remain later stages.
 
 ## 1. Why prioritization is needed
 
