@@ -24,8 +24,6 @@ data/CIC-IDS2017/
 data/test_datasets/
 models/profiles/
 reports/profiles/
-models/cic_ids2017_detector.joblib
-reports/cic_ids2017_detector.json
 
 # Generated outputs (regenerate with scripts; not part of the MVP)
 predictions.csv

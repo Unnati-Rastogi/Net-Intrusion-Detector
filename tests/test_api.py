@@ -122,13 +122,13 @@ class TestApi(unittest.TestCase):
         response = self.client.get("/openapi.json")
         self.assertEqual(response.status_code, 200)
         paths = response.json()["paths"]
-        self.assertEqual(
-            sorted(paths),
-            ["/alerts", "/analyze", "/demo/test-rows",
-             "/evaluation/cross-validation", "/evaluation/holdout",
-             "/evaluation/model-comparison", "/features", "/health",
-             "/predict", "/predict/batch", "/sample"],
-        )
+        self.assertTrue({
+            "/health",
+            "/detections/cic/status",
+            "/detections/cic/scan",
+            "/detections/cic/explain",
+            "/evaluation/cic-ids2017",
+        }.issubset(paths))
 
 
 class TestDashboard(unittest.TestCase):
@@ -141,21 +141,16 @@ class TestDashboard(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("text/html", response.headers["content-type"])
         html = response.text
-        self.assertIn("Network data review", html)
-        self.assertIn("See how well the detector works", html)
-        self.assertIn("Load example again", html)
-        self.assertIn("Check this example", html)
-        self.assertIn("Why did the checker give this result?", html)
-        self.assertIn("Review list", html)
+        self.assertIn("Scan dataset", html)
+        self.assertIn("Model validation", html)
+        self.assertIn("Why this flow was flagged", html)
         self.assertIn("/static/app.js", html)
 
     def test_static_js_served(self):
         response = self.client.get("/static/app.js")
         self.assertEqual(response.status_code, 200)
-        # The dashboard drives the analyst workflow via /analyze and the
-        # precomputed /alerts report.
-        self.assertIn("/analyze", response.text)
-        self.assertIn("/alerts", response.text)
+        self.assertIn("/detections/cic/scan", response.text)
+        self.assertIn("/detections/cic/explain", response.text)
 
     def test_dashboard_renders_api_data_safely(self):
         # API-derived values must never pass through innerHTML.

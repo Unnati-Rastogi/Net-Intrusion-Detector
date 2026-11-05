@@ -1,0 +1,46 @@
+{
+  "detector": "cic_ids2017_default_flow_detector",
+  "created_at_utc": "2026-11-02T10:45:33+00:00",
+  "model": "random_forest",
+  "threshold": 0.005,
+  "training_days": [
+    "monday",
+    "tuesday",
+    "wednesday"
+  ],
+  "validation_day": "thursday",
+  "selected_from": "reports\\cic_ids2017_model_comparison.json",
+  "validation_metrics": {
+    "threshold": 0.005,
+    "accuracy": 0.904324,
+    "balanced_accuracy": 0.769339,
+    "precision_attack": 0.952542,
+    "recall_attack": 0.545413,
+    "f1_attack": 0.693651,
+    "average_precision": 0.60162,
+    "roc_auc": 0.768778,
+    "counts": {
+      "true_negative": 288215,
+      "false_positive": 1954,
+      "false_negative": 32688,
+      "true_positive": 39219
+    }
+  },
+  "held_out_test_metrics": {
+    "threshold": 0.005,
+    "accuracy": 0.924819,
+    "balanced_accuracy": 0.920696,
+    "precision_attack": 0.97483,
+    "recall_attack": 0.860755,
+    "f1_attack": 0.914248,
+    "average_precision": 0.915527,
+    "roc_auc": 0.924122,
+    "counts": {
+      "true_negative": 286945,
+      "false_positive": 5666,
+      "false_negative": 35500,
+      "true_positive": 219446
+    }
+  },
+  "model_artifact": "models\\cic_ids2017_detector.joblib"
+}
