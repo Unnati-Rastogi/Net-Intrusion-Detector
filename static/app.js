@@ -1,457 +1,218 @@
-/* NIDS dashboard logic (analyst workflow).
- *
- * Everything here talks to the existing FastAPI endpoints:
- *   GET  /health, /features, /sample, /demo/test-rows, /alerts
- *   POST /analyze, /predict/batch
- * No build step, no framework. All API-derived values are rendered through
- * safe DOM APIs (textContent / createElement); API data never passes
- * through markup string concatenation, so injection is impossible.
- *
- * Terminology honesty: "anomaly score" is the model's P(anomaly) output;
- * "risk" is a model-derived prioritization score, not attack severity;
- * "P1..P4" order analyst review, they do not grade attack danger.
- */
-
-const API = {
-  async request(path, options) {
-    const res = await fetch(path, options);
-    if (!res.ok) {
-      let detail = `HTTP ${res.status}`;
-      try {
-        const body = await res.json();
-        detail = body.feature_errors || body.detail || detail;
-      } catch (_) { /* non-JSON error body */ }
-      throw new Error(
-        Array.isArray(detail) ? detail.join("\n") : String(detail)
-      );
-    }
-    return res.json();
-  },
-
-  get(path) {
-    return this.request(path);
-  },
-
-  post(path, payload) {
-    return this.request(path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-  },
-};
-
+/* NetGuard browser application. API data is always inserted with DOM nodes. */
+const $ = (id) => document.getElementById(id);
 const els = {
-  health: document.getElementById("health"),
-  form: document.getElementById("flow-form"),
-  formError: document.getElementById("form-error"),
-  btnSample: document.getElementById("btn-sample"),
-  btnAnalyze: document.getElementById("btn-analyze"),
-  btnBatch: document.getElementById("btn-batch"),
-  btnAlerts: document.getElementById("btn-alerts"),
-  batchSummary: document.getElementById("batch-summary"),
-  resultCard: document.getElementById("result-card"),
-  whyCard: document.getElementById("why-card"),
-  sourceCard: document.getElementById("source-card"),
-  detVerdict: document.getElementById("det-verdict"),
-  detScore: document.getElementById("det-score"),
-  detProbs: document.getElementById("det-probs"),
-  riskLevel: document.getElementById("risk-level"),
-  riskScore: document.getElementById("risk-score"),
-  priority: document.getElementById("priority"),
-  priorityNote: document.getElementById("priority-note"),
-  evidenceBody: document.querySelector("#evidence-table tbody"),
-  evidenceNote: document.getElementById("evidence-note"),
-  sourceLine: document.getElementById("source-line"),
-  alertsError: document.getElementById("alerts-error"),
-  alertsBody: document.querySelector("#alerts-table tbody"),
-  alertsNote: document.getElementById("alerts-note"),
-  alertFilterRow: document.getElementById("alert-filter-row"),
-  alertFilter: document.getElementById("alert-filter"),
-  alertCounts: document.getElementById("alert-counts"),
+  file: $("dataset-file"), dropZone: $("drop-zone"), scanButton: $("scan-button"),
+  uploadPrompt: $("upload-prompt"), uploadName: $("upload-file-name"), scanStatus: $("scan-status"),
+  detectorStatus: $("detector-status"), result: $("scan-result"), verdict: $("verdict-card"),
+  verdictLabel: $("verdict-label"), verdictSummary: $("verdict-summary"), scanned: $("stat-scanned"),
+  flagged: $("stat-flagged"), flaggedRate: $("stat-flagged-rate"), normal: $("stat-normal"), model: $("stat-model"),
+  labeled: $("labeled-evaluation"), accuracy: $("metric-accuracy"), precision: $("metric-precision"), recall: $("metric-recall"),
+  alertsBody: $("alerts-body"), download: $("download-results"), explanation: $("explanation-panel"),
+  explanationStatus: $("explanation-status"), explanationContent: $("explanation-content"), explanationSubtitle: $("explanation-subtitle"),
+  explanationDecision: $("explanation-decision"), explanationScore: $("explanation-score"), evidenceBody: $("evidence-body"), plainExplanation: $("plain-explanation"),
+  validationMetrics: $("validation-metrics"), selectedBadge: $("selected-model-badge"), validationMethod: $("validation-method"),
+  comparisonBody: $("comparison-body"), baselineMetrics: $("baseline-metrics"),
 };
 
-const EVIDENCE_SHOWN = 10;
-const ALERTS_SHOWN = 100;
-const PRIORITY_NOTES = {
-  P1: "P1 - highest analyst review priority",
-  P2: "P2 - high review priority",
-  P3: "P3 - moderate review priority",
-  P4: "P4 - review backlog (model did not flag this record)",
+const api = async (path, options = {}) => {
+  const response = await fetch(path, options);
+  if (!response.ok) {
+    let message = `Request failed (${response.status})`;
+    try { message = (await response.json()).detail || message; } catch (_) { /* ignore */ }
+    throw new Error(Array.isArray(message) ? message.join(" ") : String(message));
+  }
+  return response.json();
+};
+const percent = (value) => `${(Number(value) * 100).toFixed(1)}%`;
+const number = (value) => Number(value).toLocaleString();
+const labelForModel = (value) => ({ random_forest: "Random Forest", logistic_regression: "Logistic Regression", xgboost: "XGBoost" }[value] || value || "—");
+const plainSignal = (feature) => {
+  const labels = {
+    "Flow Duration": "how long the connection lasted",
+    "Flow Bytes/s": "the rate at which data moved",
+    "Flow Packets/s": "the rate at which packets arrived",
+    "Src Port": "the source port used",
+    "Dst Port": "the destination port used",
+    "Protocol": "the network protocol used",
+    "Total Fwd Packet": "the number of packets sent",
+    "Total Bwd packets": "the number of reply packets",
+  };
+  if (labels[feature]) return labels[feature];
+  if (feature.includes("IAT")) return "the timing gaps between packets";
+  if (feature.includes("Packet Length")) return "the packet-size pattern";
+  if (feature.includes("Flags")) return "the connection-control flags";
+  if (feature.includes("Header Length")) return "the packet-header size";
+  return feature.replaceAll("_", " ").toLowerCase();
 };
 
-let allAlerts = [];
+function setStatus(target, message, error = false) {
+  target.textContent = message;
+  target.classList.toggle("error", error);
+}
 
-/* --- health banner ----------------------------------------------------- */
+function cell(row, text, className = "") {
+  const item = document.createElement("td");
+  item.textContent = text == null || text === "" ? "—" : String(text);
+  if (className) item.className = className;
+  row.append(item);
+  return item;
+}
 
-async function refreshHealth() {
-  els.health.className = "health health-loading";
-  els.health.textContent = "checking API health…";
+function setView(view) {
+  const validation = view === "validation";
+  $("scan-view").classList.toggle("hidden", validation);
+  $("validation-view").classList.toggle("hidden", !validation);
+  document.querySelectorAll("[data-view-link]").forEach((link) => link.classList.toggle("active", link.dataset.viewLink === view));
+  if (validation) loadValidation();
+}
+
+function updateFile(file) {
+  els.scanButton.disabled = !file;
+  els.uploadPrompt.textContent = file ? "Dataset ready to scan" : "Choose a CSV file";
+  els.uploadName.textContent = file ? `${file.name} · ${Math.max(1, Math.ceil(file.size / 1024)).toLocaleString()} KB` : "or drag it here";
+  setStatus(els.scanStatus, "");
+}
+
+async function refreshDetector() {
   try {
-    const h = await API.get("/health");
-    if (!h.model_loaded) throw new Error("model not loaded");
-    els.health.className = "health health-ok";
-    els.health.textContent =
-      `API healthy - model loaded (${h.feature_count} features, ` +
-      `classes ${h.classes.join("/")})`;
-  } catch (err) {
-    els.health.className = "health health-bad";
-    els.health.textContent = "API unhealthy: " + err.message;
-    throw err;
+    const state = await api("/detections/cic/status");
+    if (!state.ready) throw new Error(state.detail);
+    els.detectorStatus.className = "service-status ready";
+    els.detectorStatus.replaceChildren();
+    const dot = document.createElement("span"); dot.className = "status-dot"; dot.setAttribute("aria-hidden", "true");
+    els.detectorStatus.append(dot, document.createTextNode(`${labelForModel(state.model)} detector ready`));
+  } catch (error) {
+    els.detectorStatus.className = "service-status error";
+    els.detectorStatus.replaceChildren();
+    const dot = document.createElement("span"); dot.className = "status-dot"; dot.setAttribute("aria-hidden", "true");
+    els.detectorStatus.append(dot, document.createTextNode("Detector unavailable"));
+    els.scanButton.disabled = true;
+    setStatus(els.scanStatus, error.message, true);
   }
 }
 
-/* --- feature form ------------------------------------------------------ */
-
-function defaultFor(column, meta) {
-  if (meta.categorical.includes(column)) {
-    const values = meta.categoryValues[column];
-    return values && values.length ? values[0] : "";
+function renderAlerts(alerts) {
+  els.alertsBody.replaceChildren();
+  if (!alerts.length) {
+    const row = document.createElement("tr");
+    const item = cell(row, "No flow data was returned."); item.colSpan = 5; els.alertsBody.append(row); return;
   }
-  if (/(_rate)$/.test(column)) return 0.0;      // rate features live in [0,1]
-  if (["land", "urgent", "root_shell", "logged_in",
-       "is_guest_login", "num_shells"].includes(column)) return 0;
-  if (column === "same_srv_rate" || column === "dst_host_same_srv_rate") return 1.0;
-  if (column === "dst_host_srv_count") return 255;
-  if (column === "dst_host_count") return 30;
-  if (column === "count" || column === "srv_count") return 5;
-  return 0;
+  for (const alert of alerts) {
+    const row = document.createElement("tr");
+    cell(row, `#${alert.record}`);
+    const decision = document.createElement("span"); decision.className = `decision ${alert.prediction}`; decision.textContent = alert.prediction === "attack" ? "Suspicious" : "Normal";
+    const decisionCell = document.createElement("td"); decisionCell.append(decision); row.append(decisionCell);
+    cell(row, percent(alert.anomaly_score), "score");
+    const connection = [alert["Src IP"], alert["Src Port"], alert["Dst IP"], alert["Dst Port"]].filter(Boolean).join("  →  ");
+    cell(row, connection || "Flow metadata unavailable");
+    const actionCell = document.createElement("td"); const button = document.createElement("button");
+    button.type = "button"; button.className = "row-button"; button.textContent = "Explain"; button.addEventListener("click", () => explainAlert(alert));
+    actionCell.append(button); row.append(actionCell); els.alertsBody.append(row);
+  }
 }
 
-function buildForm(meta) {
-  els.form.textContent = "";
-  for (const column of meta.featureColumns) {
-    const wrap = document.createElement("div");
-    wrap.className = "field";
-    const label = document.createElement("label");
-    label.textContent = column;
-    label.title = column;
-    wrap.appendChild(label);
+function renderResult(result) {
+  const suspicious = result.dataset_assessment === "suspicious_activity_detected";
+  const rate = result.records_scanned ? result.attacks_flagged / result.records_scanned : 0;
+  els.result.classList.remove("hidden");
+  els.verdict.className = `verdict-card ${suspicious ? "warning" : "safe"}`;
+  els.verdictLabel.textContent = suspicious ? "Suspicious activity detected" : "No suspicious activity detected";
+  els.verdictSummary.textContent = suspicious
+    ? `${number(result.attacks_flagged)} of ${number(result.records_scanned)} flows were flagged for review. Inspect the highest-scoring connections below to understand the evidence.`
+    : `No flows crossed the detector’s review threshold in this dataset of ${number(result.records_scanned)} connections.`;
+  els.scanned.textContent = number(result.records_scanned); els.flagged.textContent = number(result.attacks_flagged);
+  els.flaggedRate.textContent = `${percent(rate)} of uploaded flows`; els.normal.textContent = number(result.normal_records); els.model.textContent = labelForModel(result.model);
+  els.download.href = result.download_url; els.download.download = "intrusion-scan-results.csv";
+  if (result.labeled_evaluation) {
+    const metrics = result.labeled_evaluation;
+    els.accuracy.textContent = percent(metrics.accuracy);
+    els.precision.textContent = metrics.attack_metrics_available === false ? "Not applicable" : percent(metrics.precision_attack);
+    els.recall.textContent = metrics.attack_metrics_available === false ? "Not applicable" : percent(metrics.recall_attack);
+    els.labeled.classList.remove("hidden");
+  } else { els.labeled.classList.add("hidden"); }
+  renderAlerts(result.top_alerts || []);
+  els.explanation.classList.add("hidden");
+  els.result.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-    let input;
-    if (meta.categorical.includes(column)) {
-      input = document.createElement("select");
-      const values = meta.categoryValues[column] || [];
-      for (const v of values) {
-        const opt = document.createElement("option");
-        opt.value = v;
-        opt.textContent = v;
-        input.appendChild(opt);
-      }
-      if (!values.length) {
-        // training CSV unavailable -> free-text fallback (model tolerates it)
-        input = document.createElement("input");
-        input.type = "text";
-      }
-    } else {
-      input = document.createElement("input");
-      input.type = "text";
-      input.inputMode = "decimal";
+async function scanDataset() {
+  const file = els.file.files[0]; if (!file) return;
+  els.scanButton.disabled = true; els.scanButton.textContent = "Scanning…";
+  setStatus(els.scanStatus, "Uploading dataset and evaluating network flows…");
+  try {
+    const result = await api("/detections/cic/scan", { method: "POST", headers: { "Content-Type": "text/csv" }, body: file });
+    setStatus(els.scanStatus, "Scan complete."); renderResult(result);
+  } catch (error) {
+    setStatus(els.scanStatus, error.message, true);
+  } finally { els.scanButton.disabled = false; els.scanButton.textContent = "Scan dataset"; }
+}
+
+async function explainAlert(alert) {
+  els.explanation.classList.remove("hidden"); els.explanationContent.classList.add("hidden");
+  els.explanationSubtitle.textContent = `Record #${alert.record} · generating feature evidence`;
+  setStatus(els.explanationStatus, "Preparing explanation…");
+  els.explanation.scrollIntoView({ behavior: "smooth", block: "start" });
+  try {
+    const result = await api("/detections/cic/explain", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(alert.features) });
+    setStatus(els.explanationStatus, ""); els.explanationDecision.textContent = result.prediction === "attack" ? "Suspicious flow" : "Normal flow";
+    els.explanationScore.textContent = `Attack score ${percent(result.anomaly_score)} · Review threshold ${percent(result.threshold)}`;
+    const strongest = result.evidence.filter((item) => item.shap_value > 0).slice(0, 3).map((item) => plainSignal(item.feature));
+    els.plainExplanation.textContent = strongest.length
+      ? `In simple terms: this connection stood out because of ${strongest.join(", ")}. Together, these patterns raised the model’s suspicion score.`
+      : "In simple terms: the model did not find strong traffic patterns that raised its suspicion score for this connection.";
+    els.evidenceBody.replaceChildren();
+    for (const evidence of result.evidence) {
+      const row = document.createElement("tr"); cell(row, evidence.feature); cell(row, evidence.value);
+      cell(row, evidence.direction, evidence.shap_value >= 0 ? "effect-up" : "effect-down"); els.evidenceBody.append(row);
     }
-    input.name = column;
-    input.value = defaultFor(column, meta);
-    wrap.appendChild(input);
-    els.form.appendChild(wrap);
+    els.explanationContent.classList.remove("hidden");
+  } catch (error) { setStatus(els.explanationStatus, error.message, true); }
+}
+
+function metricCard(title, value, note = "") {
+  const card = document.createElement("article"); card.className = "stat-card";
+  const label = document.createElement("span"); label.textContent = title; const strong = document.createElement("strong"); strong.textContent = value;
+  card.append(label, strong); if (note) { const small = document.createElement("small"); small.textContent = note; card.append(small); } return card;
+}
+
+function renderCicValidation(report) {
+  const selected = report.selected_model_by_validation; const selectedResult = report.models[selected];
+  els.selectedBadge.textContent = `${labelForModel(selected)} selected`;
+  els.validationMetrics.replaceChildren(
+    metricCard("Accuracy", percent(selectedResult.test.accuracy), "Held-out Friday capture"),
+    metricCard("Attack precision", percent(selectedResult.test.precision_attack), "Flagged flows that were attacks"),
+    metricCard("Attack recall", percent(selectedResult.test.recall_attack), "Known attacks detected"),
+    metricCard("Attack F1", percent(selectedResult.test.f1_attack), "Precision and recall combined"),
+  );
+  els.validationMethod.textContent = `${number(report.evaluation.training_records)} training flows · ${number(report.evaluation.validation_records)} validation flows · ${number(report.evaluation.test_records)} held-out test flows. Model selection used Thursday only; Friday was reserved for final testing.`;
+  els.comparisonBody.replaceChildren();
+  for (const key of ["logistic_regression", "random_forest", "xgboost"]) {
+    const model = report.models[key]; if (!model) continue; const row = document.createElement("tr");
+    cell(row, labelForModel(key)); cell(row, percent(model.test.accuracy)); cell(row, percent(model.test.precision_attack)); cell(row, percent(model.test.recall_attack)); cell(row, percent(model.test.f1_attack)); cell(row, key === selected ? "Selected" : "Compared", key === selected ? "score" : ""); els.comparisonBody.append(row);
   }
 }
 
-function collectForm() {
-  const features = {};
-  for (const el of els.form.elements) {
-    if (!el.name) continue;
-    if (el.tagName === "SELECT") {
-      features[el.name] = el.value;                 // categorical: string
-    } else if (/_rate$/.test(el.name)) {
-      features[el.name] = Number(el.value) || 0;    // rate features: numeric
-    } else {
-      const n = Number(el.value);
-      features[el.name] =
-        el.value.trim() === "" ? 0
-        : Number.isFinite(n) ? n
-        : el.value;                                 // bad input -> API 422
-    }
-  }
-  return features;
-}
-
-function loadSample(sample) {
-  for (const [column, value] of Object.entries(sample)) {
-    const el = els.form.elements[column];
-    if (el) el.value = value;
-  }
-}
-
-function setFormError(message) {
-  if (message) {
-    els.formError.textContent = message;
-    els.formError.classList.remove("hidden");
-  } else {
-    els.formError.textContent = "";
-    els.formError.classList.add("hidden");
-  }
-}
-
-/* --- analyst result rendering ------------------------------------------ */
-
-function renderWorkflow(result) {
-  // Detection
-  const isAnomaly = result.prediction === "anomaly";
-  els.detVerdict.textContent = isAnomaly ? "ANOMALY" : "NORMAL";
-  els.detVerdict.className =
-    "block-value " + (isAnomaly ? "verdict-anomaly" : "verdict-normal");
-  els.detScore.textContent =
-    `anomaly score (model P(anomaly)): ${result.anomaly_score.toFixed(4)}`;
-  els.detProbs.textContent =
-    `P(normal) ${result.probability_normal.toFixed(4)} - ` +
-    `P(anomaly) ${result.probability_anomaly.toFixed(4)}`;
-  els.resultCard.classList.remove("hidden");
-
-  // Risk (model-derived prioritization score)
-  els.riskLevel.textContent = result.risk_level;
-  els.riskLevel.className =
-    "block-value level-" + result.risk_level.toLowerCase();
-  els.riskScore.textContent = `risk score: ${result.risk_score.toFixed(1)} / 100`;
-  els.resultCard.classList.remove("hidden");
-
-  // Review priority
-  els.priority.textContent = result.priority;
-  els.priority.className =
-    "block-value priority-" + result.priority.toLowerCase();
-  els.priorityNote.textContent =
-    PRIORITY_NOTES[result.priority] || "analyst review priority";
-
-  // Why was this flagged? (SHAP attributions of the model output)
-  els.evidenceBody.textContent = "";
-  const rows = result.explanation.slice(0, EVIDENCE_SHOWN);
-  for (const item of rows) {
-    const tr = document.createElement("tr");
-    const cells = [
-      item.feature,
-      String(item.value),
-      (item.shap_value >= 0 ? "+" : "") + item.shap_value.toFixed(4),
-      item.direction === "increases_anomaly_score"
-        ? "increases anomaly score"
-        : "decreases anomaly score",
-    ];
-    cells.forEach((text, i) => {
-      const td = document.createElement("td");
-      td.textContent = text;
-      if (i === 2) {
-        td.className = item.shap_value >= 0 ? "shap-pos" : "shap-neg";
-      }
-      tr.appendChild(td);
-    });
-    els.evidenceBody.appendChild(tr);
-  }
-  els.evidenceNote.textContent =
-    `Showing the ${rows.length} strongest attributions of ` +
-    `${result.explanation.length} features.`;
-  els.whyCard.classList.remove("hidden");
-
-  // Source lineage (only present when the record matches a stored sample)
-  els.sourceLine.textContent = "";
-  if (result.sample_id !== null && result.sample_id !== undefined) {
-    const strong = document.createElement("strong");
-    strong.textContent = "known report sample";
-    els.sourceLine.appendChild(strong);
-    els.sourceLine.appendChild(document.createTextNode(
-      ` - Sample ID: ${result.sample_id}` +
-      ` - Source row: ${result.source_row_id}` +
-      " (zero-based row in Train_data.csv)"
-    ));
-  } else {
-    els.sourceLine.appendChild(document.createTextNode(
-      "ad-hoc record - no stored-report match; " +
-      "sample ID / source row stay empty (never fabricated)"
-    ));
-  }
-  els.sourceCard.classList.remove("hidden");
-  els.resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-/* --- analyze (features or stored sample) -------------------------------- */
-
-async function analyzeCurrent() {
-  els.btnAnalyze.disabled = true;
-  setFormError("");
-  try {
-    const result = await API.post("/analyze", { features: collectForm() });
-    renderWorkflow(result);
-  } catch (err) {
-    setFormError("Analysis failed:\n" + err.message);
-  } finally {
-    els.btnAnalyze.disabled = false;
-  }
-}
-
-async function analyzeStoredSample(sampleId) {
-  setFormError("");
-  try {
-    const result = await API.post("/analyze", { sample_id: sampleId });
-    renderWorkflow(result);
-  } catch (err) {
-    setFormError("Analysis failed:\n" + err.message);
-  }
-}
-
-/* --- prioritized alert queue -------------------------------------------- */
-
-function alertRow(alert) {
-  const tr = document.createElement("tr");
-  tr.className = "alert-row priority-" + alert.priority.toLowerCase();
-  tr.title = "click to analyze this record";
-
-  const cells = [
-    alert.priority,
-    alert.risk_level,
-    alert.risk_score.toFixed(1),
-    alert.anomaly_score.toFixed(4),
-    alert.prediction,
-    String(alert.sample_id),
-    alert.source_row_id === null || alert.source_row_id === undefined
-      ? "-"
-      : String(alert.source_row_id),
-  ];
-  cells.forEach((text, i) => {
-    const td = document.createElement("td");
-    td.textContent = text;
-    if (i === 0) td.className = "tag tag-" + alert.priority.toLowerCase();
-    if (i === 4) td.className = "tag tag-" + alert.prediction;
-    tr.appendChild(td);
-  });
-  tr.addEventListener("click", () => analyzeStoredSample(alert.sample_id));
-  return tr;
-}
-
-function renderAlerts() {
-  const filter = els.alertFilter.value;                 // 'ALL' | 'P1'..'P4'
-  const filtered =
-    filter === "ALL" ? allAlerts : allAlerts.filter((a) => a.priority === filter);
-  const shown = filtered.slice(0, ALERTS_SHOWN);
-
-  els.alertsBody.textContent = "";
-  if (!shown.length) {
-    const tr = document.createElement("tr");
-    tr.className = "empty-row";
-    const td = document.createElement("td");
-    td.colSpan = 7;
-    td.textContent = filter === "ALL"
-      ? "no alerts loaded"
-      : `no ${filter} alerts in the report`;
-    tr.appendChild(td);
-    els.alertsBody.appendChild(tr);
-  }
-  for (const alert of shown) els.alertsBody.appendChild(alertRow(alert));
-
-  if (allAlerts.length) {
-    const counts = allAlerts.reduce((acc, a) => {
-      acc[a.priority] = (acc[a.priority] || 0) + 1;
-      return acc;
-    }, {});
-    els.alertCounts.textContent = Object.keys(counts)
-      .sort()
-      .map((p) => `${p}=${counts[p]}`)
-      .join("  ");
-    els.alertsNote.textContent =
-      `Showing ${shown.length} of ${filtered.length} ${filter === "ALL" ? "" : filter + " "}alerts` +
-      (filtered.length > ALERTS_SHOWN ? ` (first ${ALERTS_SHOWN})` : "") +
-      ". Click a row to analyze that record with full SHAP evidence.";
-    els.alertsNote.hidden = false;
-  }
-}
-
-async function loadAlerts() {
-  els.btnAlerts.disabled = true;
-  els.alertsError.classList.add("hidden");
-  try {
-    const report = await API.get("/alerts");
-    allAlerts = report.alerts;
-    els.alertFilterRow.hidden = false;
-    renderAlerts();
-  } catch (err) {
-    els.alertsError.textContent = "Could not load alerts:\n" + err.message;
-    els.alertsError.classList.remove("hidden");
-  } finally {
-    els.btnAlerts.disabled = false;
-  }
-}
-
-/* --- fast batch demo (no SHAP) ------------------------------------------ */
-
-function clearNode(node) {
-  node.textContent = "";
-  return node;
-}
-
-function batchLine(parent, text) {
-  const p = document.createElement("p");
-  p.className = "batch-line";
-  p.textContent = text;
-  parent.appendChild(p);
-  return p;
-}
-
-async function runBatchDemo() {
-  els.btnBatch.disabled = true;
-  clearNode(els.batchSummary).textContent = "fetching test rows…";
-  try {
-    const demo = await API.get("/demo/test-rows?limit=10");
-    const batch = await API.post("/predict/batch", { features: demo.rows });
-    const anomalies = batch.predictions.filter(
-      (p) => p.prediction === "anomaly"
-    ).length;
-    const avgConf =
-      batch.predictions.reduce((sum, p) => sum + p.confidence, 0) /
-      batch.predictions.length;
-    clearNode(els.batchSummary);
-    batchLine(els.batchSummary,
-      `Sent ${batch.count} real rows from Test_data.csv to POST /predict/batch.`);
-    batchLine(els.batchSummary,
-      `${batch.count - anomalies} NORMAL - ${anomalies} ANOMALY`);
-    batchLine(els.batchSummary,
-      `Average confidence: ${(avgConf * 100).toFixed(1)}%`);
-  } catch (err) {
-    clearNode(els.batchSummary);
-    const p = batchLine(els.batchSummary, "Batch demo failed: " + err.message);
-    p.style.color = "var(--bad)";
-  } finally {
-    els.btnBatch.disabled = false;
-  }
-}
-
-/* --- init --------------------------------------------------------------- */
-
-async function init() {
-  try {
-    await refreshHealth();
-  } catch (_) {
-    setFormError(
-      "API is unreachable or the model is not loaded. Start it with: python run_api.py"
-    );
-    els.formError.classList.remove("hidden");
-    return;
-  }
-  const meta = await API.get("/features");
-  buildForm({
-    featureColumns: meta.feature_columns,
-    categorical: meta.categorical_columns,
-    categoryValues: meta.category_values,
-  });
-  const sample = await API.get("/sample");
-  loadSample(sample.features);
-
-  els.btnSample.addEventListener("click", () => {
-    loadSample(sample.features);
-    setFormError("");          // a restored sample invalidates old errors
-  });
-  els.btnAnalyze.addEventListener("click", analyzeCurrent);
-  els.btnBatch.addEventListener("click", runBatchDemo);
-  els.btnAlerts.addEventListener("click", loadAlerts);
-  els.alertFilter.addEventListener("change", renderAlerts);
-  els.form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    analyzeCurrent();
+function renderBaseline(report) {
+  const metrics = report.metrics;
+  if (!metrics) return;
+  els.baselineMetrics.replaceChildren();
+  [["Accuracy", metrics.accuracy], ["Attack precision", metrics.precision_anomaly], ["Attack recall", metrics.recall_anomaly], ["Attack F1", metrics.f1_anomaly]].forEach(([title, value]) => {
+    const item = document.createElement("span"); item.textContent = `${title} `; const strong = document.createElement("b"); strong.textContent = percent(value); item.append(strong); els.baselineMetrics.append(item);
   });
 }
 
-init();
+let validationLoaded = false;
+async function loadValidation() {
+  if (validationLoaded) return;
+  try { renderCicValidation(await api("/evaluation/cic-ids2017")); } catch (error) { els.validationMethod.textContent = error.message; }
+  try { renderBaseline(await api("/evaluation/holdout")); } catch (_) { els.baselineMetrics.textContent = "Saved NSL-KDD baseline results are unavailable."; }
+  validationLoaded = true;
+}
+
+els.file.addEventListener("change", () => updateFile(els.file.files[0]));
+els.dropZone.addEventListener("dragover", (event) => { event.preventDefault(); els.dropZone.classList.add("dragging"); });
+els.dropZone.addEventListener("dragleave", () => els.dropZone.classList.remove("dragging"));
+els.dropZone.addEventListener("drop", (event) => { event.preventDefault(); els.dropZone.classList.remove("dragging"); const [file] = event.dataTransfer.files; if (file) { const data = new DataTransfer(); data.items.add(file); els.file.files = data.files; updateFile(file); } });
+els.scanButton.addEventListener("click", scanDataset);
+window.addEventListener("hashchange", () => setView(location.hash === "#validation" ? "validation" : "scan"));
+setView(location.hash === "#validation" ? "validation" : "scan"); refreshDetector();

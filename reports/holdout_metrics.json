@@ -1,0 +1,319 @@
+{
+  "report": "nids_labeled_holdout_evaluation",
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-26T15:12:06+00:00",
+  "evaluation": {
+    "name": "NSL-KDD KDDTest+ labeled holdout",
+    "kind": "fixed_benchmark_holdout",
+    "records_scored": 22544,
+    "features": 41,
+    "ground_truth_source": "https://github.com/jmnwong/NSL-KDD-Dataset",
+    "source_file": "KDDTest+.TXT",
+    "label_definition": "normal is normal; every named attack type is anomaly",
+    "scope_note": "This replays historical, labeled benchmark records through the saved model. It is not a live network feed or a measure of current network activity."
+  },
+  "metrics": {
+    "accuracy": 0.78074,
+    "precision_anomaly": 0.969084,
+    "recall_anomaly": 0.635081,
+    "f1_anomaly": 0.767312,
+    "recall_normal": 0.973226,
+    "false_alarms": 260,
+    "missed_attacks": 4683,
+    "correctly_detected_attacks": 8150,
+    "correctly_cleared_normal": 9451,
+    "confusion_matrix": {
+      "labels": [
+        "normal",
+        "attack"
+      ],
+      "rows": "actual",
+      "columns": "predicted",
+      "counts": [
+        [
+          9451,
+          260
+        ],
+        [
+          4683,
+          8150
+        ]
+      ]
+    }
+  },
+  "class_counts": {
+    "normal": 9711,
+    "attack": 12833,
+    "predicted_normal": 14134,
+    "predicted_attack": 8410
+  },
+  "attack_types": [
+    {
+      "name": "guess_passwd",
+      "records": 1231,
+      "detected": 0,
+      "missed": 1231,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "warezmaster",
+      "records": 944,
+      "detected": 162,
+      "missed": 782,
+      "detection_rate": 0.17161
+    },
+    {
+      "name": "processtable",
+      "records": 685,
+      "detected": 0,
+      "missed": 685,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "mscan",
+      "records": 996,
+      "detected": 339,
+      "missed": 657,
+      "detection_rate": 0.340361
+    },
+    {
+      "name": "snmpguess",
+      "records": 331,
+      "detected": 0,
+      "missed": 331,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "mailbomb",
+      "records": 293,
+      "detected": 0,
+      "missed": 293,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "apache2",
+      "records": 737,
+      "detected": 479,
+      "missed": 258,
+      "detection_rate": 0.649932
+    },
+    {
+      "name": "snmpgetattack",
+      "records": 178,
+      "detected": 0,
+      "missed": 178,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "httptunnel",
+      "records": 133,
+      "detected": 8,
+      "missed": 125,
+      "detection_rate": 0.06015
+    },
+    {
+      "name": "buffer_overflow",
+      "records": 20,
+      "detected": 3,
+      "missed": 17,
+      "detection_rate": 0.15
+    },
+    {
+      "name": "multihop",
+      "records": 18,
+      "detected": 2,
+      "missed": 16,
+      "detection_rate": 0.111111
+    },
+    {
+      "name": "named",
+      "records": 17,
+      "detected": 1,
+      "missed": 16,
+      "detection_rate": 0.058824
+    },
+    {
+      "name": "sendmail",
+      "records": 14,
+      "detected": 0,
+      "missed": 14,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "ps",
+      "records": 15,
+      "detected": 2,
+      "missed": 13,
+      "detection_rate": 0.133333
+    },
+    {
+      "name": "rootkit",
+      "records": 13,
+      "detected": 0,
+      "missed": 13,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "xterm",
+      "records": 13,
+      "detected": 2,
+      "missed": 11,
+      "detection_rate": 0.153846
+    },
+    {
+      "name": "xlock",
+      "records": 9,
+      "detected": 0,
+      "missed": 9,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "saint",
+      "records": 319,
+      "detected": 313,
+      "missed": 6,
+      "detection_rate": 0.981191
+    },
+    {
+      "name": "land",
+      "records": 7,
+      "detected": 2,
+      "missed": 5,
+      "detection_rate": 0.285714
+    },
+    {
+      "name": "xsnoop",
+      "records": 4,
+      "detected": 0,
+      "missed": 4,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "back",
+      "records": 359,
+      "detected": 357,
+      "missed": 2,
+      "detection_rate": 0.994429
+    },
+    {
+      "name": "ftp_write",
+      "records": 3,
+      "detected": 1,
+      "missed": 2,
+      "detection_rate": 0.333333
+    },
+    {
+      "name": "loadmodule",
+      "records": 2,
+      "detected": 0,
+      "missed": 2,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "neptune",
+      "records": 4657,
+      "detected": 4655,
+      "missed": 2,
+      "detection_rate": 0.999571
+    },
+    {
+      "name": "perl",
+      "records": 2,
+      "detected": 0,
+      "missed": 2,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "pod",
+      "records": 41,
+      "detected": 39,
+      "missed": 2,
+      "detection_rate": 0.95122
+    },
+    {
+      "name": "sqlattack",
+      "records": 2,
+      "detected": 0,
+      "missed": 2,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "worm",
+      "records": 2,
+      "detected": 0,
+      "missed": 2,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "imap",
+      "records": 1,
+      "detected": 0,
+      "missed": 1,
+      "detection_rate": 0.0
+    },
+    {
+      "name": "phf",
+      "records": 2,
+      "detected": 1,
+      "missed": 1,
+      "detection_rate": 0.5
+    },
+    {
+      "name": "satan",
+      "records": 735,
+      "detected": 734,
+      "missed": 1,
+      "detection_rate": 0.998639
+    },
+    {
+      "name": "ipsweep",
+      "records": 141,
+      "detected": 141,
+      "missed": 0,
+      "detection_rate": 1.0
+    },
+    {
+      "name": "nmap",
+      "records": 73,
+      "detected": 73,
+      "missed": 0,
+      "detection_rate": 1.0
+    },
+    {
+      "name": "portsweep",
+      "records": 157,
+      "detected": 157,
+      "missed": 0,
+      "detection_rate": 1.0
+    },
+    {
+      "name": "smurf",
+      "records": 665,
+      "detected": 665,
+      "missed": 0,
+      "detection_rate": 1.0
+    },
+    {
+      "name": "teardrop",
+      "records": 12,
+      "detected": 12,
+      "missed": 0,
+      "detection_rate": 1.0
+    },
+    {
+      "name": "udpstorm",
+      "records": 2,
+      "detected": 2,
+      "missed": 0,
+      "detection_rate": 1.0
+    }
+  ],
+  "provenance": {
+    "features_path": "data/Test_data.csv",
+    "labels_path": "data/KDDTest+_labeled.csv",
+    "features_sha256": "a58db8c605e58411f6432dd9ab2fe10e1d768f058f5453e9e279788c7219caf8",
+    "labeled_source_sha256": "fa46b0935342616aa83b7c2578db355b6a7aaabbc492248172c7a1e8b7ab8f84",
+    "model_sha256": "7c6097c8cdd3d8946818ae88b61a062fc9cb9e67950efc3699538308ee8a3c13",
+    "git_revision": "f7b495580d0d8fc74b0ef11023da20740746db7e"
+  }
+}

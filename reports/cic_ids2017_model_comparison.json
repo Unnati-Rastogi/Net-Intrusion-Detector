@@ -1,0 +1,454 @@
+{
+  "report": "nids_cic_ids2017_day_split_model_comparison",
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-11-02T09:38:33+00:00",
+  "dataset": {
+    "name": "Corrected CIC-IDS2017",
+    "source_archive": "data/CIC-IDS2017/CICIDS2017_improved.zip",
+    "archive_sha256": "97fdb91d339e2d8cf5627f981b831e5e7e400b981c58181c451a38fd03c48883",
+    "daily_files": {
+      "monday": {
+        "path": "data/CIC-IDS2017/monday.csv",
+        "sha256": "51fe5dc962626efb4ae70dce0303072fb780da0932822b651202ee9c2fbc1aff"
+      },
+      "tuesday": {
+        "path": "data/CIC-IDS2017/tuesday.csv",
+        "sha256": "e2a0a5b631dfc6b455cc9f9a88b944110637d70a7f74171473925f76f38b6b0c"
+      },
+      "wednesday": {
+        "path": "data/CIC-IDS2017/wednesday.csv",
+        "sha256": "bf46c5f3c792e8817381f724511229569606918eaf07ac986d7a2592b6341bc2"
+      },
+      "thursday": {
+        "path": "data/CIC-IDS2017/thursday.csv",
+        "sha256": "78a4d11eaf473d099e30e71ddb01e0f38218e844c0a9cdd36602145d674af482"
+      },
+      "friday": {
+        "path": "data/CIC-IDS2017/friday.csv",
+        "sha256": "ebd499e6f23bd59f9cb81bec28178491b02b925fa5640a24215c9437d79482d0"
+      }
+    },
+    "records_by_day": {
+      "monday": {
+        "records": 371624,
+        "benign": 371624,
+        "attack": 0
+      },
+      "tuesday": {
+        "records": 322078,
+        "benign": 315145,
+        "attack": 6933
+      },
+      "wednesday": {
+        "records": 496641,
+        "benign": 324996,
+        "attack": 171645
+      },
+      "thursday": {
+        "records": 362076,
+        "benign": 290169,
+        "attack": 71907
+      },
+      "friday": {
+        "records": 547557,
+        "benign": 292611,
+        "attack": 254946
+      }
+    },
+    "source_labels_by_day": {
+      "monday": {
+        "BENIGN": 371624
+      },
+      "tuesday": {
+        "BENIGN": 315106,
+        "FTP-Patator": 3972,
+        "FTP-Patator - Attempted": 12,
+        "SSH-Patator": 2961,
+        "SSH-Patator - Attempted": 27
+      },
+      "wednesday": {
+        "BENIGN": 319120,
+        "DoS GoldenEye": 7567,
+        "DoS GoldenEye - Attempted": 80,
+        "DoS Hulk": 158468,
+        "DoS Hulk - Attempted": 581,
+        "DoS Slowhttptest": 1740,
+        "DoS Slowhttptest - Attempted": 3368,
+        "DoS Slowloris": 3859,
+        "DoS Slowloris - Attempted": 1847,
+        "Heartbleed": 11
+      },
+      "thursday": {
+        "BENIGN": 288172,
+        "Infiltration": 36,
+        "Infiltration - Attempted": 45,
+        "Infiltration - Portscan": 71767,
+        "Web Attack - Brute Force": 73,
+        "Web Attack - Brute Force - Attempted": 1292,
+        "Web Attack - SQL Injection": 13,
+        "Web Attack - SQL Injection - Attempted": 5,
+        "Web Attack - XSS": 18,
+        "Web Attack - XSS - Attempted": 655
+      },
+      "friday": {
+        "BENIGN": 288544,
+        "Botnet": 736,
+        "Botnet - Attempted": 4067,
+        "DDoS": 95144,
+        "Portscan": 159066
+      }
+    },
+    "features": 84,
+    "feature_columns": [
+      "Src Port",
+      "Dst Port",
+      "Protocol",
+      "Flow Duration",
+      "Total Fwd Packet",
+      "Total Bwd packets",
+      "Total Length of Fwd Packet",
+      "Total Length of Bwd Packet",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Fwd Packet Length Std",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Std",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Flow IAT Mean",
+      "Flow IAT Std",
+      "Flow IAT Max",
+      "Flow IAT Min",
+      "Fwd IAT Total",
+      "Fwd IAT Mean",
+      "Fwd IAT Std",
+      "Fwd IAT Max",
+      "Fwd IAT Min",
+      "Bwd IAT Total",
+      "Bwd IAT Mean",
+      "Bwd IAT Std",
+      "Bwd IAT Max",
+      "Bwd IAT Min",
+      "Fwd PSH Flags",
+      "Bwd PSH Flags",
+      "Fwd URG Flags",
+      "Bwd URG Flags",
+      "Fwd RST Flags",
+      "Bwd RST Flags",
+      "Fwd Header Length",
+      "Bwd Header Length",
+      "Fwd Packets/s",
+      "Bwd Packets/s",
+      "Packet Length Min",
+      "Packet Length Max",
+      "Packet Length Mean",
+      "Packet Length Std",
+      "Packet Length Variance",
+      "FIN Flag Count",
+      "SYN Flag Count",
+      "RST Flag Count",
+      "PSH Flag Count",
+      "ACK Flag Count",
+      "URG Flag Count",
+      "CWR Flag Count",
+      "ECE Flag Count",
+      "Down/Up Ratio",
+      "Average Packet Size",
+      "Fwd Segment Size Avg",
+      "Bwd Segment Size Avg",
+      "Fwd Bytes/Bulk Avg",
+      "Fwd Packet/Bulk Avg",
+      "Fwd Bulk Rate Avg",
+      "Bwd Bytes/Bulk Avg",
+      "Bwd Packet/Bulk Avg",
+      "Bwd Bulk Rate Avg",
+      "Subflow Fwd Packets",
+      "Subflow Fwd Bytes",
+      "Subflow Bwd Packets",
+      "Subflow Bwd Bytes",
+      "FWD Init Win Bytes",
+      "Bwd Init Win Bytes",
+      "Fwd Act Data Pkts",
+      "Fwd Seg Size Min",
+      "Active Mean",
+      "Active Std",
+      "Active Max",
+      "Active Min",
+      "Idle Mean",
+      "Idle Std",
+      "Idle Max",
+      "Idle Min",
+      "ICMP Code",
+      "ICMP Type",
+      "Total TCP Flow Time"
+    ],
+    "excluded_columns": [
+      "id",
+      "Flow ID",
+      "Src IP",
+      "Dst IP",
+      "Timestamp",
+      "Attempted Category"
+    ]
+  },
+  "evaluation": {
+    "kind": "chronological_day_holdout",
+    "training_days": [
+      "monday",
+      "tuesday",
+      "wednesday"
+    ],
+    "validation_day": "thursday",
+    "test_day": "friday",
+    "training_records": 1190343,
+    "validation_records": 362076,
+    "test_records": 547557,
+    "positive_class": "attack",
+    "label_policy": "BENIGN and labels ending in ' - Attempted' are mapped to benign; all other source labels are mapped to attack. Attempted Category is excluded from model features because it is label-derived metadata.",
+    "model_selection": "All candidates are freshly fitted on every run. Each candidate's threshold is independently selected on Thursday to maximize attack recall while keeping validation precision at or above 90%; if no threshold meets that precision floor, maximum validation F1 is used. The candidate with the highest Thursday attack F1 at its selected threshold is chosen. Friday is not used for model or threshold selection.",
+    "note": "Friday results estimate performance on a later capture day from this controlled benchmark. They do not establish performance on live or unrelated network traffic. A new unlabeled dataset cannot identify which model is more accurate without reference labels."
+  },
+  "selected_model_by_validation": "random_forest",
+  "models": {
+    "logistic_regression": {
+      "training_records": 1190343,
+      "validation": {
+        "threshold": 0.642945,
+        "accuracy": 0.805251,
+        "balanced_accuracy": 0.510596,
+        "precision_attack": 0.900057,
+        "recall_attack": 0.021792,
+        "f1_attack": 0.042554,
+        "average_precision": 0.159103,
+        "roc_auc": 0.202092,
+        "counts": {
+          "true_negative": 289995,
+          "false_positive": 174,
+          "false_negative": 70340,
+          "true_positive": 1567
+        }
+      },
+      "threshold_selection_policy": "highest_recall_at_validation_precision_at_least_90%",
+      "test": {
+        "threshold": 0.642945,
+        "accuracy": 0.716638,
+        "balanced_accuracy": 0.695863,
+        "precision_attack": 0.993853,
+        "recall_attack": 0.393848,
+        "f1_attack": 0.564138,
+        "average_precision": 0.696153,
+        "roc_auc": 0.559116,
+        "counts": {
+          "true_negative": 291990,
+          "false_positive": 621,
+          "false_negative": 154536,
+          "true_positive": 100410
+        }
+      },
+      "test_at_default_threshold": {
+        "threshold": 0.5,
+        "accuracy": 0.717885,
+        "balanced_accuracy": 0.697217,
+        "precision_attack": 0.993322,
+        "recall_attack": 0.396759,
+        "f1_attack": 0.56703,
+        "average_precision": 0.696153,
+        "roc_auc": 0.559116,
+        "counts": {
+          "true_negative": 291931,
+          "false_positive": 680,
+          "false_negative": 153794,
+          "true_positive": 101152
+        }
+      },
+      "attack_family_test": {
+        "Botnet": {
+          "records": 736,
+          "detected": 0,
+          "missed": 736,
+          "recall": 0.0
+        },
+        "DDoS": {
+          "records": 95144,
+          "detected": 95122,
+          "missed": 22,
+          "recall": 0.999769
+        },
+        "Portscan": {
+          "records": 159066,
+          "detected": 5288,
+          "missed": 153778,
+          "recall": 0.033244
+        }
+      },
+      "timing_seconds": {
+        "fit": 42.518,
+        "validation_inference": 0.875,
+        "test_inference": 1.329,
+        "test_inference_per_1000_rows": 0.0024
+      },
+      "warnings": []
+    },
+    "random_forest": {
+      "training_records": 1190343,
+      "validation": {
+        "threshold": 0.005,
+        "accuracy": 0.904324,
+        "balanced_accuracy": 0.769339,
+        "precision_attack": 0.952542,
+        "recall_attack": 0.545413,
+        "f1_attack": 0.693651,
+        "average_precision": 0.60162,
+        "roc_auc": 0.768778,
+        "counts": {
+          "true_negative": 288215,
+          "false_positive": 1954,
+          "false_negative": 32688,
+          "true_positive": 39219
+        }
+      },
+      "threshold_selection_policy": "highest_recall_at_validation_precision_at_least_90%",
+      "test": {
+        "threshold": 0.005,
+        "accuracy": 0.924819,
+        "balanced_accuracy": 0.920696,
+        "precision_attack": 0.97483,
+        "recall_attack": 0.860755,
+        "f1_attack": 0.914248,
+        "average_precision": 0.915527,
+        "roc_auc": 0.924122,
+        "counts": {
+          "true_negative": 286945,
+          "false_positive": 5666,
+          "false_negative": 35500,
+          "true_positive": 219446
+        }
+      },
+      "test_at_default_threshold": {
+        "threshold": 0.5,
+        "accuracy": 0.555672,
+        "balanced_accuracy": 0.52285,
+        "precision_attack": 1.0,
+        "recall_attack": 0.0457,
+        "f1_attack": 0.087405,
+        "average_precision": 0.915527,
+        "roc_auc": 0.924122,
+        "counts": {
+          "true_negative": 292611,
+          "false_positive": 0,
+          "false_negative": 243295,
+          "true_positive": 11651
+        }
+      },
+      "attack_family_test": {
+        "Botnet": {
+          "records": 736,
+          "detected": 44,
+          "missed": 692,
+          "recall": 0.059783
+        },
+        "DDoS": {
+          "records": 95144,
+          "detected": 95144,
+          "missed": 0,
+          "recall": 1.0
+        },
+        "Portscan": {
+          "records": 159066,
+          "detected": 124258,
+          "missed": 34808,
+          "recall": 0.781173
+        }
+      },
+      "timing_seconds": {
+        "fit": 303.358,
+        "validation_inference": 1.899,
+        "test_inference": 2.654,
+        "test_inference_per_1000_rows": 0.0048
+      },
+      "warnings": []
+    },
+    "xgboost": {
+      "training_records": 1190343,
+      "validation": {
+        "threshold": 1e-06,
+        "accuracy": 0.772432,
+        "balanced_accuracy": 0.855404,
+        "precision_attack": 0.465787,
+        "recall_attack": 0.993047,
+        "f1_attack": 0.634134,
+        "average_precision": 0.468203,
+        "roc_auc": 0.840215,
+        "counts": {
+          "true_negative": 208272,
+          "false_positive": 81897,
+          "false_negative": 500,
+          "true_positive": 71407
+        }
+      },
+      "threshold_selection_policy": "maximum_validation_f1_no_threshold_met_precision_floor",
+      "test": {
+        "threshold": 1e-06,
+        "accuracy": 0.849523,
+        "balanced_accuracy": 0.859206,
+        "precision_attack": 0.755759,
+        "recall_attack": 0.99998,
+        "f1_attack": 0.860884,
+        "average_precision": 0.986212,
+        "roc_auc": 0.990095,
+        "counts": {
+          "true_negative": 210221,
+          "false_positive": 82390,
+          "false_negative": 5,
+          "true_positive": 254941
+        }
+      },
+      "test_at_default_threshold": {
+        "threshold": 0.5,
+        "accuracy": 0.638637,
+        "balanced_accuracy": 0.611944,
+        "precision_attack": 0.999965,
+        "recall_attack": 0.223894,
+        "f1_attack": 0.36587,
+        "average_precision": 0.986212,
+        "roc_auc": 0.990095,
+        "counts": {
+          "true_negative": 292609,
+          "false_positive": 2,
+          "false_negative": 197865,
+          "true_positive": 57081
+        }
+      },
+      "attack_family_test": {
+        "Botnet": {
+          "records": 736,
+          "detected": 732,
+          "missed": 4,
+          "recall": 0.994565
+        },
+        "DDoS": {
+          "records": 95144,
+          "detected": 95144,
+          "missed": 0,
+          "recall": 1.0
+        },
+        "Portscan": {
+          "records": 159066,
+          "detected": 159065,
+          "missed": 1,
+          "recall": 0.999994
+        }
+      },
+      "timing_seconds": {
+        "fit": 46.013,
+        "validation_inference": 1.048,
+        "test_inference": 1.535,
+        "test_inference_per_1000_rows": 0.0028
+      },
+      "warnings": []
+    }
+  }
+}

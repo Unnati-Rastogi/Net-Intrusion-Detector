@@ -1,171 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NIDS - ML Network Intrusion Detection</title>
-  <link rel="stylesheet" href="/static/app.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>NetGuard | Network intrusion detection</title>
+  <link rel="stylesheet" href="/static/app.css?v=7">
 </head>
 <body>
-  <header>
-    <h1>ML Network Intrusion Detection System</h1>
-    <p class="subtitle">
-      A Random Forest model (trained on NSL-KDD-style data) classifies
-      network-flow records as <strong>normal</strong> or
-      <strong>anomaly</strong>, then scores the model's own evidence.
-      Risk scores are model-derived prioritization scores — not attack
-      severity — and priorities order analyst review, nothing more.
-    </p>
-    <div id="health" class="health health-loading">checking API health…</div>
-  </header>
-
-  <main>
-    <!-- ================= INPUT ================= -->
-    <section class="card">
-      <div class="card-head">
-        <h2>1 &middot; Input network flow</h2>
-        <div class="btn-row">
-          <button id="btn-sample" type="button">Load Sample</button>
-          <button id="btn-analyze" type="button" class="primary">Analyze</button>
-        </div>
-      </div>
-      <p class="hint">
-        All 41 features are shown with realistic defaults; tweak what you
-        want (e.g. service, flag, src_bytes). "Analyze" runs the full
-        workflow: prediction &rarr; SHAP explanation &rarr; risk &rarr;
-        review priority. (The fast prediction-only path is still available
-        in the batch demo below.)
-      </p>
-      <div id="form-error" class="form-error hidden"></div>
-      <form id="flow-form" autocomplete="off"></form>
-    </section>
-
-    <!-- ============ DETECTION / RISK / PRIORITY ============ -->
-    <section class="card hidden" id="result-card">
-      <div class="card-head">
-        <h2>2 &middot; Detection &middot; 3 &middot; Risk &middot; 4 &middot; Review priority</h2>
-      </div>
-      <div class="verdict-row">
-        <div class="verdict-block" id="block-detection">
-          <div class="block-label">Detection</div>
-          <div class="block-value" id="det-verdict">–</div>
-          <div class="block-sub" id="det-score">anomaly score: –</div>
-          <div class="block-sub muted" id="det-probs"></div>
-        </div>
-        <div class="verdict-block" id="block-risk">
-          <div class="block-label">Risk (model-derived prioritization score)</div>
-          <div class="block-value" id="risk-level">–</div>
-          <div class="block-sub" id="risk-score">risk score: –</div>
-          <div class="block-sub muted">not attack severity or impact</div>
-        </div>
-        <div class="verdict-block" id="block-priority">
-          <div class="block-label">Analyst review priority</div>
-          <div class="block-value" id="priority">–</div>
-          <div class="block-sub muted" id="priority-note">P1 = highest review priority</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= WHY ================= -->
-    <section class="card hidden" id="why-card">
-      <div class="card-head">
-        <h2>5 &middot; Why was this flagged?</h2>
-      </div>
-      <p class="hint">
-        Per-feature SHAP attributions of the model's P(anomaly) output for
-        this record. They explain the MODEL's output — they are not causal
-        and do not prove malicious behaviour.
-      </p>
-      <table id="evidence-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Value</th>
-            <th>SHAP contribution</th>
-            <th>Direction</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <p class="hint" id="evidence-note">Showing the 10 strongest attributions of 41.</p>
-    </section>
-
-    <!-- ================= SOURCE ================= -->
-    <section class="card hidden" id="source-card">
-      <h2>Source</h2>
-      <p class="source-line" id="source-line">–</p>
-      <p class="hint">
-        Lineage comes from the committed risk-assessment report: sample_id is
-        the record's position in that report's 1,000-row sample; source_row_id
-        is its zero-based row in Train_data.csv. Ids stay empty for ad-hoc
-        inputs that do not match a stored report sample — they are never
-        fabricated.
-      </p>
-    </section>
-
-    <!-- ================= ALERT QUEUE ================= -->
-    <section class="card">
-      <div class="card-head">
-        <h2>Prioritized alert queue</h2>
-        <button id="btn-alerts" type="button">Load prioritized alerts</button>
-      </div>
-      <p class="hint">
-        The committed prioritization report (deterministic, precomputed by
-        <code>python -m src.nids.prioritize</code>), served verbatim by
-        GET /alerts — nothing is re-ranked here. Click a row to analyze that
-        exact record with full SHAP evidence.
-      </p>
-      <div id="alerts-error" class="form-error hidden"></div>
-      <div class="btn-row" id="alert-filter-row" hidden>
-        <label class="filter-label">Filter:
-          <select id="alert-filter">
-            <option value="ALL">all priorities</option>
-            <option value="P1">P1</option>
-            <option value="P2">P2</option>
-            <option value="P3">P3</option>
-            <option value="P4">P4</option>
-          </select>
-          <span id="alert-counts" class="muted"></span>
-        </label>
-      </div>
-      <table id="alerts-table">
-        <thead>
-          <tr>
-            <th>Priority</th>
-            <th>Risk level</th>
-            <th>Risk score</th>
-            <th>Anomaly score</th>
-            <th>Prediction</th>
-            <th>Sample ID</th>
-            <th>Source row ID</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <p class="hint" id="alerts-note" hidden></p>
-    </section>
-
-    <!-- ================= BATCH DEMO ================= -->
-    <section class="card">
-      <div class="card-head">
-        <h2>Fast batch demonstration</h2>
-        <button id="btn-batch" type="button">Run Test-Data Demo (10 rows)</button>
-      </div>
-      <p class="hint">
-        Pulls 10 real rows from the unlabelled test dataset and sends them to
-        POST /predict/batch — the fast path (model scores only, no SHAP).
-      </p>
-      <div id="batch-summary" class="batch-summary"></div>
-    </section>
-  </main>
-
-  <footer>
-    College minor project - ML core: scikit-learn RandomForest (200 trees);
-    API: FastAPI. Detection, risk, and priority operate on structured
-    network-flow records, not live packet capture. The test dataset is
-    unlabelled, so the demo shows model verdicts rather than accuracy.
-  </footer>
-
-  <script src="/static/app.js"></script>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="app-layout">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#scan" aria-label="NetGuard home"><span class="brand-mark" aria-hidden="true">NG</span><span><strong>NetGuard</strong><small>Network security</small></span></a>
+      <nav class="navigation" aria-label="Application pages">
+        <a class="nav-link active" href="#scan" data-view-link="scan"><span class="nav-glyph" aria-hidden="true"></span>Scan dataset</a>
+        <a class="nav-link" href="#validation" data-view-link="validation"><span class="nav-glyph chart" aria-hidden="true"></span>Model validation</a>
+      </nav>
+      <div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span><span>Local analysis workspace</span></div>
+    </aside>
+    <div class="content-column">
+      <header class="topbar"><div class="breadcrumb">Network intrusion detection</div><div id="detector-status" class="service-status" role="status" aria-live="polite"><span class="status-dot"></span>Checking detector</div></header>
+      <main id="main-content">
+        <section id="scan-view" class="view" aria-labelledby="scan-title">
+          <div class="page-heading"><div><p class="eyebrow">CIC FLOW ANALYSIS</p><h1 id="scan-title">Scan a network dataset</h1><p class="page-intro">Upload a compatible network-flow CSV to identify suspicious activity and review the model evidence behind each detection.</p></div></div>
+          <section class="upload-card" aria-labelledby="upload-title">
+            <div class="card-heading"><div><h2 id="upload-title">Upload network-flow CSV</h2><p>One file is all you need. The detector evaluates every connection in the dataset.</p></div><span class="format-badge">CSV</span></div>
+            <label class="drop-zone" for="dataset-file" id="drop-zone"><span class="upload-icon" aria-hidden="true"></span><strong id="upload-prompt">Choose a CSV file</strong><span id="upload-file-name">or drag it here</span><input id="dataset-file" type="file" accept=".csv,text/csv"></label>
+            <div class="upload-footer"><p id="upload-help">Requires the CIC-IDS2017 flow-column format. Labels are optional.</p><button id="scan-button" class="button button-primary" type="button" disabled>Scan dataset</button></div>
+            <p id="scan-status" class="inline-status" role="status" aria-live="polite"></p>
+          </section>
+          <section id="scan-result" class="hidden" aria-live="polite" aria-labelledby="result-title">
+            <div id="verdict-card" class="verdict-card"><div class="verdict-state"><span id="verdict-marker" class="verdict-marker" aria-hidden="true"></span><span id="verdict-label">Scan complete</span></div><h2 id="result-title">Dataset assessment</h2><p id="verdict-summary"></p></div>
+            <div class="stat-grid" aria-label="Scan summary"><article class="stat-card"><span>Flows scanned</span><strong id="stat-scanned">—</strong></article><article class="stat-card emphasis"><span>Suspicious flows</span><strong id="stat-flagged">—</strong><small id="stat-flagged-rate">—</small></article><article class="stat-card"><span>Normal flows</span><strong id="stat-normal">—</strong></article><article class="stat-card"><span>Detector</span><strong id="stat-model">—</strong><small>Selected after validation</small></article></div>
+            <section id="labeled-evaluation" class="evaluation-callout hidden" aria-labelledby="evaluation-title"><div><p class="eyebrow">LABELS FOUND IN UPLOAD</p><h2 id="evaluation-title">Results against supplied labels</h2></div><div class="mini-metrics"><span>Accuracy <b id="metric-accuracy">—</b></span><span>Precision <b id="metric-precision">—</b></span><span>Recall <b id="metric-recall">—</b></span></div></section>
+            <section class="panel alerts-panel" aria-labelledby="alerts-title"><div class="panel-heading"><div><p class="eyebrow">PRIORITY REVIEW</p><h2 id="alerts-title">Highest-scoring flows</h2><p>Start with the connections that most strongly resemble intrusion activity.</p></div><a id="download-results" class="button button-secondary" href="#" download>Download results</a></div><div class="table-scroll"><table><thead><tr><th scope="col">Record</th><th scope="col">Decision</th><th scope="col">Attack score</th><th scope="col">Connection</th><th scope="col"><span class="visually-hidden">Investigate</span></th></tr></thead><tbody id="alerts-body"></tbody></table></div></section>
+            <section id="explanation-panel" class="panel hidden" aria-labelledby="explanation-title"><div class="panel-heading"><div><p class="eyebrow">MODEL EXPLANATION</p><h2 id="explanation-title">Why this flow was flagged</h2><p id="explanation-subtitle">Select a flow from the review list to inspect its strongest signals.</p></div></div><p id="explanation-status" class="inline-status" role="status" aria-live="polite"></p><div id="explanation-content" class="hidden"><div class="explanation-summary"><span id="explanation-decision" class="decision-chip">—</span><span id="explanation-score">—</span></div><p id="plain-explanation" class="plain-explanation"></p><div class="table-scroll"><table><thead><tr><th scope="col">Signal</th><th scope="col">Observed value</th><th scope="col">Effect on decision</th></tr></thead><tbody id="evidence-body"></tbody></table></div><p class="footnote">These values show how features influenced this model’s score for the selected flow. They support investigation; they do not prove the cause of an incident.</p></div></section>
+          </section>
+          <section class="support-grid" aria-label="Using this tool"><article><h2>What you upload</h2><p>A CSV in the CIC-IDS2017 network-flow format. It may include a <code>Label</code> column, but this is optional.</p></article><article><h2>What you receive</h2><p>A dataset conclusion, a ranked review list, a downloadable report, and an explanation for each selected flow.</p></article><article><h2>How it is used</h2><p>Use the flagged connections as an investigation starting point, alongside your network and system logs.</p></article></section>
+        </section>
+        <section id="validation-view" class="view hidden" aria-labelledby="validation-title">
+          <div class="page-heading"><div><p class="eyebrow">METHOD AND VALIDATION</p><h1 id="validation-title">Detector reliability</h1><p class="page-intro">The detection model was compared and evaluated before it was made available for dataset scanning.</p></div></div>
+          <section class="panel validation-overview"><div class="panel-heading"><div><h2>Primary validation: CIC-IDS2017</h2><p>Models were trained on Monday to Wednesday traffic, selected using Thursday, and tested on Friday data kept out of selection.</p></div><span id="selected-model-badge" class="format-badge">Loading</span></div><div id="validation-metrics" class="stat-grid compact"></div><p id="validation-method" class="footnote"></p></section>
+          <section class="panel" aria-labelledby="comparison-title"><div class="panel-heading"><div><p class="eyebrow">MODEL COMPARISON</p><h2 id="comparison-title">Candidate results on held-out data</h2><p>All candidates were tested against the same unseen Friday capture.</p></div></div><div class="table-scroll"><table><thead><tr><th scope="col">Model</th><th scope="col">Accuracy</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1 score</th><th scope="col">Selection</th></tr></thead><tbody id="comparison-body"></tbody></table></div></section>
+          <section class="panel secondary-validation" aria-labelledby="baseline-title"><div class="panel-heading"><div><p class="eyebrow">SUPPORTING BENCHMARK</p><h2 id="baseline-title">NSL-KDD baseline</h2><p>A separate benchmark retained from the project’s earlier detector evaluation.</p></div></div><div id="baseline-metrics" class="mini-metrics wide"></div></section>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="/static/app.js?v=7"></script>
 </body>
 </html>

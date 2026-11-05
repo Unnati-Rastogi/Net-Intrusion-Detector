@@ -17,9 +17,15 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Dataset files are not committed (public NSL-KDD-style data, ~5 MB total).
-# See README "Data" section: place Train_data.csv / Test_data.csv in data/.
+# Dataset files are not committed (NSL-KDD source and labels, under 35 MB locally).
+# See README "Data" and "Labeled benchmark evaluation" sections.
 data/*.csv
+data/CIC-IDS2017/
+data/test_datasets/
+models/profiles/
+reports/profiles/
+models/cic_ids2017_detector.joblib
+reports/cic_ids2017_detector.json
 
 # Generated outputs (regenerate with scripts; not part of the MVP)
 predictions.csv

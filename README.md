@@ -2,7 +2,7 @@
 
 A Machine Learning-based Network Intrusion Detection System: a Random Forest
 classifier trained on NSL-KDD-style network-flow records, served through a
-FastAPI REST API with a minimal built-in dashboard.
+FastAPI REST API and a dashboard for model comparison and labeled-data replay.
 
 - **Model**: scikit-learn `RandomForestClassifier` (200 trees,
   `class_weight='balanced'`, `random_state=42`)
@@ -20,10 +20,12 @@ FastAPI REST API with a minimal built-in dashboard.
 - **Alert prioritization (offline)**: deterministic analyst-review ordering
   (P1–P4) over the risk-scored records — no new score, no labels
   (see `docs/alert_prioritization.md`)
-- **API**: FastAPI (`/health`, `/predict`, `/predict/batch`) with strict
-  request validation and `feature_errors` on bad input
-- **Dashboard**: vanilla HTML/JS served at `/` (sample loader, 41-feature
-  form with dropdowns, batch test-data demo, recent-predictions table)
+- **API**: FastAPI (`/health`, `/predict`, `/predict/batch`, `/analyze`,
+  `/alerts`, and benchmark `/evaluation/*` views) with strict request validation
+  and `feature_errors` on bad input
+- **Dashboard**: vanilla HTML/CSS/JS served at `/`, with NSL-KDD and
+  CIC-IDS2017 model comparisons plus labeled benchmark replay; live capture
+  is not implemented
 
 ## Setup
 
@@ -39,16 +41,21 @@ is fully pinned, so a clean `pip install` reproduces the exact dependency set
 
 ## Data (not committed)
 
-Place the two dataset files here before training:
+Add the matching dataset files here for training, inference, and evaluation:
 
 | File | Purpose |
 |---|---|
-| `data/Train_data.csv` | labelled training data (25,192 rows × 42 cols incl. `class`: `normal`/`anomaly`) |
-| `data/Test_data.csv` | unlabelled inference data (22,544 rows × 41 cols, **no** `class` column) |
+| `data/Train_data.csv` | original labeled 20% training subset (25,192 rows × 42 cols) used by the saved model |
+| `data/KDDTrain+_full_labeled.csv` | full labeled training split (125,973 rows), used for the larger model comparison |
+| `data/Test_data.csv` | 22,544 feature rows from the NSL-KDD KDDTest+ split (labels omitted in this copy) |
+| `data/KDDTest+_labeled.csv` | matching labeled benchmark rows used only by the holdout evaluator (download separately; not committed) |
 
-Any NSL-KDD-style split with the standard 41 feature columns +
-`duration, protocol_type, service, flag, ...` schema works. The split is
-never merged: train is used for fitting/CV only, test only for inference.
+The model expects the NSL-KDD 41-feature schema (including
+`duration, protocol_type, service, flag, ...`). The training split is used for
+fitting and cross-validation; the separate KDDTest+ split is used for
+inference and, when its matching labels are available, holdout evaluation.
+Other datasets need a compatible feature mapping and a separate evaluation;
+they are not plug-in inputs to this model.
 
 The datasets are gitignored, so tests that read them skip automatically in a
 clean checkout (see [Tests](#tests)); add them locally for the full suite.
@@ -109,9 +116,11 @@ Current results on this machine (also in `reports/metrics.json`): accuracy
   distribution** (`Train_data.csv`), suitable for comparing model variants
   with each other.
 - ❌ **Not** an estimate of held-out-test or production performance.
-  `data/Test_data.csv` is **unlabelled** — it has no ground-truth `class`
-  column — so it is **never evaluated**, merged, or used here; the report
-  only records its SHA-256 hash and shape to document that exclusion.
+  `data/Test_data.csv` by itself is **unlabelled** — it has no ground-truth
+  `class` column — so this cross-validation report does not use it. The
+  separate [labeled benchmark evaluation](#labeled-benchmark-evaluation) uses
+  the original labels from a matching KDDTest+ source file and verifies every
+  feature row before scoring.
 - Both CSVs are NSL-KDD-style records. Any caveat that applies to that
   dataset family (age, redundancy between train and test captures, etc.)
   applies to any number this project reports.
@@ -154,7 +163,181 @@ detail in `reports/model_comparison.json`):
 
 The "what these numbers are — and are not" caveats above apply verbatim:
 this is a comparison **on the training distribution** via cross-validation.
-`data/Test_data.csv` is unlabelled and is evaluated by **no** candidate.
+The dashboard presents this comparison separately from the fixed, labeled
+KDDTest+ holdout result. Both views are labeled with their data scope. The
+holdout is not an independent final test after it has been used to compare
+candidates.
+
+## Labeled benchmark evaluation
+
+The dashboard's main view replays the saved model against the **22,544-row
+NSL-KDD KDDTest+ holdout** and compares each guess with the dataset's known
+label. This gives the project an honest evaluation result: attacks found,
+attacks missed, false alarms, and detection rate by attack type. It is a
+replay of historical benchmark data, **not live network monitoring**.
+
+The project already contains the matching 41-feature `data/Test_data.csv`,
+but that local copy has no labels. The small public
+[NSL-KDD dataset archive mirror](https://github.com/jmnwong/NSL-KDD-Dataset)
+provides [`KDDTest+.TXT`](https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/KDDTest%2B.txt)
+with those features plus attack-type and difficulty
+labels (the mirror's README says it recovered the archive from the Wayback
+Machine). Download that file, place it at
+`data/KDDTest+_labeled.csv`, and run:
+
+```bash
+python -m src.nids.holdout
+# -> reports/holdout_metrics.json
+```
+
+The evaluator refuses to score if the 41 feature columns or row order differ
+from `data/Test_data.csv`. It uses the existing saved model, performs no
+training, and records SHA-256 hashes for the features, labeled source, and
+model. The dashboard reads the saved report through `GET /evaluation/holdout`.
+
+Current saved-model result on this dataset: **78.07% accuracy**, **63.51%
+attack recall**, **4,683 missed attacks**, and **260 false alarms**. The low
+attack recall is useful evidence that the current model needs improvement;
+the near-perfect training cross-validation score alone hid that weakness.
+These results are specific to NSL-KDD and do not predict performance on a
+modern network or a different flow format.
+
+### Compare models on the labeled test set
+
+The dashboard also compares Logistic Regression, Random Forest, and XGBoost
+on the same KDDTest+ rows. These candidates are fitted on the full 125,973-row
+KDDTrain+ split; the table includes the current saved Random Forest, which
+was fitted on the project's 25,192-row subset. It shows accuracy, attack
+precision/recall/F1, and inference time for the 22,544 test rows.
+
+Rebuild the comparison report with:
+
+```bash
+python -m src.nids.compare_holdout
+# -> reports/holdout_model_comparison.json
+```
+
+Current result: XGBoost is the strongest of these candidates on this test
+split at **79.8% accuracy, 96.9% attack precision, and 66.7% attack recall**.
+None of the compared versions meets the requested 90% minimum for all three
+metrics. The dashboard states this directly. Since the test split has now
+been used to compare candidates, a fresh independent dataset is required for
+an unbiased final score after selecting or tuning a model.
+
+## CIC-IDS2017 day-based model comparison
+
+The project also compares the same three model families on the corrected
+CIC-IDS2017 flow release. The archive and extracted daily CSVs live in
+`data/CIC-IDS2017/` and are excluded from Git because the expanded data is
+about 1.15 GB. The correction authors document known flow/label issues and
+provide guidance for the `Attempted` labels:
+[corrected dataset and label guidance](https://intrusion-detection.distrinet-research.be/CNS2022/Dataset_Download.html).
+The original dataset description is on the
+[Canadian Institute for Cybersecurity page](https://www.unb.ca/cic/datasets/ids-2017.html).
+
+Run a fresh comparison with:
+
+```bash
+python -m src.nids.compare_cic
+# -> reports/cic_ids2017_model_comparison.json
+```
+
+Every run freshly fits Logistic Regression, Random Forest, and XGBoost. It
+trains on Monday–Wednesday (1,190,343 flows), uses Thursday (362,076 flows)
+to choose each model's threshold and the candidate with the strongest
+validation F1, then evaluates all candidates on Friday (547,557 flows).
+Friday does not choose a model or threshold. Threshold selection first seeks
+the highest attack recall with at least 90% validation precision; when a
+candidate cannot meet that precision floor, its best validation F1 is used.
+The dashboard shows the latest report, including per-attack-family Friday
+recall. Scores describe this controlled benchmark and do not establish live
+network performance.
+
+`BENIGN` and labels ending in `- Attempted` map to the benign class, following
+the correction authors' guidance for binary detection. The classifier drops
+flow IDs, addresses, timestamps, and `Attempted Category` so it cannot learn
+identifiers, capture ordering, or label-derived metadata. CIC and NSL-KDD use
+different feature schemas, so each comparison uses its own preprocessing.
+An unlabeled dataset can be scored, but its labels are required to know which
+model performed better.
+
+Latest Friday results from the saved report, using thresholds chosen on
+Thursday:
+
+| Model | Accuracy | Attack precision | Attack recall | Attack F1 |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 71.66% | 99.39% | 39.38% | 56.41% |
+| Random Forest (selected on Thursday) | 92.48% | 97.48% | 86.08% | 91.42% |
+| XGBoost | 84.95% | 75.58% | 100.00% | 86.09% |
+
+No candidate reached 90% on accuracy, attack precision, and attack recall
+simultaneously. Random Forest gave the strongest Friday F1 and precision;
+XGBoost caught nearly every attack at the cost of more false alarms. Recall
+also varied by family: on Friday, Random Forest found 5.98% of Botnet and
+78.12% of Portscan flows, while XGBoost found 99.46% and 99.999%, respectively.
+These are results from this day split, not a general guarantee.
+
+### One-file intrusion scan
+
+The application-facing workflow uses a saved CIC detector. A user uploads one
+compatible CIC flow CSV; the detector labels every flow as `attack` or
+`benign`, returns the number flagged, and produces a downloadable results
+file. A `Label` column is optional: when present, the response also includes
+evaluation metrics for that upload.
+
+The default detector is the candidate selected by the day-based comparison:
+Random Forest, fitted on Monday--Wednesday with its Thursday-selected
+threshold. Build it after the comparison has completed:
+
+```bash
+python -m src.nids.cic_detector
+# -> models/cic_ids2017_detector.joblib
+```
+
+With the API running, scan one file:
+
+```bash
+curl.exe -X POST "http://127.0.0.1:8000/detections/cic/scan" `
+  -H "Content-Type: text/csv" --data-binary "@network-flows.csv"
+```
+
+`GET /detections/cic/status` reports whether this detector is ready.
+`POST /detections/cic/explain` accepts one flow's CIC feature values and
+returns the selected detector's SHAP evidence. The browser upload interface
+will use these endpoints; users do not train a model for each upload.
+
+### Uploaded CIC scenario profiles
+
+The backend can also create a separate research profile from a user's labeled CIC
+flow CSV. It trains all three candidates, chooses a candidate and threshold
+from an internal validation split, and saves every candidate so a later
+labeled scenario can be compared against the same trained models. Profiles
+stay separate from the existing NSL-KDD checker. Uploads must use the corrected
+CIC feature schema and include a `Label` column for training or comparison.
+`BENIGN` and `- Attempted` labels follow the binary mapping described above.
+
+The training endpoint accepts the CSV bytes directly, with
+`Content-Type: text/csv`:
+
+```bash
+curl.exe -X POST "http://127.0.0.1:8000/profiles/cic/train?name=Scenario%20A" `
+  -H "Content-Type: text/csv" --data-binary "@scenario-a.csv"
+```
+
+The response includes a job ID. Poll `GET /profiles/cic/jobs/{job_id}` until
+training finishes, then use the returned profile ID:
+
+- `GET /profiles/cic` lists saved profiles.
+- `POST /profiles/cic/{profile_id}/evaluate` compares all saved candidates
+  against a separate labeled scenario without retraining them on that file.
+- `POST /profiles/cic/{profile_id}/predict` scans an unlabeled CSV in the same
+  schema and returns a downloadable CSV with each flow's prediction and score.
+- `POST /profiles/cic/{profile_id}/explain` accepts one feature-value JSON
+  object and returns SHAP evidence for the profile's validation-selected model.
+
+Uploads use raw CSV request bodies, so a future browser file control can send
+the file directly. Saved profiles and prediction outputs are kept in ignored
+`models/profiles/` and `reports/profiles/` folders.
 
 ## Explainability (SHAP)
 

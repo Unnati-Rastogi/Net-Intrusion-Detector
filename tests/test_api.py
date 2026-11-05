@@ -124,8 +124,10 @@ class TestApi(unittest.TestCase):
         paths = response.json()["paths"]
         self.assertEqual(
             sorted(paths),
-            ["/alerts", "/analyze", "/demo/test-rows", "/features",
-             "/health", "/predict", "/predict/batch", "/sample"],
+            ["/alerts", "/analyze", "/demo/test-rows",
+             "/evaluation/cross-validation", "/evaluation/holdout",
+             "/evaluation/model-comparison", "/features", "/health",
+             "/predict", "/predict/batch", "/sample"],
         )
 
 
@@ -139,11 +141,12 @@ class TestDashboard(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("text/html", response.headers["content-type"])
         html = response.text
-        self.assertIn("ML Network Intrusion Detection", html)
-        self.assertIn("Load Sample", html)
-        self.assertIn("Analyze", html)
-        self.assertIn("Why was this flagged?", html)
-        self.assertIn("Prioritized alert queue", html)
+        self.assertIn("Network data review", html)
+        self.assertIn("See how well the detector works", html)
+        self.assertIn("Load example again", html)
+        self.assertIn("Check this example", html)
+        self.assertIn("Why did the checker give this result?", html)
+        self.assertIn("Review list", html)
         self.assertIn("/static/app.js", html)
 
     def test_static_js_served(self):
